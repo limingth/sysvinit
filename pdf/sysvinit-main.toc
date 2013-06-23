@@ -12,43 +12,67 @@
 \contentsline {subsection}{\numberline {2.1.2}shutdown 命令}{9}{subsection.2.1.2}
 \contentsline {subsubsection}{shutdown 命令说明}{9}{section*.7}
 \contentsline {subsubsection}{命令格式}{9}{section*.8}
-\contentsline {subsubsection}{运行级别}{9}{section*.9}
-\contentsline {subsubsection}{启动过程}{9}{section*.10}
-\contentsline {subsection}{\numberline {2.1.3}halt 命令}{9}{subsection.2.1.3}
-\contentsline {subsubsection}{halt 命令说明}{9}{section*.11}
-\contentsline {subsubsection}{停止系统}{10}{section*.12}
-\contentsline {subsubsection}{主要选项：}{10}{section*.13}
-\contentsline {subsection}{\numberline {2.1.4}poweroff 命令}{10}{subsection.2.1.4}
-\contentsline {subsection}{\numberline {2.1.5}reboot 命令}{10}{subsection.2.1.5}
-\contentsline {subsection}{\numberline {2.1.6}telinit 命令}{10}{subsection.2.1.6}
-\contentsline {subsection}{\numberline {2.1.7}killall5/pidof 命令}{11}{subsection.2.1.7}
-\contentsline {subsection}{\numberline {2.1.8}last/lastb 命令}{11}{subsection.2.1.8}
-\contentsline {subsection}{\numberline {2.1.9}mesg 命令}{11}{subsection.2.1.9}
-\contentsline {subsection}{\numberline {2.1.10}mountpoint 命令}{11}{subsection.2.1.10}
-\contentsline {subsection}{\numberline {2.1.11}runlevel 命令}{12}{subsection.2.1.11}
-\contentsline {subsection}{\numberline {2.1.12}sulogin 命令}{12}{subsection.2.1.12}
-\contentsline {subsection}{\numberline {2.1.13}wall 命令}{12}{subsection.2.1.13}
-\contentsline {subsubsection}{wall说明}{12}{section*.14}
-\contentsline {subsection}{\numberline {2.1.14}bootlogd 命令}{13}{subsection.2.1.14}
-\contentsline {subsection}{\numberline {2.1.15}utmpdump 命令}{13}{subsection.2.1.15}
-\contentsline {section}{\numberline {2.2}代码实现概要分析}{13}{section.2.2}
-\contentsline {subsection}{\numberline {2.2.1}源码目录结构}{13}{subsection.2.2.1}
-\contentsline {subsection}{\numberline {2.2.2}Makefile 分析}{15}{subsection.2.2.2}
-\contentsline {chapter}{\numberline {3}Sysvinit 项目详细分析}{17}{chapter.3}
-\contentsline {section}{\numberline {3.1}init 进程代码分析}{17}{section.3.1}
-\contentsline {section}{\numberline {3.2}相关其他进程分析}{17}{section.3.2}
-\contentsline {chapter}{\numberline {4}Sysvinit 项目安全漏洞}{19}{chapter.4}
-\contentsline {chapter}{\numberline {5}Sysvinit 项目运行时调试图}{21}{chapter.5}
-\contentsline {section}{\numberline {5.1}编译安装运行调试图}{21}{section.5.1}
-\contentsline {subsection}{\numberline {5.1.1}wget下载源码包}{21}{subsection.5.1.1}
-\contentsline {subsection}{\numberline {5.1.2}tar解压源码包}{22}{subsection.5.1.2}
-\contentsline {subsection}{\numberline {5.1.3}编译项目源码}{25}{subsection.5.1.3}
-\contentsline {subsection}{\numberline {5.1.4}修改 Makefile 使之能够编译通过}{29}{subsection.5.1.4}
-\contentsline {subsection}{\numberline {5.1.5}继续编译项目源码，成功}{29}{subsection.5.1.5}
-\contentsline {subsection}{\numberline {5.1.6}查看生成的可执行文件}{31}{subsection.5.1.6}
-\contentsline {section}{\numberline {5.2}Linux 内核启动 init 进程}{33}{section.5.2}
-\contentsline {subsection}{\numberline {5.2.1}start\_kernel}{33}{subsection.5.2.1}
-\contentsline {subsection}{\numberline {5.2.2}parse\_options}{33}{subsection.5.2.2}
-\contentsline {subsection}{\numberline {5.2.3}rest\_init}{35}{subsection.5.2.3}
-\contentsline {subsection}{\numberline {5.2.4}init 函数}{37}{subsection.5.2.4}
-\contentsline {subsubsection}{/sbin/init}{39}{section*.15}
+\contentsline {subsubsection}{参数选项}{9}{section*.9}
+\contentsline {subsection}{\numberline {2.1.3}halt 命令}{10}{subsection.2.1.3}
+\contentsline {subsubsection}{halt 命令说明}{10}{section*.10}
+\contentsline {subsubsection}{命令格式}{10}{section*.11}
+\contentsline {subsubsection}{主要选项}{10}{section*.12}
+\contentsline {subsection}{\numberline {2.1.4}poweroff 命令}{11}{subsection.2.1.4}
+\contentsline {subsubsection}{命令格式}{11}{section*.13}
+\contentsline {subsubsection}{主要选项}{11}{section*.14}
+\contentsline {subsection}{\numberline {2.1.5}reboot 命令}{11}{subsection.2.1.5}
+\contentsline {subsubsection}{命令格式}{11}{section*.15}
+\contentsline {subsubsection}{主要选项}{12}{section*.16}
+\contentsline {subsection}{\numberline {2.1.6}telinit 命令}{12}{subsection.2.1.6}
+\contentsline {subsubsection}{命令格式}{12}{section*.17}
+\contentsline {subsubsection}{主要选项}{12}{section*.18}
+\contentsline {subsection}{\numberline {2.1.7}killall5 命令}{12}{subsection.2.1.7}
+\contentsline {subsubsection}{命令格式}{13}{section*.19}
+\contentsline {subsubsection}{主要选项}{13}{section*.20}
+\contentsline {subsection}{\numberline {2.1.8}pidof}{13}{subsection.2.1.8}
+\contentsline {subsubsection}{命令格式}{13}{section*.21}
+\contentsline {subsubsection}{主要选项}{13}{section*.22}
+\contentsline {subsection}{\numberline {2.1.9}last/lastb 命令}{14}{subsection.2.1.9}
+\contentsline {subsubsection}{命令格式}{14}{section*.23}
+\contentsline {subsubsection}{主要选项}{14}{section*.24}
+\contentsline {subsection}{\numberline {2.1.10}mesg 命令}{14}{subsection.2.1.10}
+\contentsline {subsubsection}{命令格式}{15}{section*.25}
+\contentsline {subsubsection}{主要选项}{15}{section*.26}
+\contentsline {subsection}{\numberline {2.1.11}mountpoint 命令}{15}{subsection.2.1.11}
+\contentsline {subsubsection}{命令格式}{15}{section*.27}
+\contentsline {subsubsection}{主要选项}{15}{section*.28}
+\contentsline {subsection}{\numberline {2.1.12}runlevel 命令}{16}{subsection.2.1.12}
+\contentsline {subsubsection}{命令格式}{16}{section*.29}
+\contentsline {subsubsection}{主要选项}{17}{section*.30}
+\contentsline {subsection}{\numberline {2.1.13}sulogin 命令}{17}{subsection.2.1.13}
+\contentsline {subsubsection}{命令格式}{17}{section*.31}
+\contentsline {subsubsection}{主要选项}{17}{section*.32}
+\contentsline {subsubsection}{wall说明}{17}{section*.33}
+\contentsline {subsubsection}{命令格式}{17}{section*.34}
+\contentsline {subsection}{\numberline {2.1.14}bootlogd 命令}{18}{subsection.2.1.14}
+\contentsline {subsubsection}{命令格式}{18}{section*.35}
+\contentsline {subsubsection}{主要选项}{18}{section*.36}
+\contentsline {subsection}{\numberline {2.1.15}utmpdump 命令}{18}{subsection.2.1.15}
+\contentsline {subsubsection}{命令格式}{18}{section*.37}
+\contentsline {subsubsection}{主要选项}{19}{section*.38}
+\contentsline {section}{\numberline {2.2}代码实现概要分析}{19}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}源码目录结构}{19}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}Makefile 分析}{21}{subsection.2.2.2}
+\contentsline {chapter}{\numberline {3}Sysvinit 项目详细分析}{23}{chapter.3}
+\contentsline {section}{\numberline {3.1}init 进程代码分析}{23}{section.3.1}
+\contentsline {section}{\numberline {3.2}相关其他进程分析}{23}{section.3.2}
+\contentsline {chapter}{\numberline {4}Sysvinit 项目安全漏洞}{25}{chapter.4}
+\contentsline {chapter}{\numberline {5}Sysvinit 项目运行时调试图}{27}{chapter.5}
+\contentsline {section}{\numberline {5.1}编译安装运行调试图}{27}{section.5.1}
+\contentsline {subsection}{\numberline {5.1.1}wget下载源码包}{27}{subsection.5.1.1}
+\contentsline {subsection}{\numberline {5.1.2}tar解压源码包}{28}{subsection.5.1.2}
+\contentsline {subsection}{\numberline {5.1.3}编译项目源码}{31}{subsection.5.1.3}
+\contentsline {subsection}{\numberline {5.1.4}修改 Makefile 使之能够编译通过}{35}{subsection.5.1.4}
+\contentsline {subsection}{\numberline {5.1.5}继续编译项目源码，成功}{35}{subsection.5.1.5}
+\contentsline {subsection}{\numberline {5.1.6}查看生成的可执行文件}{37}{subsection.5.1.6}
+\contentsline {section}{\numberline {5.2}Linux 内核启动 init 进程}{39}{section.5.2}
+\contentsline {subsection}{\numberline {5.2.1}start\_kernel}{39}{subsection.5.2.1}
+\contentsline {subsection}{\numberline {5.2.2}parse\_options}{39}{subsection.5.2.2}
+\contentsline {subsection}{\numberline {5.2.3}rest\_init}{41}{subsection.5.2.3}
+\contentsline {subsection}{\numberline {5.2.4}init 函数}{43}{subsection.5.2.4}
+\contentsline {subsubsection}{/sbin/init}{45}{section*.39}

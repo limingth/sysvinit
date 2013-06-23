@@ -132,25 +132,40 @@ shutdown
 
 \subsubsection{命令格式}
 
-\subsubsection{运行级别}
+{\begin{shaded}\begin{verbatim}
+/sbin/shutdown [-akrhPHfFnc] [-t sec] time [warning message]
+\end{verbatim}
+\subsubsection{参数选项}
 
-\subsubsection{启动过程}
-
+\begin{itemize}
+\item
+  -h\\ 将系统关机，在某种程度上功能与halt命令相当。
+\item
+  -k\\ 只是送出信息给所有用户，但并不会真正关机。
+\item
+  -n\\
+  不调用init程序关机，而是由shutdown自己进行(一般关机程序是由shutdown调用init来实现关机动作)，使用此参数将加快关机速度，但是不建议用户使用此种关机方式。
+\item
+  -r\\ shutdown之后重新启动系统。
+\item
+  -f \\
+  送出警告信息和关机信号之间要延迟多少秒。警告信息将提醒用户保存当前进行的工作
+\end{itemize}
 \subsection{halt 命令}
 
 \subsubsection{halt 命令说明}
 
-halt 停止系统。通常以 -h 参数调用
-shutdown，但如果已经在运行级0的话，它就告诉内核终止系统。在这之前，它会检查文件
-/var/log/wtmp，看系统是否正在关闭。
-
-正常情况下等效于 shutdown 加上 -h 参数(当前系统运行级别是 0
+halt 用来停止系统。正常情况下等效于 shutdown 加上 -h
+参数(当前系统运行级别是 0
 时除外)。它将告诉内核去中止系统，并在系统正在关闭的过程中将日志记录到
 /var/log/wtmp 文件里。
 
-\subsubsection{停止系统}
+\subsubsection{命令格式}
 
-\subsubsection{主要选项：}
+{\begin{shaded}\begin{verbatim}
+/sbin/halt [-n] [-w] [-d] [-f] [-i] [-p] [-h]
+\end{verbatim}
+\subsubsection{主要选项}
 
 \begin{itemize}
 \item
@@ -169,21 +184,72 @@ shutdown，但如果已经在运行级0的话，它就告诉内核终止系统�
 \end{itemize}
 \subsection{poweroff 命令}
 
-poweroff 关闭系统并切断电源。但请参看halt。
-
 poweroff 告诉内核中止系统并且关闭系统(参见 halt)
 
+\subsubsection{命令格式}
+
+{\begin{shaded}\begin{verbatim}
+poweroff [OPTION]...
+\end{verbatim}
+\subsubsection{主要选项}
+
+{\begin{shaded}\begin{verbatim}
+   -f, --force
+          Does not invoke shutdown(8)  and  instead  performs  the  actual
+          action you would expect from the name.
+
+   -p, --poweroff
+          Instructs the halt command to instead behave as poweroff.
+
+   -w, --wtmp-only
+          Does  not  call  shutdown(8)  or  the  reboot(2) system call and
+          instead only writes the shutdown record to /var/log/wtmp
+
+   --verbose
+          Outputs slightly more verbose messages  when  rebooting,  useful
+          for debugging problems with shutdown.
+\end{verbatim}
 \subsection{reboot 命令}
 
 reboot 告诉内核重启系统(参见 halt)
 
+\subsubsection{命令格式}
+
+{\begin{shaded}\begin{verbatim}
+reboot [OPTION]...
+\end{verbatim}
+\subsubsection{主要选项}
+
+{\begin{shaded}\begin{verbatim}
+   -f, --force
+          Does not invoke shutdown(8)  and  instead  performs  the  actual
+          action you would expect from the name.
+
+   -p, --poweroff
+          Instructs the halt command to instead behave as poweroff.
+
+   -w, --wtmp-only
+          Does  not  call  shutdown(8)  or  the  reboot(2) system call and
+          instead only writes the shutdown record to /var/log/wtmp
+
+   --verbose
+          Outputs slightly more verbose messages  when  rebooting,  useful
+          for debugging problems with shutdown.
+\end{verbatim}
 \subsection{telinit 命令}
 
 telinit 告诉 init 该进入哪个运行级。
 
 telinit 告诉 init 将切换到那一个运行级
 
-\subsection{killall5/pidof 命令}
+\subsubsection{命令格式}
+
+{\begin{shaded}\begin{verbatim}
+init [OPTION]...
+\end{verbatim}
+\subsubsection{主要选项}
+
+\subsection{killall5 命令}
 
 killall5
 发送一个信号到所有进程，但那些在它自己设定级别的进程将不会被这个运行的脚本所中断。
@@ -191,10 +257,51 @@ killall5
 killall5
 就是SystemV的killall命令。向除自己的会话(session)进程之外的其它进程发出信号，所以不能杀死当前使用的shell。
 
+\subsubsection{命令格式}
+
+{\begin{shaded}\begin{verbatim}
+killall5  -signalnumber  [-o  omitpid[,omitpid..]]   [-o omitpid[,omit‐pid..]..]
+\end{verbatim}
+\subsubsection{主要选项}
+
+{\begin{shaded}\begin{verbatim}
+   -o omitpid
+          Tells killall5 to omit processes with that process id.
+\end{verbatim}
+\subsection{pidof}
+
 pidof 报告给定程序的PID号
 
 pidof找出程序的进程识别号(pid)，输出到标准输出设备。
 
+\subsubsection{命令格式}
+
+{\begin{shaded}\begin{verbatim}
+pidof  [-s] [-c] [-n] [-x] [-o omitpid[,omitpid..]]  [-o omitpid[,omit‐pid..]..]  program [program..]
+\end{verbatim}
+\subsubsection{主要选项}
+
+{\begin{shaded}\begin{verbatim}
+   -s     Single shot - this instructs the program to only return one pid.
+
+   -c     Only  return  process  ids  that  are running with the same root
+          directory.  This option is ignored for non-root users,  as  they
+          will  be unable to check the current root directory of processes
+          they do not own.
+
+   -n     Avoid stat(2) system function call on  all  binaries  which  are
+          located  on  network  based  file  systems like NFS.  Instead of
+          using this option the the variable PIDOF_NETFS may  be  set  and
+          exported.
+
+   -x     Scripts  too  -  this  causes the program to also return process
+          id's of shells running the named scripts.
+
+   -o omitpid
+          Tells pidof to omit processes with that process id. The  special
+          pid  %PPID  can  be used to name the parent process of the pidof
+          program, in other words the calling shell or shell script.
+\end{verbatim}
 \subsection{last/lastb 命令}
 
 last 给出哪一个用户最后一次登录(或退出登录)，它搜索 /var/log/wtmp
@@ -206,14 +313,55 @@ last
 
 lastb 显示所有失败登录企图，并记录在 /var/log/btmp.
 
+\subsubsection{命令格式}
+
+{\begin{shaded}\begin{verbatim}
+last  [-R] [-num] [ -n num ] [-adFiowx] [ -f file ] [ -t YYYYMMDDHHMMSS] [name...]  [tty...]
+\end{verbatim}
+\subsubsection{主要选项}
+
+{\begin{shaded}\begin{verbatim}
+   -f file
+          Tells last to use a specific file instead of /var/log/wtmp.
+\end{verbatim}
 \subsection{mesg 命令}
 
 该命令的作用是，控制是否允许在当前终端上显示出其它用户对当前用户终端发送的消息。
 
+\subsubsection{命令格式}
+
+{\begin{shaded}\begin{verbatim}
+mesg [y|n]
+\end{verbatim}
+\subsubsection{主要选项}
+
+{\begin{shaded}\begin{verbatim}
+   y      Allow write access to your terminal.
+
+   n      Disallow write access to your terminal.
+
+   If no option is given, mesg prints out the current access state of your
+   terminal.
+\end{verbatim}
 \subsection{mountpoint 命令}
 
 mountpoint 检查给定的目录是否是一个挂载点
 
+\subsubsection{命令格式}
+
+{\begin{shaded}\begin{verbatim}
+/bin/mountpoint [-q] [-d] /path/to/directory
+   /bin/mountpoint -x /dev/device
+\end{verbatim}
+\subsubsection{主要选项}
+
+{\begin{shaded}\begin{verbatim}
+   -q     Be quiet - don't print anything.
+
+   -d     Print major/minor device number of the filesystem on stdout.
+
+   -x     Print major/minor device number of the blockdevice on stdout.
+\end{verbatim}
 查看一个目录是否为一个挂载点：
 
 {\begin{shaded}\begin{verbatim}
@@ -252,6 +400,16 @@ runlevel 告前一个和当前的系统运行级别，并且将最后一些运�
 runlevel
 读取系统的登录记录文件(一般是/var/run/utmp)把以前和当前的系统运行级输出到标准输出设备。
 
+\subsubsection{命令格式}
+
+{\begin{shaded}\begin{verbatim}
+runlevel [utmp]
+\end{verbatim}
+\subsubsection{主要选项}
+
+{\begin{shaded}\begin{verbatim}
+utmp   The name of the utmp file to read.
+\end{verbatim}
 \subsection{sulogin 命令}
 
 sulogin 允许 root 登录，它通常情况下是在系统在单用户模式下运行时，由 init
@@ -259,7 +417,12 @@ sulogin 允许 root 登录，它通常情况下是在系统在单用户模式下
 
 sulogin 允许超级用户登陆。通常是系统进入单用户模式时调用的。
 
-\subsection{wall 命令}
+\subsubsection{命令格式}
+
+{\begin{shaded}\begin{verbatim}
+sulogin [ -e ] [ -p ] [ -t SECONDS ] [ TTY ]
+\end{verbatim}
+\subsubsection{主要选项}
 
 \subsubsection{wall说明}
 
@@ -268,6 +431,11 @@ wall命令用来向所有用户的终端发送一条信息。发送的信息可�
 
 只有超级用户有权限，给所有用户的终端发送消息。
 
+\subsubsection{命令格式}
+
+{\begin{shaded}\begin{verbatim}
+wall [-n] [ message ]
+\end{verbatim}
 \begin{itemize}
 \item
   用法\\ usage: wall {[}message{]}
@@ -276,11 +444,55 @@ wall命令用来向所有用户的终端发送一条信息。发送的信息可�
 \end{itemize}
 \subsection{bootlogd 命令}
 
+\subsubsection{命令格式}
+
+{\begin{shaded}\begin{verbatim}
+/sbin/bootlogd [-c] [-d] [-r] [-s] [-v] [ -l logfile ] [ -p pidfile ]
+\end{verbatim}
+\subsubsection{主要选项}
+
+{\begin{shaded}\begin{verbatim}
+   -d     Do not fork and run in the background.
+
+   -c     Attempt  to  write to the logfile even if it does not yet exist.
+          Without this option, bootlogd  will  wait  for  the  logfile  to
+          appear before attempting to write to it.  This behavior prevents
+          bootlogd from creating logfiles under mount points.
+
+   -r     If there is an existing logfile called logfile rename it to log‐
+          file~ unless logfile~ already exists.
+
+   -s     Ensure  that  the data is written to the file after each line by
+          calling fdatasync(3).  This will slow  down  a  fsck(8)  process
+          running in parallel.
+
+   -v     Show version.
+
+   -l logfile
+          Log to this logfile. The default is /var/log/boot.
+\end{verbatim}
 \subsection{utmpdump 命令}
 
 utmpdump 以一个多用户友好的方式列出已经给出的登录文件的目录 utmpdump
 以一种用户友好的格式向标准输出设备显示/var/run/utmp文件的内容。
 
+\subsubsection{命令格式}
+
+{\begin{shaded}\begin{verbatim}
+utmpdump [-froh] filename
+\end{verbatim}
+\subsubsection{主要选项}
+
+{\begin{shaded}\begin{verbatim}
+   -f     output appended data as the file grows.
+
+   -r     reverse. Write back edited login information into utmp  or  wtmp
+          files.
+
+   -o     use old libc5 format.
+
+   -h     usage information.
+\end{verbatim}
 \section{代码实现概要分析}
 
 \subsection{源码目录结构}

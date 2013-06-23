@@ -9,13 +9,13 @@
 \BOOKMARK [2][-]{subsection.2.1.4}{poweroff 命令}{section.2.1}
 \BOOKMARK [2][-]{subsection.2.1.5}{reboot 命令}{section.2.1}
 \BOOKMARK [2][-]{subsection.2.1.6}{telinit 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.7}{killall5/pidof 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.8}{last/lastb 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.9}{mesg 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.10}{mountpoint 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.11}{runlevel 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.12}{sulogin 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.13}{wall 命令}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.7}{killall5 命令}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.8}{pidof}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.9}{last/lastb 命令}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.10}{mesg 命令}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.11}{mountpoint 命令}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.12}{runlevel 命令}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.13}{sulogin 命令}{section.2.1}
 \BOOKMARK [2][-]{subsection.2.1.14}{bootlogd 命令}{section.2.1}
 \BOOKMARK [2][-]{subsection.2.1.15}{utmpdump 命令}{section.2.1}
 \BOOKMARK [1][-]{section.2.2}{代码实现概要分析}{chapter.2}
