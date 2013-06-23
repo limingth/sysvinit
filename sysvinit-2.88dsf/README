@@ -1,0 +1,10 @@
+
+contrib		Unofficial stuff
+doc		Documentation, mostly obsolete
+man		Manual pages, not obsolete
+obsolete	Really obsolete stuff ;)
+src		Source code
+
+The project home is on http://savannah.nongnu.org/projects/sysvinit .
+
+Send patches to sysvinit-devel@nongnu.org .

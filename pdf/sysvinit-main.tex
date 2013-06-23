@@ -1,0 +1,37 @@
+\documentclass[12pt, a4paper]{book}
+\usepackage[BoldFont,SlantFont,CJKchecksingle]{xeCJK}
+\setmainfont{Courier New}
+\usepackage{graphicx}
+\usepackage{xeCJK}
+\usepackage{fullpage}
+\usepackage[urlcolor=blue, colorlinks=true, linkcolor=black]{hyperref}
+%\setCJKmainfont{AR PL UMing CN}
+\setCJKmainfont{WenQuanYi Micro Hei}
+\hypersetup{breaklinks=true, pdfborder={0 0 0}}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+
+\usepackage{url}
+\usepackage{graphicx}
+
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+\else\Gin@nat@width\fi}
+\makeatother
+\let\Oldincludegraphics\includegraphics
+\renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=\maxwidth]{#1}}
+
+\usepackage{framed,color}
+\definecolor{shadecolor}{gray}{0.95}
+
+\begin{document}
+
+\title{Sysvinit 项目分析报告}
+\author{\\李明 <limingth@gmail.com>}
+\date{2013.6.22}
+\maketitle
+\tableofcontents
+
+\input{"sysvinit-new.tex"}
+
+\end{document}

@@ -1,0 +1,26 @@
+digraph G
+{
+	rankdir = TB;
+	size = "7 7";
+
+	compound = true;
+	subgraph cluster0
+	{
+		"init()" [shape="circle" style="filled"];
+		"init()" ->  "execve()" [label="execute_command"];
+		"init()" ->  "execve()" [label="\"/sbin/init\""];
+
+		"execve()" -> "/sbin/init";
+	}
+
+	"execve()" -> "/linuxrc";
+
+	"start_kernel()" -> "parse_options()" [label="command_line=\"init=/linuxrc\""];
+	"start_kernel()" -> "rest_init()";
+
+	"parse_options()" -> "/linuxrc" [label="execute_command"] ;
+	"rest_init()" -> "kernel_thread()" [label="init"];
+	"kernel_thread()" -> "init()" [label="启动内核线程"]; 
+
+
+}
