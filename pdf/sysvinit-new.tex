@@ -15,6 +15,24 @@ runlevel, shutdown, sulogin, telinit (链接到 init), utmpdump, wall
 
 Sysvinit软件包包含控制启动，运行和关闭所有其他程序的工具。
 
+\subsection{工具安装}
+
+{\begin{shaded}\begin{verbatim}
+$ find sbin/ bin/ | xargs ls -l
+-rwxr-xr-x 1 akaedu akaedu  7708 Jun 23 17:20 bin/mountpoint
+lrwxrwxrwx 1 akaedu akaedu    14 Jun 23 17:20 bin/pidof -> /sbin/killall5
+-rwxr-xr-x 1 akaedu akaedu 18162 Jun 23 17:20 sbin/bootlogd
+-rwxr-xr-x 1 akaedu akaedu  7402 Jun 23 17:20 sbin/fstab-decode
+-rwxr-xr-x 1 akaedu akaedu 17625 Jun 23 17:20 sbin/halt
+-rwxr-xr-x 1 akaedu akaedu 42121 Jun 23 17:20 sbin/init
+-rwxr-xr-x 1 akaedu akaedu 22259 Jun 23 17:20 sbin/killall5
+lrwxrwxrwx 1 akaedu akaedu     4 Jun 23 17:20 sbin/poweroff -> halt
+lrwxrwxrwx 1 akaedu akaedu     4 Jun 23 17:20 sbin/reboot -> halt
+-rwxr-xr-x 1 akaedu akaedu  7368 Jun 23 17:20 sbin/runlevel
+-rwxr-xr-x 1 akaedu akaedu 27547 Jun 23 17:20 sbin/shutdown
+-rwxr-xr-x 1 akaedu akaedu 17677 Jun 23 17:20 sbin/sulogin
+lrwxrwxrwx 1 akaedu akaedu     4 Jun 23 17:20 sbin/telinit -> init
+\end{verbatim}\end{shaded}}
 所有工具编译之后都生成在 src 源码目录树下，同时，这些命名的帮助文件在 man
 目录下。
 
@@ -424,7 +442,9 @@ sulogin [ -e ] [ -p ] [ -t SECONDS ] [ TTY ]
 \end{verbatim}\end{shaded}}
 \subsubsection{主要选项}
 
-\subsubsection{wall说明}
+\subsection{wall 命令}
+
+\subsubsection{wall 命令说明}
 
 wall命令用来向所有用户的终端发送一条信息。发送的信息可以作为参数在命令行给出，也可在执行wall命令后，从终端中输入。
 使用终端输入信息时，按Ctrl-D结束输入。wall的信息长度的限制是20行。

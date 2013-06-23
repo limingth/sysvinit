@@ -3,21 +3,23 @@
 \BOOKMARK [1][-]{section.1.2}{项目架构设计}{chapter.1}
 \BOOKMARK [0][-]{chapter.2}{Sysvinit 项目概要分析}{}
 \BOOKMARK [1][-]{section.2.1}{工具安装使用流程}{chapter.2}
-\BOOKMARK [2][-]{subsection.2.1.1}{init 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.2}{shutdown 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.3}{halt 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.4}{poweroff 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.5}{reboot 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.6}{telinit 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.7}{killall5 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.8}{pidof}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.9}{last/lastb 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.10}{mesg 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.11}{mountpoint 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.12}{runlevel 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.13}{sulogin 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.14}{bootlogd 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.15}{utmpdump 命令}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.1}{工具安装}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.2}{init 命令}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.3}{shutdown 命令}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.4}{halt 命令}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.5}{poweroff 命令}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.6}{reboot 命令}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.7}{telinit 命令}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.8}{killall5 命令}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.9}{pidof}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.10}{last/lastb 命令}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.11}{mesg 命令}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.12}{mountpoint 命令}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.13}{runlevel 命令}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.14}{sulogin 命令}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.15}{wall 命令}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.16}{bootlogd 命令}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.17}{utmpdump 命令}{section.2.1}
 \BOOKMARK [1][-]{section.2.2}{代码实现概要分析}{chapter.2}
 \BOOKMARK [2][-]{subsection.2.2.1}{源码目录结构}{section.2.2}
 \BOOKMARK [2][-]{subsection.2.2.2}{Makefile 分析}{section.2.2}

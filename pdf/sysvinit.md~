@@ -15,6 +15,23 @@ halt, init, killall5, last, lastb (链接到 last), mesg, pidof (链接到 killa
 ## 工具安装使用流程
 Sysvinit软件包包含控制启动，运行和关闭所有其他程序的工具。
 
+### 工具安装
+	$ find sbin/ bin/ | xargs ls -l
+	-rwxr-xr-x 1 akaedu akaedu  7708 Jun 23 17:20 bin/mountpoint
+	lrwxrwxrwx 1 akaedu akaedu    14 Jun 23 17:20 bin/pidof -> /sbin/killall5
+	-rwxr-xr-x 1 akaedu akaedu 18162 Jun 23 17:20 sbin/bootlogd
+	-rwxr-xr-x 1 akaedu akaedu  7402 Jun 23 17:20 sbin/fstab-decode
+	-rwxr-xr-x 1 akaedu akaedu 17625 Jun 23 17:20 sbin/halt
+	-rwxr-xr-x 1 akaedu akaedu 42121 Jun 23 17:20 sbin/init
+	-rwxr-xr-x 1 akaedu akaedu 22259 Jun 23 17:20 sbin/killall5
+	lrwxrwxrwx 1 akaedu akaedu     4 Jun 23 17:20 sbin/poweroff -> halt
+	lrwxrwxrwx 1 akaedu akaedu     4 Jun 23 17:20 sbin/reboot -> halt
+	-rwxr-xr-x 1 akaedu akaedu  7368 Jun 23 17:20 sbin/runlevel
+	-rwxr-xr-x 1 akaedu akaedu 27547 Jun 23 17:20 sbin/shutdown
+	-rwxr-xr-x 1 akaedu akaedu 17677 Jun 23 17:20 sbin/sulogin
+	lrwxrwxrwx 1 akaedu akaedu     4 Jun 23 17:20 sbin/telinit -> init
+
+
 所有工具编译之后都生成在 src 源码目录树下，同时，这些命名的帮助文件在 man 目录下。
 
 	$ ls -l
@@ -351,7 +368,8 @@ sulogin 允许超级用户登陆。通常是系统进入单用户模式时调用
 #### 主要选项
 	
 
-#### wall说明
+### wall 命令
+#### wall 命令说明
 wall命令用来向所有用户的终端发送一条信息。发送的信息可以作为参数在命令行给出，也可在执行wall命令后，从终端中输入。
 使用终端输入信息时，按Ctrl-D结束输入。wall的信息长度的限制是20行。
 
@@ -393,7 +411,6 @@ wall命令用来向所有用户的终端发送一条信息。发送的信息可�
 
 
 ### utmpdump 命令
-
 utmpdump
 以一个多用户友好的方式列出已经给出的登录文件的目录
 utmpdump 以一种用户友好的格式向标准输出设备显示/var/run/utmp文件的内容。
