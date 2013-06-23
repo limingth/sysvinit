@@ -75,8 +75,6 @@ inittab 文件中通常有关于登录接口的定义，就是在每个终端产
 	- /sbin/sulogin 会在 /dev/console 上 被启动。
 	- 运行级别S和s的功能是相同的。
 
-
-
 #### 启动过程
 在kernel启动的最后阶段，会调用init。init会查找/etc/inittab文件内容，进入指定的运行级别。
 其中 initdefault 代表着系统默认要进入的运行级别，如果用户指定了，就会进入到 initdefault 代表的那个运行级别。
@@ -106,23 +104,33 @@ inittab 文件中通常有关于登录接口的定义，就是在每个终端产
 shutdown 以一种安全的方式终止系统，所有正在登录的用户都会收到系统将要终止的通知，并且不准新的登录。
 
 #### 命令格式
+	/sbin/shutdown [-akrhPHfFnc] [-t sec] time [warning message]
 
-#### 运行级别
+#### 参数选项
+* -h  
+	将系统关机，在某种程度上功能与halt命令相当。
 
-#### 启动过程
+* -k  
+	只是送出信息给所有用户，但并不会真正关机。
 
+* -n  
+	不调用init程序关机，而是由shutdown自己进行(一般关机程序是由shutdown调用init来实现关机动作)，使用此参数将加快关机速度，但是不建议用户使用此种关机方式。
 
+* -r  
+	shutdown之后重新启动系统。
+
+* -f <秒数>   
+	送出警告信息和关机信号之间要延迟多少秒。警告信息将提醒用户保存当前进行的工作
 
 ### halt 命令
 
 #### halt 命令说明
-halt 停止系统。通常以 -h 参数调用 shutdown，但如果已经在运行级0的话，它就告诉内核终止系统。在这之前，它会检查文件 /var/log/wtmp，看系统是否正在关闭。
+halt 用来停止系统。正常情况下等效于 shutdown 加上 -h 参数(当前系统运行级别是 0 时除外)。它将告诉内核去中止系统，并在系统正在关闭的过程中将日志记录到 /var/log/wtmp 文件里。
 
-正常情况下等效于 shutdown 加上 -h 参数(当前系统运行级别是 0 时除外)。它将告诉内核去中止系统，并在系统正在关闭的过程中将日志记录到 /var/log/wtmp 文件里。
+#### 命令格式
+	/sbin/halt [-n] [-w] [-d] [-f] [-i] [-p] [-h]
 
-#### 停止系统
-
-#### 主要选项：
+#### 主要选项
 * -n  
 	reboot或者halt之前，不同步(sync)数据.
 * -w  
@@ -137,34 +145,104 @@ halt 停止系统。通常以 -h 参数调用 shutdown，但如果已经在运�
 	在系统halt同时，做poweroff操作.即停止系统同时关闭电源.
 
 ### poweroff 命令
-poweroff 关闭系统并切断电源。但请参看halt。
+poweroff 告诉内核中止系统并且关闭系统(参见 halt)
 
-poweroff
-告诉内核中止系统并且关闭系统(参见 halt)
+#### 命令格式
+	poweroff [OPTION]...
+
+#### 主要选项
+       -f, --force
+              Does not invoke shutdown(8)  and  instead  performs  the  actual
+              action you would expect from the name.
+
+       -p, --poweroff
+              Instructs the halt command to instead behave as poweroff.
+
+       -w, --wtmp-only
+              Does  not  call  shutdown(8)  or  the  reboot(2) system call and
+              instead only writes the shutdown record to /var/log/wtmp
+
+       --verbose
+              Outputs slightly more verbose messages  when  rebooting,  useful
+              for debugging problems with shutdown.
 
 ### reboot 命令
+reboot 告诉内核重启系统(参见 halt)
 
-reboot
-告诉内核重启系统(参见 halt)
+#### 命令格式
+	reboot [OPTION]...
+
+#### 主要选项
+       -f, --force
+              Does not invoke shutdown(8)  and  instead  performs  the  actual
+              action you would expect from the name.
+
+       -p, --poweroff
+              Instructs the halt command to instead behave as poweroff.
+
+       -w, --wtmp-only
+              Does  not  call  shutdown(8)  or  the  reboot(2) system call and
+              instead only writes the shutdown record to /var/log/wtmp
+
+       --verbose
+              Outputs slightly more verbose messages  when  rebooting,  useful
+              for debugging problems with shutdown.
 
 ### telinit 命令
-
 telinit 告诉 init 该进入哪个运行级。
 
 telinit
 告诉 init 将切换到那一个运行级
 
-### killall5/pidof 命令
+#### 命令格式
+	init [OPTION]...
+
+#### 主要选项
+
+### killall5 命令
 
 killall5
 发送一个信号到所有进程，但那些在它自己设定级别的进程将不会被这个运行的脚本所中断。
 
 killall5 就是SystemV的killall命令。向除自己的会话(session)进程之外的其它进程发出信号，所以不能杀死当前使用的shell。
 
+#### 命令格式
+	killall5  -signalnumber  [-o  omitpid[,omitpid..]]   [-o omitpid[,omit‐pid..]..]
+
+#### 主要选项
+       -o omitpid
+              Tells killall5 to omit processes with that process id.
+
+### pidof
 pidof
 报告给定程序的PID号
 
 pidof找出程序的进程识别号(pid)，输出到标准输出设备。
+
+#### 命令格式
+	pidof  [-s] [-c] [-n] [-x] [-o omitpid[,omitpid..]]  [-o omitpid[,omit‐pid..]..]  program [program..]
+
+
+#### 主要选项
+       -s     Single shot - this instructs the program to only return one pid.
+
+       -c     Only  return  process  ids  that  are running with the same root
+              directory.  This option is ignored for non-root users,  as  they
+              will  be unable to check the current root directory of processes
+              they do not own.
+
+       -n     Avoid stat(2) system function call on  all  binaries  which  are
+              located  on  network  based  file  systems like NFS.  Instead of
+              using this option the the variable PIDOF_NETFS may  be  set  and
+              exported.
+
+       -x     Scripts  too  -  this  causes the program to also return process
+              id's of shells running the named scripts.
+
+       -o omitpid
+              Tells pidof to omit processes with that process id. The  special
+              pid  %PPID  can  be used to name the parent process of the pidof
+              program, in other words the calling shell or shell script.
 
 ### last/lastb 命令
 
@@ -177,13 +255,46 @@ last 回溯/var/log/wtmp文件(或者-f选项指定的文件)，显示自从这�
 
 lastb 显示所有失败登录企图，并记录在 /var/log/btmp.
 
+
+#### 命令格式
+	last  [-R] [-num] [ -n num ] [-adFiowx] [ -f file ] [ -t YYYYMMDDHHMMSS] [name...]  [tty...]
+
+#### 主要选项
+       -f file
+              Tells last to use a specific file instead of /var/log/wtmp.
+
+
 ### mesg 命令
 该命令的作用是，控制是否允许在当前终端上显示出其它用户对当前用户终端发送的消息。
+
+
+#### 命令格式
+	mesg [y|n]
+
+#### 主要选项
+       y      Allow write access to your terminal.
+
+       n      Disallow write access to your terminal.
+
+       If no option is given, mesg prints out the current access state of your
+       terminal.
 
 ### mountpoint 命令
 
 mountpoint
 检查给定的目录是否是一个挂载点
+
+
+#### 命令格式
+	/bin/mountpoint [-q] [-d] /path/to/directory
+       /bin/mountpoint -x /dev/device
+
+#### 主要选项
+       -q     Be quiet - don't print anything.
+
+       -d     Print major/minor device number of the filesystem on stdout.
+
+       -x     Print major/minor device number of the blockdevice on stdout.
 
 查看一个目录是否为一个挂载点：
 
@@ -220,6 +331,12 @@ runlevel
 
 runlevel 读取系统的登录记录文件(一般是/var/run/utmp)把以前和当前的系统运行级输出到标准输出设备。
 
+#### 命令格式
+	runlevel [utmp]
+
+#### 主要选项
+	utmp   The name of the utmp file to read.
+
 ### sulogin 命令
 
 sulogin
@@ -227,13 +344,21 @@ sulogin
 
 sulogin 允许超级用户登陆。通常是系统进入单用户模式时调用的。
 
-### wall 命令
+
+#### 命令格式
+	sulogin [ -e ] [ -p ] [ -t SECONDS ] [ TTY ]
+
+#### 主要选项
+	
 
 #### wall说明
 wall命令用来向所有用户的终端发送一条信息。发送的信息可以作为参数在命令行给出，也可在执行wall命令后，从终端中输入。
 使用终端输入信息时，按Ctrl-D结束输入。wall的信息长度的限制是20行。
 
 只有超级用户有权限，给所有用户的终端发送消息。
+
+#### 命令格式
+	wall [-n] [ message ]
 
 * 用法  
 	usage: wall [message]
@@ -243,13 +368,47 @@ wall命令用来向所有用户的终端发送一条信息。发送的信息可�
 
 ### bootlogd 命令
 
+#### 命令格式
+	/sbin/bootlogd [-c] [-d] [-r] [-s] [-v] [ -l logfile ] [ -p pidfile ]
+
+#### 主要选项
+       -d     Do not fork and run in the background.
+
+       -c     Attempt  to  write to the logfile even if it does not yet exist.
+              Without this option, bootlogd  will  wait  for  the  logfile  to
+              appear before attempting to write to it.  This behavior prevents
+              bootlogd from creating logfiles under mount points.
+
+       -r     If there is an existing logfile called logfile rename it to log‐
+              file~ unless logfile~ already exists.
+
+       -s     Ensure  that  the data is written to the file after each line by
+              calling fdatasync(3).  This will slow  down  a  fsck(8)  process
+              running in parallel.
+
+       -v     Show version.
+
+       -l logfile
+              Log to this logfile. The default is /var/log/boot.
+
 
 ### utmpdump 命令
-
 utmpdump
 以一个多用户友好的方式列出已经给出的登录文件的目录
 utmpdump 以一种用户友好的格式向标准输出设备显示/var/run/utmp文件的内容。
 
+#### 命令格式
+	utmpdump [-froh] filename
+
+#### 主要选项
+       -f     output appended data as the file grows.
+
+       -r     reverse. Write back edited login information into utmp  or  wtmp
+              files.
+
+       -o     use old libc5 format.
+
+       -h     usage information.
 
 
 ## 代码实现概要分析
