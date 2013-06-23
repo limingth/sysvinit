@@ -11,8 +11,8 @@ all:
 p pdf: 
 	make -C pdf 
 
-tmd:
-	make -C pdf test-sysvinit
+t:
+	make -C pdf t
 
 o open:
 	gedit pdf/sysvinit.md &
@@ -36,5 +36,3 @@ c commit:
 	git commit -a -m "M sysvinit.md"
 	git push
 
-t test:
-	sudo ./kmod-11/tools/modprobe nfs sunrpc

@@ -13,124 +13,178 @@ halt, init, killall5, last, lastb (链接到 last), mesg, pidof (链接到 killa
 # Sysvinit 项目概要分析
 
 ## 工具安装使用流程
+Sysvinit软件包包含控制启动，运行和关闭所有其他程序的工具。
+
+所有工具编译之后都生成在 src 源码目录树下，同时，这些命名的帮助文件在 man 目录下。
+
+	$ ls -l
+	total 108
+	-rw-r--r-- 1 akaedu akaedu  2847 Jun 23 11:13 bootlogd.8
+	-rw-r--r-- 1 akaedu akaedu  1971 Jun 23 11:13 bootlogd.8.todo
+	-rw-r--r-- 1 akaedu akaedu  1444 Jun 23 11:13 fstab-decode.8
+	-rw-r--r-- 1 akaedu akaedu  3957 Jun 23 11:13 halt.8
+	-rw-r--r-- 1 akaedu akaedu 12124 Jun 23 11:13 init.8
+	-rw-r--r-- 1 akaedu akaedu  2428 Jun 23 11:13 initscript.5
+	-rw-r--r-- 1 akaedu akaedu  8290 Jun 23 11:13 inittab.5
+	-rw-r--r-- 1 akaedu akaedu  1866 Jun 23 11:13 killall5.8
+	-rw-r--r-- 1 akaedu akaedu  4242 Jun 23 11:13 last.1
+	-rw-r--r-- 1 akaedu akaedu    16 Jun 23 11:13 lastb.1
+	-rw-r--r-- 1 akaedu akaedu  1867 Jun 23 11:13 mesg.1
+	-rw-r--r-- 1 akaedu akaedu  1886 Jun 23 11:13 mountpoint.1
+	-rw-r--r-- 1 akaedu akaedu  3230 Jun 23 11:13 pidof.8
+	-rw-r--r-- 1 akaedu akaedu    16 Jun 23 11:13 poweroff.8
+	-rw-r--r-- 1 akaedu akaedu    16 Jun 23 11:13 reboot.8
+	-rw-r--r-- 1 akaedu akaedu  1872 Jun 23 11:13 runlevel.8
+	-rw-r--r-- 1 akaedu akaedu  8017 Jun 23 11:13 shutdown.8
+	-rw-r--r-- 1 akaedu akaedu  3309 Jun 23 11:13 sulogin.8
+	-rw-r--r-- 1 akaedu akaedu    16 Jun 23 11:13 telinit.8
+	-rw-r--r-- 1 akaedu akaedu  1949 Jun 23 11:13 utmpdump.1
+	-rw-r--r-- 1 akaedu akaedu  1960 Jun 23 11:13 wall.1
+
+通过使用 man 命令，加上 -l 参数，例如 man -l init.8 我们可以了解到这些命令的用法。
+
+* 注意  
+
+我们这里没有直接使用例如 man init 这样的命令，而是改用 man -l init.8，这是因为前者是查看当前系统的帮助，而当前系统是 ubuntu 12.04 已经改用 upstart 作为 init 进程。后者才是针对 sysvinit 工具中的可执行文件配套的帮助信息。 
+
+下面我们针对这些命令的帮助信息，来给出每个命令的具体用法，在测试案例报告中，我们会详细说明每个命令如何使用。
+
+### init 命令
+
+#### init 命令说明
+init 进程是所有进程的父进程。它的主要任务就是从 /etc/inittab 文件中读取命令行，从而创建出一系列后继进程。
+init 进程本身是被 Kernel 所启动，Kernel 将控制权交给它之后，用它来负责启动所有其他的进程。
+inittab 文件中通常有关于登录接口的定义，就是在每个终端产生getty，使用户可以进行登录.
+	
+#### 命令格式
+       /sbin/init [ -a ] [ -s ] [ -b ] [ -z xxx ] [ 0123456Ss ]
+
+#### 运行级别
+运行级别是Linux操作系统的一个软件配置，用它来决定启动哪些程序集来运行。
+系统启动时，可以根据 /etc/inittab 文件的配置，进入不同的运行级别。
+每个运行级别可以设置启动不同的程序。
+
+启动的每个程序都是init的进程的子进程，运行级别有8个，分别是 0-6,S或s。
+运行级别0,1和6是系统保留的。
+
+* 运行级别0用来关闭系统，
+* 运行级别1先关闭所有用户进程和服务，然后进入单用户模式。
+* 运行级别6用来重启系统。
+* 运行级别S和s，会直接进入到单用户模式。
+	- 这种模式下不再需要 /etc/inittab 文件。
+	- /sbin/sulogin 会在 /dev/console 上 被启动。
+	- 运行级别S和s的功能是相同的。
 
 
-halt
+
+#### 启动过程
+在kernel启动的最后阶段，会调用init。init会查找/etc/inittab文件内容，进入指定的运行级别。
+其中 initdefault 代表着系统默认要进入的运行级别，如果用户指定了，就会进入到 initdefault 代表的那个运行级别。
+如果用户没有指定，则系统启动时，会通过 console 来要求用户输入一个运行级别。
+
+当启动一个新进程时，init会先检查/etc/initscript文件是否存在。如果存在，则使用这个脚本来启动那个进程。
+
+#### 选项
+* -s, S, single  
+	进入单用户模式.
+
+* 1-5  
+	启动进入的运行级别.
+
+* -b, emergency  
+	直接进入单用户shell，不运行任何其他的启动脚本。
+
+* -a, auto  
+	如果指定该参数，init 会将 AUTOBOOT 环境变量设置为 yes。 
+
+* -z xxx  
+	-z后面的参数将被忽略。可以使用这种方法将命令行加长一点，这样可以增加在堆栈中占用的空间。
+
+### shutdown 命令
+
+#### shutdown 命令说明
+shutdown 以一种安全的方式终止系统，所有正在登录的用户都会收到系统将要终止的通知，并且不准新的登录。
+
+#### 命令格式
+
+#### 运行级别
+
+#### 启动过程
+
+
+
+### halt 命令
+
+#### halt 命令说明
+halt 停止系统。通常以 -h 参数调用 shutdown，但如果已经在运行级0的话，它就告诉内核终止系统。在这之前，它会检查文件 /var/log/wtmp，看系统是否正在关闭。
+
 正常情况下等效于 shutdown 加上 -h 参数(当前系统运行级别是 0 时除外)。它将告诉内核去中止系统，并在系统正在关闭的过程中将日志记录到 /var/log/wtmp 文件里。
-init
-当内核已经初始化硬件，接管引导程序，开启指令线程时，init 会被第一个启动。
+
+#### 停止系统
+
+#### 主要选项：
+* -n  
+	reboot或者halt之前，不同步(sync)数据.
+* -w  
+	仅仅往/var/log/wtmp里写一个记录，并不实际做reboot或者halt操作.
+* -f  
+	强制halt或者reboot，不等其他程序退出或者服务停止就重新启动系统.这样会造成数据丢失，建议一般不要这样做.
+* -i  
+	halt或reboot前，关闭所有网络接口.
+* -h  
+	halt或poweroff前，使系统中所有的硬件处于等待状态.
+* -p  
+	在系统halt同时，做poweroff操作.即停止系统同时关闭电源.
+
+### poweroff 命令
+poweroff 关闭系统并切断电源。但请参看halt。
+
+poweroff
+告诉内核中止系统并且关闭系统(参见 halt)
+
+### reboot 命令
+
+reboot
+告诉内核重启系统(参见 halt)
+
+### telinit 命令
+
+telinit 告诉 init 该进入哪个运行级。
+
+telinit
+告诉 init 将切换到那一个运行级
+
+### killall5/pidof 命令
+
 killall5
 发送一个信号到所有进程，但那些在它自己设定级别的进程将不会被这个运行的脚本所中断。
+
+killall5 就是SystemV的killall命令。向除自己的会话(session)进程之外的其它进程发出信号，所以不能杀死当前使用的shell。
+
+pidof
+报告给定程序的PID号
+
+pidof找出程序的进程识别号(pid)，输出到标准输出设备。
+
+### last/lastb 命令
+
 last
 给出哪一个用户最后一次登录(或退出登录)，它搜索 /var/log/wtmp 文件，出给出系统引导、关闭、运行级别改变等信息。
 lastb
 给出登失败的尝试，并写入日志 /var/log/btmp
-mesg
-控制是否允许其他用户也有向系统所有用户发送信息的权限
-mountpoint
-检查给定的目录是否是一个挂载点
-pidof
-报告给定程序的PID号
-poweroff
-告诉内核中止系统并且关闭系统(参见 halt)
-reboot
-告诉内核重启系统(参见 halt)
-runlevel
-告前一个和当前的系统运行级别，并且将最后一些运行级别写入 /var/run/utmp
-shutdown
-使系统安全关闭，向所有线程发送关闭信号并且通知所有已经登录的系统用户系统即将关闭。
-sulogin
-允许 root 登录，它通常情况下是在系统在单用户模式下运行时，由 init 所派生。
-telinit
-告诉 init 将切换到那一个运行级
-utmpdump
-以一个多用户友好的方式列出已经给出的登录文件的目录
-wall
-向所有已经登录的用户写入一个信息
-
-Sysvinit软件包包含控制启动，运行和关闭所有其他程序的工具。包括：
-halt 停止系统。通常以 -h 参数调用 shutdown，但如果已经在运行级0的话，它就告诉内核终止系统。在这之前，它会检查文件 /var/log/wtmp，看系统是否正在关闭。
-
-init 是所有进程的父进程。最主要的作用是在启动过程中使用/etc/inittab文件创建进程。/etc/inittab文件主要为init派生getty进程提供入口，以便用户登录，在某些系统中它也被用来控制自治(autonomous)进程。
-
-killall5 就是SystemV的killall命令。向除自己的会话(session)进程之外的其它进程发出信号，所以不能杀死当前使用的shell。
 
 last 回溯/var/log/wtmp文件(或者-f选项指定的文件)，显示自从这个文件建立以来，所有用户的登录情况。
 
 lastb 显示所有失败登录企图，并记录在 /var/log/btmp.
 
-mesg 控制其它用户对用户终端的访问。
-
-pidof找出程序的进程识别号(pid)，输出到标准输出设备。
-
-poweroff 关闭系统并切断电源。但请参看halt。
-
-reboot 告诉内核重启系统。但请参看halt。
-
-runlevel 读取系统的登录记录文件(一般是/var/run/utmp)把以前和当前的系统运行级输出到标准输出设备。
-
-shutdown以一种安全的方式终止系统，所有正在登录的用户都会收到系统将要终止通知，并且不准新的登录。
-
-sulogin 允许超级用户登陆。通常是系统进入单用户模式时调用的。
-
-telinit 告诉 init 该进入哪个运行级。
-
-utmpdump 以一种用户友好的格式向标准输出设备显示/var/run/utmp文件的内容。
-
-wall 向所有有信息权限的登录用户发送消息。
-
-### init 命令
-#### init命令说明
-init进程是所有进程的父进程.它主要的用途是根据/etc/inittab文件,来建立进程.
-inittab文件中通常有关于登录接口的定义,就是在每个终端产生getty,使用户可以
-进行登录.
-	
-#### 命令格式
-
-       /sbin/init [ -a ] [ -s ] [ -b ] [ -z xxx ] [ 0123456Ss ]
-
-#### 运行级别
-
-系统启动时,可以进入不同的运行级别.每个运行级别可以设置启动不同的程序.启动的每个程序都是
-init的进程的子进程.运行级别有8个:0-6,S和s.
-运行级别0,1和6是系统保留的.运行级别0用来关闭系统.运行级别1,先关闭所有用户进程和服务,
-然后进入单用户模式.运行级别6用来重启系统.运行级别S和s,会直接进入到单用户模式,而不进行
-停止进程和服务的操作.运行级别S和s的功能是相同的.
-
-#### 启动过程
-
-在kernel启动的最后阶段,会调用init.init会查找/etc/inittab文件内容,进入指定的运行级别.
-当启动一个新进程时,init会先检查/etc/initscript文件是否存在.如果存在,则使用这个脚本来
-启动那个进程.
-
-#### 选项
-
-       -s, S, single
-	进入单用户模式.
-
-       1-5  Runlevel to boot into.
-	进入相应的运行级别.
-
-       -b, emergency
-	直接进入单用户shell,不运行任何其他的启动脚本.
-
-       -z xxx
-	-z后面的参数将被忽略.可以使用这种方法将命令行加长一点,这样可以增加在堆栈中占用的空间.
-
-### halt 命令
-#### 停止系统.
-
-#### 主要选项：
-        -n     reboot或者halt之前，不同步(sync)数据.
-       -w     仅仅往/var/log/wtmp里写一个记录，并不实际做reboot或者halt操作.
-       -f     强制halt或者reboot，不等其他程序退出或者服务停止就重新启动系统.这样会造成数据丢失，建议一般不要这样做.
-       -i     halt或reboot前，关闭所有网络接口.
-       -h     halt或poweroff前，使系统中所有的硬件处于等待状态.
-       -p     在系统halt同时，做poweroff操作.即停止系统同时关闭电源.
-
-### last 命令
 ### mesg 命令
+该命令的作用是，控制是否允许在当前终端上显示出其它用户对当前用户终端发送的消息。
+
 ### mountpoint 命令
+
+mountpoint
+检查给定的目录是否是一个挂载点
+
 查看一个目录是否为一个挂载点：
 
 	[root@test ~]# df 
@@ -158,9 +212,21 @@ init的进程的子进程.运行级别有8个:0-6,S和s.
 	3:2
 	[root@test ~]# mountpoint -d /boot
 	3:1
-### utmpdump 命令
+
 ### runlevel 命令
+
+runlevel
+告前一个和当前的系统运行级别，并且将最后一些运行级别写入 /var/run/utmp
+
+runlevel 读取系统的登录记录文件(一般是/var/run/utmp)把以前和当前的系统运行级输出到标准输出设备。
+
 ### sulogin 命令
+
+sulogin
+允许 root 登录，它通常情况下是在系统在单用户模式下运行时，由 init 所派生。
+
+sulogin 允许超级用户登陆。通常是系统进入单用户模式时调用的。
+
 ### wall 命令
 
 #### wall说明
@@ -175,8 +241,16 @@ wall命令用来向所有用户的终端发送一条信息。发送的信息可�
 * 举例  
 	wall "hello msg"
 
-### shutdown 命令
 ### bootlogd 命令
+
+
+### utmpdump 命令
+
+utmpdump
+以一个多用户友好的方式列出已经给出的登录文件的目录
+utmpdump 以一种用户友好的格式向标准输出设备显示/var/run/utmp文件的内容。
+
+
 
 ## 代码实现概要分析
 
