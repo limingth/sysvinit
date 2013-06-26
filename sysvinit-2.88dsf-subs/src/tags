@@ -1,0 +1,602 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ACCTON_OFF	shutdown.c	39;"	d	file:
+ADDSET	set.h	26;"	d
+BIN	Makefile	/^BIN	=$/;"	m
+BINSH	sulogin.c	59;"	d	file:
+BIN_COMBO	Makefile	/^BIN_COMBO	= $(BIN_OWNER):$(BIN_GROUP)$/;"	m
+BIN_GROUP	Makefile	/^BIN_GROUP	= root$/;"	m
+BIN_OWNER	Makefile	/^BIN_OWNER	= root$/;"	m
+BMAGIC_HALT	reboot.h	35;"	d
+BMAGIC_HALT	reboot.h	37;"	d
+BMAGIC_HARD	reboot.h	27;"	d
+BMAGIC_POWEROFF	reboot.h	43;"	d
+BMAGIC_POWEROFF	reboot.h	45;"	d
+BMAGIC_POWEROFF	reboot.h	47;"	d
+BMAGIC_REBOOT	reboot.h	40;"	d
+BMAGIC_SOFT	reboot.h	31;"	d
+BOOT	init.h	69;"	d
+BOOTWAIT	init.h	70;"	d
+BTMP_FILE	last.c	253;"	d	file:
+CBAUD	init.c	87;"	d	file:
+CBAUDEX	init.c	90;"	d	file:
+CC	Makefile	/^CC=gcc$/;"	m
+CFLAGS	Makefile	/^CFLAGS	?= -O2 -fomit-frame-pointer$/;"	m
+CHANGE_WAIT	init.h	26;"	d
+CHECK_DES	sulogin.c	54;"	d	file:
+CHECK_MD5	sulogin.c	55;"	d	file:
+CHILD	init.h	/^} CHILD;$/;"	t	typeref:struct:_child_
+CHOP_DOMAIN	last.c	54;"	d	file:
+CONSOLE	paths.h	26;"	d
+CPPFLAGS	Makefile	/^CPPFLAGS = -g -DDEBUG$/;"	m
+CTRLALTDEL	init.h	74;"	d
+C_ACTION	init.h	133;"	d
+C_END	init.h	128;"	d
+C_EOF	init.h	137;"	d
+C_EOR	init.h	130;"	d
+C_EXS	init.h	136;"	d
+C_FLAG	init.h	132;"	d
+C_LEV	init.h	131;"	d
+C_PID	init.h	135;"	d
+C_PROCESS	init.h	134;"	d
+C_REC	init.h	129;"	d
+C_VER	init.h	127;"	d
+DATE	init.c	11;"	d	file:
+DEBUG	init.h	29;"	d
+DELSET	set.h	25;"	d
+DEMAND	init.h	100;"	d
+DEV_BASE	hddown.c	407;"	d	file:
+DEV_BASE	hddown.c	61;"	d	file:
+DISK_EXTFLUSH	hddown.c	72;"	d	file:
+DISK_FLUSHONLY	hddown.c	75;"	d	file:
+DISK_IS_IDE	hddown.c	70;"	d	file:
+DISK_IS_SATA	hddown.c	71;"	d	file:
+DISK_MANAGED	hddown.c	74;"	d	file:
+DISK_REMOVABLE	hddown.c	73;"	d	file:
+DO_NETFS	killall5.c	63;"	d	file:
+DO_STAT	killall5.c	64;"	d	file:
+D_DIDBOOT	init.h	145;"	d
+D_GOTSIGN	init.h	141;"	d
+D_PREVLEVEL	init.h	140;"	d
+D_RUNLEVEL	init.h	138;"	d
+D_SLTIME	init.h	144;"	d
+D_THISLEVEL	init.h	139;"	d
+D_WROTE_UTMP_REBOOT	init.h	143;"	d
+D_WROTE_UTMP_RLEVEL	init.h	147;"	d
+D_WROTE_WTMP_REBOOT	init.h	142;"	d
+D_WROTE_WTMP_RLEVEL	init.h	146;"	d
+EMPTYSET	set.h	27;"	d
+ENOIOCTLCMD	bootlogd.c	267;"	d	file:
+E_VERSION	init.c	105;"	d	file:
+FAILING	init.h	101;"	d
+FASTBOOT	paths.h	32;"	d
+FORCEFSCK	paths.h	33;"	d
+F_PASSWD	sulogin.c	57;"	d	file:
+F_SHADOW	sulogin.c	58;"	d	file:
+HAVE_UPDWTMP	utmp.c	44;"	d	file:
+HAVE_UPDWTMP	utmp.c	46;"	d	file:
+HAVE_UPDWTMP	utmp.c	49;"	d	file:
+HOST_NAME_MAX	dowall.c	45;"	d	file:
+ID	Makefile	/^ID		= $(shell id -u)$/;"	m
+IDBYTES	hddown.c	65;"	d	file:
+INIT	paths.h	30;"	d
+INITDBG	init.h	60;"	d
+INITDBG	init.h	62;"	d
+INITDEBUG	init.h	30;"	d
+INITDEFAULT	init.h	77;"	d
+INITLIBS	Makefile	/^  INITLIBS	=$/;"	m
+INITPID	init.h	33;"	d
+INITRQ_HLEN	initreq.h	45;"	d
+INITRQ_HLEN	initreq.h	47;"	d
+INITRQ_HLEN	root/usr/include/initreq.h	45;"	d
+INITRQ_HLEN	root/usr/include/initreq.h	47;"	d
+INITSCRIPT	paths.h	37;"	d
+INITTAB	paths.h	29;"	d
+INIT_CMD_BSD	initreq.h	40;"	d
+INIT_CMD_BSD	root/usr/include/initreq.h	40;"	d
+INIT_CMD_POWERFAIL	initreq.h	37;"	d
+INIT_CMD_POWERFAIL	root/usr/include/initreq.h	37;"	d
+INIT_CMD_POWERFAILNOW	initreq.h	38;"	d
+INIT_CMD_POWERFAILNOW	root/usr/include/initreq.h	38;"	d
+INIT_CMD_POWEROK	initreq.h	39;"	d
+INIT_CMD_POWEROK	root/usr/include/initreq.h	39;"	d
+INIT_CMD_RUNLVL	initreq.h	36;"	d
+INIT_CMD_RUNLVL	root/usr/include/initreq.h	36;"	d
+INIT_CMD_SETENV	initreq.h	41;"	d
+INIT_CMD_SETENV	root/usr/include/initreq.h	41;"	d
+INIT_CMD_START	initreq.h	35;"	d
+INIT_CMD_START	root/usr/include/initreq.h	35;"	d
+INIT_CMD_UNSETENV	initreq.h	42;"	d
+INIT_CMD_UNSETENV	root/usr/include/initreq.h	42;"	d
+INIT_FIFO	initreq.h	29;"	d
+INIT_FIFO	initreq.h	31;"	d
+INIT_FIFO	root/usr/include/initreq.h	29;"	d
+INIT_FIFO	root/usr/include/initreq.h	31;"	d
+INIT_MAGIC	initreq.h	34;"	d
+INIT_MAGIC	root/usr/include/initreq.h	34;"	d
+INSTALL_DATA	Makefile	/^  INSTALL_DATA	= install -m 644$/;"	m
+INSTALL_DATA	Makefile	/^  INSTALL_DATA	= install -o $(BIN_OWNER) -g $(BIN_GROUP) -m 644$/;"	m
+INSTALL_DIR	Makefile	/^INSTALL_DIR	= install -m 755 -d$/;"	m
+INSTALL_EXEC	Makefile	/^  INSTALL_EXEC	= install -m 755$/;"	m
+INSTALL_EXEC	Makefile	/^  INSTALL_EXEC	= install -o $(BIN_OWNER) -g $(BIN_GROUP) -m 755$/;"	m
+IRFFLAGS	ifdown.c	103;"	d	file:
+IRFFLAGS	ifdown.c	92;"	d	file:
+ISMEMBER	set.h	24;"	d
+ISPOWER	init.c	147;"	d	file:
+ISSPACE	hddown.c	62;"	d	file:
+IUCLC	sulogin.c	72;"	d	file:
+KBREQUEST	init.h	80;"	d
+KERNEL_MONITOR	halt.c	64;"	d	file:
+KILLME	init.h	99;"	d
+LOGFILE	bootlogd.c	59;"	d	file:
+L_CO	init.h	107;"	d
+L_SY	init.h	108;"	d
+L_VB	init.h	109;"	d
+MAN1	Makefile	/^MAN1	= last.1 lastb.1 mesg.1$/;"	m
+MAN5	Makefile	/^MAN5	= initscript.5 inittab.5$/;"	m
+MAN8	Makefile	/^MAN8	= halt.8 init.8 killall5.8 pidof.8 poweroff.8 reboot.8 runlevel.8$/;"	m
+MANDIR	Makefile	/^MANDIR		= \/usr\/share\/man$/;"	m
+MASK_EXT	hddown.c	66;"	d	file:
+MAXLEN	wall.c	36;"	d	file:
+MAXLINES	wall.c	37;"	d	file:
+MAXSPAWN	init.h	38;"	d
+MAX_DISKS	hddown.c	405;"	d	file:
+MAX_IFS	ifdown.c	38;"	d	file:
+MESSAGELEN	shutdown.c	64;"	d	file:
+MNT_DETACH	init.c	59;"	d	file:
+NEW_UTMP	last.c	55;"	d	file:
+NFS	killall5.c	/^} NFS;$/;"	t	typeref:struct:_s_nfs	file:
+NOLOGIN	paths.h	31;"	d
+NO_PROCESS	init.h	112;"	d
+NO_STAT	killall5.c	65;"	d	file:
+NR_EXTRA_ENV	init.c	214;"	d	file:
+OFF	init.h	75;"	d
+OLD_HOSTSIZE	oldutmp.h	28;"	d
+OLD_LINESIZE	oldutmp.h	26;"	d
+OLD_NAMESIZE	oldutmp.h	27;"	d
+OLD_UTMP_H	oldutmp.h	24;"	d
+OMIT	killall5.c	/^} OMIT;$/;"	t	typeref:struct:_s_omit	file:
+ONCE	init.h	68;"	d
+ONDEMAND	init.h	76;"	d
+PATH_DEFAULT	init.h	43;"	d
+PIDOF_NETFS	killall5.c	847;"	d	file:
+PIDOF_OMIT	killall5.c	846;"	d	file:
+PIDOF_SINGLE	killall5.c	845;"	d	file:
+PIDQ	killall5.c	/^} PIDQ;$/;"	t	typeref:struct:pidq	file:
+PIDQ_HEAD	killall5.c	/^} PIDQ_HEAD;$/;"	t	typeref:struct:__anon1	file:
+PIPE_FD	init.h	34;"	d
+POWERFAIL	init.h	71;"	d
+POWERFAILNOW	init.h	79;"	d
+POWEROKWAIT	init.h	73;"	d
+POWERWAIT	init.h	72;"	d
+PROC	killall5.c	/^} PROC;$/;"	t	typeref:struct:proc	file:
+PROC_IDE	hddown.c	406;"	d	file:
+PWRSTAT	paths.h	39;"	d
+PWRSTAT_OLD	paths.h	38;"	d
+R	fstab-decode.c	43;"	d	file:
+R	fstab-decode.c	49;"	d	file:
+RESPAWN	init.h	66;"	d
+RUNLVL_PICKY	halt.c	65;"	d	file:
+RUNNING	init.h	98;"	d
+R_CRASH	last.c	67;"	d	file:
+R_DOWN	last.c	68;"	d	file:
+R_NORMAL	last.c	69;"	d	file:
+R_NOW	last.c	70;"	d	file:
+R_PHANTOM	last.c	72;"	d	file:
+R_REBOOT	last.c	71;"	d	file:
+R_TIMECHANGE	last.c	73;"	d	file:
+SBIN	Makefile	/^SBIN	= init halt shutdown runlevel killall5 fstab-decode$/;"	m
+SDALLOW	paths.h	28;"	d
+SDPID	paths.h	34;"	d
+SECURETTY	paths.h	27;"	d
+SELINUX_DEF	Makefile	/^  SELINUX_DEF	=  -DWITH_SELINUX$/;"	m
+SELINUX_DEF	Makefile	/^  SELINUX_DEF	=$/;"	m
+SETSIG	init.c	94;"	d	file:
+SHADOW	killall5.c	/^} SHADOW;$/;"	t	typeref:struct:_s_shadow	file:
+SHELL	paths.h	35;"	d
+SHUTDOWN_TIME	last.c	49;"	d	file:
+SIGPWR	init.c	83;"	d	file:
+SLEEPTIME	init.h	40;"	d
+STACK_DEBUG	init.c	66;"	d	file:
+STATE_PIPE	init.h	35;"	d
+STATIC	Makefile	/^STATIC	=$/;"	m
+STATICSH	sulogin.c	60;"	d	file:
+STATNAMELEN	killall5.c	62;"	d	file:
+SULOGIN	paths.h	36;"	d
+SULOGINLIBS	Makefile	/^  SULOGINLIBS	= -lselinux	$/;"	m
+SULOGINLIBS	Makefile	/^  SULOGINLIBS	=$/;"	m
+SYSINIT	init.h	78;"	d
+SYS_BLK	hddown.c	59;"	d	file:
+SYS_CLASS	hddown.c	60;"	d	file:
+Signature	init.c	/^const char *Signature = "12567362";	\/* Signature for re-exec fd *\/$/;"	v
+TESTTIME	init.h	39;"	d
+TEST_EXT	hddown.c	67;"	d	file:
+TTYGRP	mesg.c	36;"	d	file:
+UCHUNKSIZE	last.c	56;"	d	file:
+USE_SYSFS	hddown.c	42;"	d	file:
+USRBIN	Makefile	/^USRBIN	= last mesg$/;"	m
+VERSION	init.c	10;"	d	file:
+VT_MASTER	paths.h	25;"	d
+Version	bootlogd.c	/^char *Version = "@(#) bootlogd 2.86 03-Jun-2004 miquels@cistron.nl";$/;"	v
+Version	halt.c	/^char *Version = "@(#)halt  2.86  31-Jul-2004 miquels@cistron.nl";$/;"	v
+Version	init.c	/^char *Version = "@(#) init " VERSION "  " DATE "  miquels@cistron.nl";$/;"	v
+Version	killall5.c	/^char *Version = "@(#)killall5 2.86 31-Jul-2004 miquels@cistron.nl";$/;"	v
+Version	last.c	/^char *Version = "@(#) last 2.85 31-Apr-2004 miquels";$/;"	v
+Version	mesg.c	/^char *Version = "@(#) mesg 2.81 31-Jul-2001 miquels@cistron.nl";$/;"	v
+Version	shutdown.c	/^char *Version = "@(#) shutdown 2.86-1 31-Jul-2004 miquels@cistron.nl";$/;"	v
+Version	sulogin.c	/^char *Version = "@(#)sulogin 2.85-3 23-Apr-2003 miquels@cistron.nl";$/;"	v
+Version	wall.c	/^char *Version = "@(#) wall 2.79 12-Sep-2000 miquels@cistron.nl";$/;"	v
+WAIT	init.h	67;"	d
+WAITING	init.h	102;"	d
+WIN_FLUSH_CACHE	hddown.c	216;"	d	file:
+WIN_FLUSH_CACHE_EXT	hddown.c	213;"	d	file:
+WIN_IDENTIFY	hddown.c	344;"	d	file:
+WIN_STANDBYNOW1	hddown.c	207;"	d	file:
+WIN_STANDBYNOW1	hddown.c	490;"	d	file:
+WIN_STANDBYNOW2	hddown.c	210;"	d	file:
+WIN_STANDBYNOW2	hddown.c	493;"	d	file:
+XECUTED	init.h	104;"	d
+ZOMBIE	init.h	103;"	d
+_GNU_SOURCE	hddown.c	25;"	d	file:
+_GNU_SOURCE	shutdown.c	36;"	d	file:
+_INITREQ_H	initreq.h	24;"	d
+_INITREQ_H	root/usr/include/initreq.h	24;"	d
+_PATH_DEV	dowall.c	42;"	d	file:
+_child_	init.h	/^typedef struct _child_ {$/;"	s
+_s_nfs	killall5.c	/^typedef struct _s_nfs$/;"	s	file:
+_s_omit	killall5.c	/^typedef struct _s_omit {$/;"	s	file:
+_s_shadow	killall5.c	/^typedef struct _s_shadow$/;"	s	file:
+act	init.c	/^  int act;$/;"	m	struct:actions	file:
+action	init.h	/^  int action;			\/* what to do (see list below) *\/$/;"	m	struct:_child_
+actions	init.c	/^struct actions {$/;"	s	file:
+actions	init.c	/^} actions[] = {$/;"	v	typeref:struct:actions
+add_pid_to_q	killall5.c	/^int add_pid_to_q(PIDQ_HEAD *q, PROC *p)$/;"	f
+alignof	killall5.c	147;"	d	file:
+alrm_handler	shutdown.c	/^void alrm_handler(int sig)$/;"	f
+alrm_handler	sulogin.c	/^void alrm_handler(int sig __attribute__((unused)))$/;"	f	file:
+altlist	last.c	/^int altlist = 0;	\/* Show hostname at the end. *\/$/;"	v
+argv0	init.c	/^char *argv0;			\/* First arguments; show up in ps listing *\/$/;"	v
+argv0	killall5.c	/^	char *argv0;		\/* Name as found out from argv[0] *\/$/;"	m	struct:proc	file:
+argv0base	killall5.c	/^	char *argv0base;	\/* `basename argv[1]`		  *\/$/;"	m	struct:proc	file:
+argv1	killall5.c	/^	char *argv1;		\/* Name as found out from argv[1] *\/$/;"	m	struct:proc	file:
+argv1base	killall5.c	/^	char *argv1base;	\/* `basename argv[1]`		  *\/$/;"	m	struct:proc	file:
+ask_runlevel	init.c	/^int ask_runlevel(void)$/;"	f	file:
+boot_transitions	init.c	/^void boot_transitions()$/;"	f	file:
+bootmsg	init.c	/^char *bootmsg = "version " VERSION " %s";$/;"	v
+bsd	initreq.h	/^		struct init_request_bsd	bsd;$/;"	m	union:init_request::__anon4	typeref:struct:init_request::__anon4::init_request_bsd
+bsd	root/usr/include/initreq.h	/^		struct init_request_bsd	bsd;$/;"	m	union:init_request::__anon5	typeref:struct:init_request::__anon5::init_request_bsd
+buf	bootlogd.c	/^	char buf[256];$/;"	m	struct:line	file:
+ch_emerg	init.c	/^CHILD ch_emerg = {		\/* Emergency shell *\/$/;"	v
+check4nfs	killall5.c	/^int check4nfs(const char * path, char * real)$/;"	f
+check_init_fifo	init.c	/^void check_init_fifo(void)$/;"	f	file:
+check_pipe	init.c	/^int check_pipe(int fd)$/;"	f	file:
+chld_handler	init.c	/^void chld_handler(int sig __attribute__((unused)))$/;"	f	file:
+clean_env	shutdown.c	/^char *clean_env[] = {$/;"	v
+cleanse	utmpdump.c	109;"	d	file:
+clear_mnt	killall5.c	/^static void clear_mnt(void)$/;"	f	file:
+clear_shadow	killall5.c	/^static void clear_shadow(SHADOW *restrict shadow)$/;"	f	file:
+cmd	init.c	/^  int cmd;$/;"	m	struct:__anon2	file:
+cmd	initreq.h	/^	int	cmd;			\/* What kind of request         *\/$/;"	m	struct:init_request
+cmd	root/usr/include/initreq.h	/^	int	cmd;			\/* What kind of request         *\/$/;"	m	struct:init_request
+cmdline	bootlogd.c	/^	char	*cmdline;$/;"	m	struct:consdev	file:
+cmds	init.c	/^} cmds[] = {$/;"	v	typeref:struct:__anon2
+consdev	bootlogd.c	/^struct consdev {$/;"	s	file:
+consdev	bootlogd.c	/^} consdev[] = {$/;"	v	typeref:struct:consdev
+console_dev	init.c	/^char *console_dev;		\/* Console device. *\/$/;"	v
+console_init	init.c	/^void console_init(void)$/;"	f	file:
+console_open	init.c	/^int console_open(int mode)$/;"	f	file:
+console_stty	init.c	/^void console_stty(void)$/;"	f	file:
+consolename	bootlogd.c	/^int consolename(char *res, int rlen)$/;"	f
+cont_handler	init.c	/^void cont_handler(int sig __attribute__((unused)))$/;"	f	file:
+coredump	init.c	/^void coredump(void)$/;"	f	file:
+count	init.h	/^  int count;			\/* Times respawned in the last 2 minutes *\/$/;"	m	struct:_child_
+createlogfile	bootlogd.c	/^int createlogfile = 0;$/;"	v
+data	initreq.h	/^		char			data[368];$/;"	m	union:init_request::__anon4
+data	root/usr/include/initreq.h	/^		char			data[368];$/;"	m	union:init_request::__anon5
+debug	init.c	1288;"	d	file:
+decode	fstab-decode.c	/^decode(char *s)$/;"	f	file:
+defcons	bootlogd.c	/^char *defcons[] = { "tty0", "hvc0", "ttyS0", "ttySC0", "ttyB0", NULL };$/;"	v
+dev	killall5.c	/^	dev_t dev;		\/* Device it is on		  *\/$/;"	m	struct:proc	file:
+dev1	bootlogd.c	/^	char	*dev1;$/;"	m	struct:consdev	file:
+dev2	bootlogd.c	/^	char	*dev2;$/;"	m	struct:consdev	file:
+dfl_level	init.c	/^int dfl_level = 0;		\/* Default runlevel *\/$/;"	v
+did_boot	init.c	/^int did_boot = 0;		\/* Did we already do BOOT* stuff? *\/$/;"	v
+didnl	bootlogd.c	/^int didnl = 1;$/;"	v
+dns_lookup	last.c	/^int dns_lookup(char *result, int size, int useip, int32_t *a)$/;"	f
+do_power_fail	init.c	/^void do_power_fail(int pwrstat)$/;"	f	file:
+do_shutdown	halt.c	/^void do_shutdown(char *fl, char *tm)$/;"	f
+do_sleep	init.c	/^void do_sleep(int sec)$/;"	f	file:
+do_standby_disk	hddown.c	/^static int do_standby_disk(char *device, unsigned int flags)$/;"	f	file:
+do_standby_disk	hddown.c	/^static int do_standby_disk(int fd)$/;"	f	file:
+do_standby_disks	hddown.c	/^static int do_standby_disks(const int *fds, int count)$/;"	f	file:
+domain_len	last.c	/^int domain_len = 16;	\/* Default print 16 characters of domain *\/$/;"	v
+domainname	last.c	/^char *domainname;	\/* Our domainname. *\/$/;"	v
+donologin	shutdown.c	/^void donologin(int min)$/;"	f
+dontshut	shutdown.c	/^int dontshut = 0;	\/* Don't shutdown, only warn	*\/$/;"	v
+doself	shutdown.c	/^int doself = 0;		\/* Don't use init		*\/$/;"	v
+dostat	mountpoint.c	/^int dostat(char *path, struct stat *st, int do_lstat, int quiet)$/;"	f
+dosync	shutdown.c	/^int dosync = 1;		\/* Sync before reboot or halt	*\/$/;"	v
+down_level	shutdown.c	/^char down_level[2];	\/* What runlevel to go to.	*\/$/;"	v
+dump	utmpdump.c	/^dump(FILE *fp, int forever, int oldfmt)$/;"	f
+emerg_shell	init.c	/^int emerg_shell = 0;		\/* Start emergency shell? *\/$/;"	v
+empty_q	killall5.c	/^int empty_q(PIDQ_HEAD *q)$/;"	f
+endptr	bootlogd.c	/^char *endptr = ringbuf + sizeof(ringbuf);$/;"	v
+exec_name	initreq.h	/^	char	exec_name[128];	        \/* Program to execute           *\/$/;"	m	struct:init_request_bsd
+exec_name	root/usr/include/initreq.h	/^	char	exec_name[128];	        \/* Program to execute           *\/$/;"	m	struct:init_request_bsd
+exstat	init.h	/^  int exstat;			\/* Exit status of process *\/$/;"	m	struct:_child_
+extra_env	init.c	/^char *extra_env[NR_EXTRA_ENV];$/;"	v
+fail_cancel	init.c	/^void fail_cancel(void)$/;"	f	file:
+fail_check	init.c	/^void fail_check(void)$/;"	f	file:
+family	init.c	/^CHILD *family = NULL;		\/* The linked list of all entries *\/$/;"	v
+fastboot	shutdown.c	/^int fastboot = 0;	\/* Do a 'fast' reboot		*\/$/;"	v
+fastdown	shutdown.c	/^void fastdown()$/;"	f
+feputs	dowall.c	/^static void feputs(const char *line, FILE *fp)$/;"	f	file:
+fifo_new_level	init.c	/^void fifo_new_level(int level)$/;"	f	file:
+file_isatty	dowall.c	/^static int file_isatty(const char *fname)$/;"	f	file:
+find_idedisks	hddown.c	/^static int find_idedisks(const char **dev, int maxdev, int *count)$/;"	f	file:
+find_scsidisks	hddown.c	/^static int find_scsidisks(const char **dev, int maxdev, int *count)$/;"	f	file:
+findpty	bootlogd.c	/^int findpty(int *master, int *slave, char *name)$/;"	f
+findtty	bootlogd.c	/^static int findtty(char *res, const char *startdir, int rlen, dev_t dev)$/;"	f	file:
+fixtty	sulogin.c	/^void fixtty(void)$/;"	f	file:
+flags	init.c	/^} flags[]={$/;"	v	typeref:struct:__anon3
+flags	init.h	/^  int flags;			\/* Status of this entry *\/$/;"	m	struct:_child_
+flush_cache_ext	hddown.c	/^static int flush_cache_ext(const char *device)$/;"	f	file:
+forcefsck	shutdown.c	/^int forcefsck = 0;	\/* Force fsck on reboot		*\/$/;"	v
+fulltime	last.c	/^int fulltime = 0;	\/* Print full dates and times *\/$/;"	v
+gen_id	initreq.h	/^	char	gen_id[8];		\/* Beats me.. telnetd uses "fe" *\/$/;"	m	struct:init_request_bsd
+gen_id	root/usr/include/initreq.h	/^	char	gen_id[8];		\/* Beats me.. telnetd uses "fe" *\/$/;"	m	struct:init_request_bsd
+get_cmd	init.c	/^static int get_cmd(FILE *f)$/;"	f	file:
+get_init_default	init.c	/^int get_init_default(void)$/;"	f	file:
+get_next_from_pid_q	killall5.c	/^PROC *get_next_from_pid_q(PIDQ_HEAD *q)$/;"	f
+get_record	init.c	/^static CHILD *get_record(FILE *f)$/;"	f	file:
+get_runlevel	halt.c	/^int get_runlevel(void)$/;"	f
+get_string	init.c	/^static int get_string(char *p, int size, FILE *f)$/;"	f	file:
+get_void	init.c	/^static int get_void(FILE *f)$/;"	f	file:
+getbtmp	last.c	/^char *getbtmp()$/;"	f
+getpasswd	sulogin.c	/^char *getpasswd(char *crypted)$/;"	f	file:
+getrootpwent	sulogin.c	/^struct passwd *getrootpwent(int try_manually)$/;"	f	file:
+gettok	utmpdump.c	/^gettok(char *line, char *dest, int size, int eatspace)$/;"	f
+getuidtty	dowall.c	/^static void getuidtty(char **userp, char **ttyp)$/;"	f	file:
+got_alrm	shutdown.c	/^int got_alrm = 0;$/;"	v
+got_cont	init.c	/^sig_atomic_t got_cont = 0;	\/* Set if we received the SIGCONT signal *\/$/;"	v
+got_signal	bootlogd.c	/^int got_signal = 0;$/;"	v
+got_signals	init.c	/^sig_atomic_t got_signals;	\/* Set if we received a signal. *\/$/;"	v
+handler	bootlogd.c	/^void handler(int sig)$/;"	f
+handler	dowall.c	/^static void handler(int arg __attribute__((unused)))$/;"	f	file:
+hardsleep	shutdown.c	/^void hardsleep(int secs)$/;"	f
+hasttygrp	mesg.c	/^int hasttygrp(void)$/;"	f
+hddown	hddown.c	/^int hddown(void)$/;"	f
+hdflush	hddown.c	/^int hdflush(void)$/;"	f
+hdopen	hddown.c	/^static FILE *hdopen(const char* const format, const char* const name)$/;"	f	file:
+head	killall5.c	/^	PIDQ		*head;$/;"	m	struct:__anon1	file:
+host	initreq.h	/^	char	host[INITRQ_HLEN];	\/* Hostname                     *\/$/;"	m	struct:init_request_bsd
+host	root/usr/include/initreq.h	/^	char	host[INITRQ_HLEN];	\/* Hostname                     *\/$/;"	m	struct:init_request_bsd
+hostname	last.c	/^char hostname[256];	\/* For gethostbyname() *\/$/;"	v
+i	initreq.h	/^	} i;$/;"	m	struct:init_request	typeref:union:init_request::__anon4
+i	root/usr/include/initreq.h	/^	} i;$/;"	m	struct:init_request	typeref:union:init_request::__anon5
+id	init.h	/^  char id[8];			\/* Inittab id (must be unique) *\/$/;"	m	struct:_child_
+ifdown	ifdown.c	/^int ifdown(void)$/;"	f
+imalloc	init.c	/^void *imalloc(size_t size)$/;"	f	file:
+init_buildenv	init.c	/^char **init_buildenv(int child)$/;"	f
+init_freeenv	init.c	/^void init_freeenv(char **e)$/;"	f
+init_main	init.c	/^void init_main(void)$/;"	f	file:
+init_nfs	killall5.c	/^void init_nfs(void)$/;"	f
+init_pid_q	killall5.c	/^PIDQ_HEAD *init_pid_q(PIDQ_HEAD *q)$/;"	f
+init_reboot	reboot.h	50;"	d
+init_request	initreq.h	/^struct init_request {$/;"	s
+init_request	root/usr/include/initreq.h	/^struct init_request {$/;"	s
+init_request_bsd	initreq.h	/^struct init_request_bsd {$/;"	s
+init_request_bsd	root/usr/include/initreq.h	/^struct init_request_bsd {$/;"	s
+init_setenv	shutdown.c	/^int init_setenv(char *name, char *value)$/;"	f
+initcmd_setenv	init.c	/^void initcmd_setenv(char *data, int size)$/;"	f	file:
+initlog	init.c	/^void initlog(int loglevel, char *s, ...)$/;"	f
+inline	killall5.c	141;"	d	file:
+ino	killall5.c	/^	ino_t ino;		\/* Inode number			  *\/$/;"	m	struct:proc	file:
+inptr	bootlogd.c	/^char *inptr  = ringbuf;$/;"	v
+int_handler	last.c	/^void int_handler()$/;"	f
+isconsole	bootlogd.c	/^int isconsole(char *s, char *res, int rlen)$/;"	f
+isnetfs	killall5.c	/^static inline int isnetfs(const char * type)$/;"	f	file:
+istrdup	init.c	/^char *istrdup(char *s)$/;"	f	file:
+jbuf	dowall.c	/^static sigjmp_buf jbuf;$/;"	v	file:
+kernel	killall5.c	/^	char kernel;		\/* Kernel thread or zombie.	  *\/$/;"	m	struct:proc	file:
+lastdate	last.c	/^time_t lastdate;	\/* Last date we've seen *\/$/;"	v
+line	bootlogd.c	/^struct line {$/;"	s	file:
+line	bootlogd.c	/^} line;$/;"	v	typeref:struct:line
+list	last.c	/^int list(struct utmp *p, time_t t, int what)$/;"	f
+list_disks	hddown.c	/^static char *list_disks(DIR* blk, unsigned int* flags)$/;"	f	file:
+magic	initreq.h	/^	int	magic;			\/* Magic number                 *\/$/;"	m	struct:init_request
+magic	root/usr/include/initreq.h	/^	int	magic;			\/* Magic number                 *\/$/;"	m	struct:init_request
+main	bootlogd.c	/^int main(int argc, char **argv)$/;"	f
+main	fstab-decode.c	/^main (int argc, char *argv[])$/;"	f
+main	halt.c	/^int main(int argc, char **argv)$/;"	f
+main	hddown.c	/^int main(int argc, char **argv)$/;"	f
+main	init.c	/^int main(int argc, char **argv)$/;"	f
+main	killall5.c	/^int main(int argc, char **argv)$/;"	f
+main	last.c	/^int main(int argc, char **argv)$/;"	f
+main	mesg.c	/^int main(int argc, char **argv)$/;"	f
+main	mountpoint.c	/^int main(int argc, char **argv)$/;"	f
+main	runlevel.c	/^int main(argc, argv)$/;"	f
+main	shutdown.c	/^int main(int argc, char **argv)$/;"	f
+main	sulogin.c	/^int main(int argc, char **argv)$/;"	f
+main	utmpdump.c	/^int main(int argc, char **argv)$/;"	f
+main	wall.c	/^int main(int argc, char **argv)$/;"	f
+main_pidof	killall5.c	/^int main_pidof(int argc, char **argv)$/;"	f
+make_pipe	init.c	/^int make_pipe(int fd)$/;"	f	file:
+mask	init.c	/^	int mask;$/;"	m	struct:__anon3	file:
+maxproclen	init.c	/^int maxproclen;			\/* Maximal length of argv[0] with \\0 *\/$/;"	v
+maxrecs	last.c	/^int maxrecs = 0;	\/* Maximum number of records to list. *\/$/;"	v
+message	shutdown.c	/^char message[MESSAGELEN];	\/* Warning message	*\/$/;"	v
+mount_proc	killall5.c	/^int mount_proc(void)$/;"	f
+mybasename	last.c	/^char *mybasename(char *s)$/;"	f
+myname	init.c	/^char *myname="\/sbin\/init";	\/* What should we exec *\/$/;"	v
+name	init.c	/^	char *name;$/;"	m	struct:__anon3	file:
+name	init.c	/^  char *name;$/;"	m	struct:actions	file:
+name	init.c	/^  char name[4];	$/;"	m	struct:__anon2	file:
+name	killall5.c	/^	char * name;$/;"	m	struct:_s_nfs	file:
+name	killall5.c	/^	char * name;$/;"	m	struct:_s_shadow	file:
+name_len	last.c	/^int name_len = 8;	\/* Default print 8 characters of name *\/$/;"	v
+needwarning	shutdown.c	/^static int needwarning(int wt)$/;"	f	file:
+newFamily	init.c	/^CHILD *newFamily = NULL;	\/* The list after inittab re-read *\/$/;"	v
+newstate	shutdown.c	/^char newstate[64];	\/* What are we gonna do		*\/$/;"	v
+newtoold	utmpdump.c	/^newtoold(struct utmp src)$/;"	f
+next	init.h	/^  struct _child_ *next;		\/* For the linked list *\/$/;"	m	struct:_child_	typeref:struct:_child_::_child_
+next	killall5.c	/^	PIDQ		*next;$/;"	m	struct:__anon1	file:
+next	killall5.c	/^	struct _s_nfs *next;	\/* Pointer to next struct. *\/$/;"	m	struct:_s_nfs	typeref:struct:_s_nfs::_s_nfs	file:
+next	killall5.c	/^	struct _s_omit *next;$/;"	m	struct:_s_omit	typeref:struct:_s_omit::_s_omit	file:
+next	killall5.c	/^	struct _s_shadow *next;$/;"	m	struct:_s_shadow	typeref:struct:_s_shadow::_s_shadow	file:
+next	killall5.c	/^	struct pidq	*next;$/;"	m	struct:pidq	typeref:struct:pidq::pidq	file:
+next	killall5.c	/^	struct proc *next;	\/* Pointer to next struct. 	  *\/$/;"	m	struct:proc	typeref:struct:proc::proc	file:
+next	last.c	/^  struct utmplist *next;$/;"	m	struct:utmplist	typeref:struct:utmplist::utmplist	file:
+nfs	killall5.c	/^	char nfs;		\/* Name found on network FS.	  *\/$/;"	m	struct:proc	file:
+nlen	killall5.c	/^	size_t nlen;$/;"	m	struct:_s_nfs	file:
+nlen	killall5.c	/^	size_t nlen;$/;"	m	struct:_s_shadow	file:
+nlist	killall5.c	/^NFS *nlist;$/;"	v
+nsyslog	killall5.c	/^void nsyslog(int pri, char *fmt, ...)$/;"	f
+oldfmt	last.c	/^int oldfmt = 0;		\/* Use old libc5 format? *\/$/;"	v
+oldtonew	utmpdump.c	/^oldtonew(struct oldutmp src)$/;"	f
+oldutmp	oldutmp.h	/^struct oldutmp {$/;"	s
+omit	killall5.c	/^OMIT *omit;$/;"	v
+oops_error	init.c	/^int oops_error;			\/* Used by some of the re-exec code. *\/$/;"	v
+open_disk	hddown.c	/^static int open_disk(const char *device)$/;"	f	file:
+open_disks	hddown.c	/^static int open_disks(const char **disks, int *fds, int count)$/;"	f	file:
+open_nb	bootlogd.c	/^int open_nb(char *buf)$/;"	f
+outptr	bootlogd.c	/^char *outptr = ringbuf;$/;"	v
+parsetm	last.c	/^time_t parsetm(char *ts)$/;"	f
+pid	init.h	/^  int pid;			\/* Pid of this process *\/$/;"	m	struct:_child_
+pid	initreq.h	/^	int	pid;			\/* Process to send to           *\/$/;"	m	struct:init_request_bsd
+pid	killall5.c	/^	pid_t pid;		\/* Process ID.			  *\/$/;"	m	struct:proc	file:
+pid	killall5.c	/^	pid_t pid;$/;"	m	struct:_s_omit	file:
+pid	root/usr/include/initreq.h	/^	int	pid;			\/* Process to send to           *\/$/;"	m	struct:init_request_bsd
+pidof	killall5.c	/^PIDQ_HEAD *pidof(char *prog)$/;"	f
+pidq	killall5.c	/^typedef struct pidq {$/;"	s	file:
+pipe_fd	init.c	/^int pipe_fd = -1;		\/* \/dev\/initctl *\/$/;"	v
+plist	killall5.c	/^PROC *plist;$/;"	v
+pos	bootlogd.c	/^	int pos;$/;"	m	struct:line	file:
+prev	killall5.c	/^	struct _s_nfs *prev;	\/* Pointer to previous st. *\/$/;"	m	struct:_s_nfs	typeref:struct:_s_nfs::_s_nfs	file:
+prev	killall5.c	/^	struct _s_omit *prev;$/;"	m	struct:_s_omit	typeref:struct:_s_omit::_s_omit	file:
+prev	killall5.c	/^	struct _s_shadow *prev;$/;"	m	struct:_s_shadow	typeref:struct:_s_shadow::_s_shadow	file:
+prev	last.c	/^  struct utmplist *prev;$/;"	m	struct:utmplist	typeref:struct:utmplist::utmplist	file:
+prevlevel	init.c	/^char prevlevel = 'N';		\/* Previous runlevel *\/$/;"	v
+print	init.c	/^void print(char *s)$/;"	f
+print_utline	utmpdump.c	/^print_utline(struct utmp ut)$/;"	f
+proc	killall5.c	/^	PROC		*proc;$/;"	m	struct:pidq	file:
+proc	killall5.c	/^typedef struct proc {$/;"	s	file:
+process	init.h	/^  char process[128];		\/* The command line *\/$/;"	m	struct:_child_
+process_signals	init.c	/^void process_signals()$/;"	f	file:
+profile	sulogin.c	/^static int profile;$/;"	v	file:
+progname	halt.c	/^char *progname;$/;"	v
+progname	killall5.c	/^char *progname;	\/* the name of the running program *\/$/;"	v
+progname	last.c	/^char *progname;		\/* Name of this program *\/$/;"	v
+quit_handler	last.c	/^void quit_handler()$/;"	f
+re_exec	init.c	/^void re_exec(void)$/;"	f	file:
+read_inittab	init.c	/^void read_inittab(void)$/;"	f	file:
+read_level	init.c	/^int read_level(int arg)$/;"	f	file:
+readarg	killall5.c	/^int readarg(FILE *fp, char *buf, int sz)$/;"	f
+readproc	killall5.c	/^int readproc(int do_stat)$/;"	f
+receive_state	init.c	/^int receive_state(int fd)$/;"	f	file:
+recsdone	last.c	/^int recsdone = 0;	\/* Number of records listed *\/$/;"	v
+redo_utmp_wtmp	init.c	/^void redo_utmp_wtmp(void)$/;"	f	file:
+reload	init.c	/^int reload = 0;			\/* Should we do initialization stuff? *\/$/;"	v
+reserved	initreq.h	/^	char	reserved[128];		\/* For future expansion.        *\/$/;"	m	struct:init_request_bsd
+reserved	root/usr/include/initreq.h	/^	char	reserved[128];		\/* For future expansion.        *\/$/;"	m	struct:init_request_bsd
+restrict	killall5.c	144;"	d	file:
+ringbuf	bootlogd.c	/^char ringbuf[32768];$/;"	v
+rlevel	init.h	/^  char rlevel[12];		\/* run levels *\/$/;"	m	struct:_child_
+runlevel	init.c	/^char runlevel = 'S';		\/* The current run level *\/$/;"	v
+runlevel	initreq.h	/^	int	runlevel;		\/* Runlevel to change to        *\/$/;"	m	struct:init_request
+runlevel	root/usr/include/initreq.h	/^	int	runlevel;		\/* Runlevel to change to        *\/$/;"	m	struct:init_request
+saved_sigint	sulogin.c	/^static void (*saved_sigint)  = SIG_DFL;$/;"	v	file:
+saved_sigquit	sulogin.c	/^static void (*saved_sigquit) = SIG_DFL;$/;"	v	file:
+saved_sigtstp	sulogin.c	/^static void (*saved_sigtstp) = SIG_DFL;$/;"	v	file:
+scripts_too	killall5.c	/^int scripts_too = 0;$/;"	v
+segv_handler	init.c	/^void segv_handler(int sig __attribute__((unused)))$/;"	f
+segv_handler	init.c	/^void segv_handler(int sig __attribute__((unused)), struct sigcontext ctx)$/;"	f	file:
+send_state	init.c	/^void send_state(int fd)$/;"	f	file:
+sent_sigstop	killall5.c	/^int sent_sigstop;$/;"	v
+set	sulogin.c	/^void set(char **var, char *val)$/;"	f	file:
+setproctitle	init.c	/^static int setproctitle(char *fmt, ...)$/;"	f	file:
+shadow	killall5.c	/^	SHADOW *shadow;		\/* Pointer to shadows      *\/$/;"	m	struct:_s_nfs	file:
+shadow	killall5.c	/^static int shadow(SHADOW *restrict this, const char *restrict name, const size_t nlen)$/;"	f	file:
+show	last.c	/^char **show = NULL;	\/* What do they want us to show *\/$/;"	v
+showdate	last.c	/^char *showdate()$/;"	f
+showhost	last.c	/^int showhost = 1;	\/* Show hostname too? *\/$/;"	v
+shutdown	shutdown.c	/^void shutdown(char *halttype)$/;"	f
+sid	killall5.c	/^	pid_t sid;		\/* Session ID.			  *\/$/;"	m	struct:proc	file:
+signal	initreq.h	/^	int	signal;			\/* Signal to send               *\/$/;"	m	struct:init_request_bsd
+signal	root/usr/include/initreq.h	/^	int	signal;			\/* Signal to send               *\/$/;"	m	struct:init_request_bsd
+signal_handler	init.c	/^void signal_handler(int sig)$/;"	f	file:
+sleeptime	initreq.h	/^	int	sleeptime;		\/* Time between TERM and KILL   *\/$/;"	m	struct:init_request
+sleeptime	root/usr/include/initreq.h	/^	int	sleeptime;		\/* Time between TERM and KILL   *\/$/;"	m	struct:init_request
+sltime	init.c	/^int sltime = 5;			\/* Sleep time between TERM and KILL *\/$/;"	v
+sltime	shutdown.c	/^char *sltime = 0;	\/* Sleep time			*\/$/;"	v
+spawn	init.c	/^pid_t spawn(CHILD *ch, int *res)$/;"	f	file:
+spawn	shutdown.c	/^int spawn(int noerr, char *prog, ...)$/;"	f
+start_if_needed	init.c	/^void start_if_needed(void)$/;"	f	file:
+startup	init.c	/^void startup(CHILD *ch)$/;"	f	file:
+statname	killall5.c	/^	char *statname;		\/* the statname without braces    *\/$/;"	m	struct:proc	file:
+stop_handler	init.c	/^void stop_handler(int sig __attribute__((unused)))$/;"	f	file:
+stopit	shutdown.c	/^void stopit(int sig __attribute__((unused)))$/;"	f
+strstrip	hddown.c	/^static char *strstrip(char *str)$/;"	f	file:
+strtotime	utmpdump.c	/^strtotime(const char *s_time)$/;"	f
+sushell	sulogin.c	/^void sushell(struct passwd *pwd)$/;"	f	file:
+syncalot	bootlogd.c	/^int syncalot = 0;$/;"	v
+tail	killall5.c	/^	PIDQ		*tail;$/;"	m	struct:__anon1	file:
+telinit	init.c	/^int telinit(char *progname, int argc, char **argv)$/;"	f	file:
+term_type	initreq.h	/^	char	term_type[16];		\/* Terminal type                *\/$/;"	m	struct:init_request_bsd
+term_type	root/usr/include/initreq.h	/^	char	term_type[16];		\/* Terminal type                *\/$/;"	m	struct:init_request_bsd
+thislevel	init.c	/^char thislevel = 'S';		\/* The current runlevel *\/$/;"	v
+timeout	sulogin.c	/^static int timeout;$/;"	v	file:
+timetostr	utmpdump.c	/^timetostr(const time_t time)$/;"	f
+tm	init.h	/^  time_t tm;			\/* When respawned last *\/$/;"	m	struct:_child_
+tty_id	initreq.h	/^	char	tty_id[16];		\/* Tty name minus \/dev\/tty      *\/$/;"	m	struct:init_request_bsd
+tty_id	root/usr/include/initreq.h	/^	char	tty_id[16];		\/* Tty name minus \/dev\/tty      *\/$/;"	m	struct:init_request_bsd
+tty_in_ttygrp	mesg.c	/^int tty_in_ttygrp(struct stat *st)$/;"	f
+uconv	last.c	/^void uconv(struct oldutmp *oldut, struct utmp *utn)$/;"	f
+ufile	last.c	/^char *ufile;		\/* Filename of this file *\/$/;"	v
+undump	utmpdump.c	/^undump(FILE *fp, int forever __attribute__((unused)), int oldfmt)$/;"	f
+unspace	utmpdump.c	/^unspace(char *s, int len)$/;"	f
+uread	last.c	/^int uread(FILE *fp, struct utmp *u, int *quit)$/;"	f
+usage	bootlogd.c	/^void usage(void)$/;"	f
+usage	halt.c	/^void usage(void)$/;"	f
+usage	init.c	/^void usage(char *s)$/;"	f	file:
+usage	killall5.c	/^void usage(void)$/;"	f
+usage	last.c	/^void usage(char *s)$/;"	f
+usage	mountpoint.c	/^void usage(void) {$/;"	f
+usage	shutdown.c	/^void usage(void)$/;"	f
+usage	sulogin.c	/^void usage(void)$/;"	f	file:
+usage	utmpdump.c	/^usage(int result)$/;"	f
+usedns	last.c	/^int usedns = 0;		\/* Use DNS to lookup the hostname. *\/$/;"	v
+useip	last.c	/^int useip = 0;		\/* Print IP address in number format *\/$/;"	v
+ut	last.c	/^  struct utmp ut;$/;"	m	struct:utmplist	typeref:struct:utmplist::utmp	file:
+ut_host	oldutmp.h	/^	char	ut_host[OLD_HOSTSIZE];$/;"	m	struct:oldutmp
+ut_id	oldutmp.h	/^	char	ut_id[4];$/;"	m	struct:oldutmp
+ut_line	oldutmp.h	/^	char	ut_line[OLD_LINESIZE];$/;"	m	struct:oldutmp
+ut_oldaddr	oldutmp.h	/^	long	ut_oldaddr;$/;"	m	struct:oldutmp
+ut_oldtime	oldutmp.h	/^	long	ut_oldtime;$/;"	m	struct:oldutmp
+ut_pid	oldutmp.h	/^	int	ut_pid;$/;"	m	struct:oldutmp
+ut_type	oldutmp.h	/^	short	ut_type;$/;"	m	struct:oldutmp
+ut_user	oldutmp.h	/^	char	ut_user[OLD_NAMESIZE];$/;"	m	struct:oldutmp
+utmplist	last.c	/^struct utmplist *utmplist = NULL;$/;"	v	typeref:struct:utmplist
+utmplist	last.c	/^struct utmplist {$/;"	s	file:
+utproto	init.c	/^struct utmp utproto;		\/* Only used for sizeof(utproto.ut_id) *\/$/;"	v	typeref:struct:utmp
+v_hddown	hddown.c	/^char *v_hddown = "@(#)hddown.c  1.02  22-Apr-2003  miquels@cistron.nl";$/;"	v
+v_ifdown	ifdown.c	/^char *v_ifdown = "@(#)ifdown.c  1.11  02-Jun-1998  miquels@cistron.nl";$/;"	v
+valid	sulogin.c	/^int valid(const char *pass)$/;"	f	file:
+wall	dowall.c	/^void wall(const char *text, int remote)$/;"	f
+warn	shutdown.c	/^void warn(int mins)$/;"	f
+write_err	bootlogd.c	/^int write_err(int pts, int realfd, char *realcons, int e)$/;"	f
+write_utmp	utmp.c	/^static void write_utmp($/;"	f	file:
+write_utmp_wtmp	utmp.c	/^void write_utmp_wtmp($/;"	f
+write_wtmp	utmp.c	/^void write_wtmp($/;"	f
+writelog	bootlogd.c	/^void writelog(FILE *fp, unsigned char *ptr, int len)$/;"	f
+wrote_utmp_reboot	init.c	/^int wrote_utmp_reboot = 1;	\/* Set when we wrote the reboot record *\/$/;"	v
+wrote_utmp_rlevel	init.c	/^int wrote_utmp_rlevel = 1;	\/* Set when we wrote the runlevel record *\/$/;"	v
+wrote_wtmp_reboot	init.c	/^int wrote_wtmp_reboot = 1;	\/* Set when we wrote the reboot record *\/$/;"	v
+wrote_wtmp_rlevel	init.c	/^int wrote_wtmp_rlevel = 1;	\/* Set when we wrote the runlevel record *\/$/;"	v
+xcleanse	utmpdump.c	/^xcleanse(char *s, int len)$/;"	f
+xmalloc	killall5.c	/^static void *xmalloc(size_t bytes)$/;"	f	file:
+xmemalign	killall5.c	/^static inline void xmemalign(void **memptr, size_t alignment, size_t size)$/;"	f	file:

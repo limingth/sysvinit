@@ -1,0 +1,26 @@
+digraph G
+{
+	rankdir = LR;
+
+	"init_main()" -> "init_reboot()";
+	"init_main()" -> "console_init()";
+	"init_main()" -> "console_stty()" -> "tcsetattr()";
+
+	"init_main()" -> "boot_transitions()" ;
+		"boot_transitions()" -> "get_init_default()" ;
+			"get_init_default()" -> "ask_runlevel()";
+	
+	"init_main()" -> "check_init_fifo()" -> "console_init()";
+	"init_main()" -> "fail_check()";
+
+	"init_main()" -> "process_signals()" ;
+		"process_signals()" -> "read_inittab()" -> "/etc/inittab";
+		"/etc/inittab" [shape="box" style="filled"];
+
+	"init_main()" -> "start_if_needed()";
+		"start_if_needed()" -> "startup()";
+			"startup()" -> "spawn()" ;
+
+	"init_main()" -> "telinit()" [headlabel="-i --init"];
+
+}

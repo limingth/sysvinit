@@ -1,0 +1,111 @@
+diff -Nur sysvinit-2.88dsf/src/init.c sysvinit-2.88dsf-subs/src/init.c
+--- sysvinit-2.88dsf/src/init.c	2013-06-26 02:38:00.610452594 +0800
++++ sysvinit-2.88dsf-subs/src/init.c	2013-06-26 02:46:38.314447664 +0800
+@@ -2526,7 +2526,62 @@
+ /*
+  *	The main loop
+  */ 
+-// init_main.cmt
++/**                                                                
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题
++ *             “开源操作系统内核分析和安全性评估
++ *            （课题编号：2012ZX01039-004）”的资助。
++ *                                                                      
++ * @copyright 注释添加单位：清华大学——03任务
++ *            （Linux内核相关通用基础软件包分析）
++ *                                                                        
++ * @author 注释添加人员： 李明
++ *             (电子邮件 <limingth@gmail.com>)
++ *                                                                    
++ * @date 注释添加日期： 2013-6-1
++ *                                                                   
++ * @note 注释详细内容:                                                
++ *
++ * @brief 切换运行级别，检查出错情况，接受信号，启动相应服务例程。
++ *
++	 1. 调用 init_reboot 宏定义（其实就是 reboot 函数）告诉内核，当 ctrl + alt + del 三个键被同时按下时，给当前进程发送 SIGINT 信号，以便 init 进程可以处理来自键盘的这一信号，进一步决定采取何种动作。
++
++	 2. 接下来将会安装一些信号处理函数。如下：
++
++	 signal_handler(),处理SIGALRM，SIGHUP，SIGINT，SIGPWR，SIGWINCH，SIGUSR1
++	 chld_handler()，处理SIGCHLD
++	 stop_handler()，处理SIGSTOP，SIGTSTP
++	 cont_handler()，处理SIGCONT
++	 segv_handler()，处理SIGSEGV
++
++	 3. 然后初始化终端，调用 console_init 函数。这个函数我们在下面也会再次详细分析。
++
++	 4. 终端初始化完成后，接着对 reload 这个变量进行判别，是否属于是首次执行？ 
++
++	 5. 如果是首次执行，则依次执行下列步骤：
++	 5.1 关闭所有打开文件0，1，2，
++	 5.2 然后调用 console_stty() 函数对终端进行设置，主要是通过 tcsetattr() 函数来设置一些快捷键。
++	 5.3 以覆盖 overwrite 方式设置 PATH 环境变量，通过 PATH_DEFAULT 宏定义，默认值是  "/sbin:/usr/sbin:/bin:/usr/bin"
++	 5.4 初始化 /var/run/utmp 文件。通过日志输出 booting 信息
++	 5.5 如果 emerg_shell 被设置（参数中有-b或者emergency），表示需要启动 emergency shell，则通过调用 spawn()初始化 emergency shell 子进程，并等待该子进程退出。
++	 5.6 设置当前的 runlevel = '#', 表示这是正常的 Kernel 首次启动 init 的方式 SYSINIT。
++	 5.7 当从 emergency shell退出（或者不需要 emergency shell 的话），则调用 read_inittab() 来读入 /etc/inittab 文件。该函数主要将 /etc/inittab 文件解析的结果存入CHILD类型的链表family上，供之后的执行使用。
++
++	 6. 如果不是首次执行，也就是 reload 为真，则只执行下列步骤：
++	 6.1 通过日志输出 reloading 信息
++	 6.2 以非覆盖 non overwrite 方式设置 PATH 环境变量，通过 PATH_DEFAULT 宏定义，默认值是  "/sbin:/usr/sbin:/bin:/usr/bin"
++
++	 7. 5或者6执行完之后，调用 start_if_needed() 函数，启动需要在相应运行级别中运行的程序和服务。而该函数主要又是通过调用startup()函数，继而调用spawn()来启动程序或者服务的运行的。
++
++	 8. 在此之后，init_main() 就进入一个主循环中，主要完成切换运行级别，检查出错情况，接受信号，启动相应服务例程。
++	 在这个主循环中，需要调用如下这些重要的函数：
++
++	 boot_transitions() -> get_init_default() -> ask_runlevel()
++	 check_init_fifo() -> console_init()
++	 fail_check()
++	 process_signals() -> console_stty()
++	 start_if_needed() -> startup() -> spawn()
++	 *
++ */
+ static
+ void init_main(void)
+ {
+@@ -2825,7 +2880,42 @@
+ /*
+  * Main entry for init and telinit.
+  */
+-// main-init.cmt
++/**                                                                
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题
++ *             “开源操作系统内核分析和安全性评估
++ *            （课题编号：2012ZX01039-004）”的资助。
++ *                                                                      
++ * @copyright 注释添加单位：清华大学——03任务
++ *            （Linux内核相关通用基础软件包分析）
++ *                                                                        
++ * @author 注释添加人员： 李明
++ *             (电子邮件 <limingth@gmail.com>)
++ *                                                                    
++ * @date 注释添加日期： 2013-6-1
++ *                                                                   
++ * @note 注释详细内容:                                                
++ *
++ * @brief init 命令的主函数执行流程分析
++ *
++	 在 main 函数中主要负责完成以下工作：
++
++	 1. 获取 argv[0] 参数，用以判断用户执行了 init 还是 telinit，因为 telinit 是指向 init 程序的软链接。
++
++	 2. 检查当前执行用户的权限，必须是 superuser，否则直接退出。
++
++	 3. 通过 getpid() 获取当前执行进程的 pid，判断是否为 1 （1 表示是通过内核调用执行的第一个进程，而不是通过用户来执行 init 程序启动的进程）。（同时从源码中可以看出，init 程序也支持用 -i 或者 --init 参数来表示当前要求执行的是 init 进程。不过这个方式在 man -l init.8 的 man page 中没有明确提供此信息）
++
++	 4. 如果不是要求执行 init 进程，则转交控制权给 telinit(p, argc, argv) 函数进行处理。在后面介绍 telinit 函数的地方，我们再对此做详细说明。
++
++	 5. 如果是要求执行 init 进程，还需要接着进行检查是否是属于 re-exec ，也就是重新执行，而不是首次执行。判断思路是通过读取STATE_PIPE，看是否收到一个Signature = "12567362"的字符串来确定。如果是重新执行，则将 reload 全局变量置为1。re-exec 和首次执行最大的区别是没有对/etc/inittab 进行解析，在后面我们会再次提到，为保持思路直接和简单，我们在这里不展开，直奔 init 进程中最关键的代码。
++
++	 6. 如果是属于 init 进程的首次执行，则需要对 argv[] 的参数进行相应处理，简单说来，就是把 -s single 或者 0123456789 这样的数字，转换为 dfl_level 变量，这个变量代表的就是默认的运行级别。
++
++	 7. 如果宏定义了 WITH_SELINUX ，则会通过调用 is_selinux_enabled()判断是否系统使能了 SELINUX, 如果是，则在通过调用 selinux_init_load_policy 来加载策略，最后通过 execv 来再执行 init 。
++
++	 8. 在进行一系列判断检测之后，通过传递 argv[0] -> argv0 这个全局变量，最终调用了 init_main()进入标准的 init 主函数中。
++
++*/
+ int main(int argc, char **argv)
+ {
+ 	char			*p;

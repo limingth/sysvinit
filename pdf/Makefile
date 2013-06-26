@@ -1,6 +1,7 @@
 
 
-all:
+all: 
+	make -C figures
 	make pdf
 
 t test:

@@ -102,6 +102,110 @@ write 也支持给其他终端发消息，做法是打开新的 Terminal 窗口�
 
 注： 不能在 X 窗口的终端里面测试该命令，会造成黑屏，无法恢复。
 
+### 测试 -o 选项
+	$ ./src/killall5 -o 2640
+
+
+测试 pidof 命令
+-------------------------
+
+### pidof 命令直接跟进程名称
+	$ pidof bash
+	3023 2213
+	$ ps aux | grep bash
+	akaedu    2213  0.1  0.1  11412   972 tty2     S    16:11   0:01 -bash
+	akaedu    3023  0.0  0.8   8192  4276 pts/2    Ss   16:12   0:00 bash
+	akaedu    3383  0.0  0.1   4388   840 pts/2    S+   16:23   0:00 grep --color=auto bash
+	$ 
+
+
+### pidof 命令加 -s 参数
+	$ pidof -s bash
+	3023
+	$ 
+
+### pidof 命令和 kill 联合使用杀死进程
+	$ 打开一个 Terminal 窗口启动一个 vim 程序
+	$ 回到原来的窗口运行 pidof 命令
+	$ pidof vim
+	3471
+	$ pidof vim | xargs kill
+
+切换到刚才的新窗口，查看 vim 进程已经被杀死
+
+	$ vim
+	Vim: Caught deadly signal TERM
+	Vim: Finished.
+
+
+	Terminated
+	$ 
+
+测试 mountpoint 命令
+-------------------------
+
+### 查看一个目录是否为一个挂载点
+	$ df
+	Filesystem     1K-blocks    Used Available Use% Mounted on
+	/dev/sda1        9928244 8427228   1002996  90% /
+	udev              245968       4    245964   1% /dev
+	tmpfs             101416     976    100440   1% /run
+	none                5120       0      5120   0% /run/lock
+	none              253536     260    253276   1% /run/shm
+	$ src/mountpoint /
+	/ is a mountpoint
+	$ src/mountpoint /dev
+	/dev is a mountpoint
+	$ src/mountpoint /bin
+	/bin is not a mountpoint
+	$ src/mountpoint /home
+	/home is not a mountpoint
+	$ 
+
+### 查看某个文件系统的主/从设备号：
+	$ df
+	Filesystem     1K-blocks    Used Available Use% Mounted on
+	/dev/sda1        9928244 8427232   1002992  90% /
+	udev              245968       4    245964   1% /dev
+	tmpfs             101416     976    100440   1% /run
+	none                5120       0      5120   0% /run/lock
+	none              253536     260    253276   1% /run/shm
+	$ src/mountpoint -d /
+	8:1
+	$ ls -l /dev/sda1
+	brw-rw---- 1 root disk 8, 1 Jun 24 16:10 /dev/sda1
+	$ 
+
+### 不打印输出任何信息
+	$ src/mountpoint -q /
+	$ 
+
+
+
+测试 runlevel 命令
+-------------------------
+
+### 查看当前运行级别
+	$ runlevel -v
+	N 2
+	$ 
+
+测试 sulogin 命令
+-------------------------
+
+### 以超级用户登录
+	$ sulogin 
+	sulogin: only root can run sulogin.
+	$ sudo sulogin 
+	[sudo] password for akaedu: 
+	root@ubuntu:~# ls
+	Desktop  Documents  Downloads  Music  Pictures  Public  Templates  Videos
+	root@ubuntu:~# pwd
+	/root
+	root@ubuntu:~# 
+
+
+
 
 
 

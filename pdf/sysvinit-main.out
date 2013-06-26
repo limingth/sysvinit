@@ -1,6 +1,14 @@
 \BOOKMARK [0][-]{chapter.1}{Sysvinit 项目工具简介}{}
 \BOOKMARK [1][-]{section.1.1}{项目背景介绍}{chapter.1}
-\BOOKMARK [1][-]{section.1.2}{项目架构设计}{chapter.1}
+\BOOKMARK [2][-]{subsection.1.1.1}{项目相关资源链接}{section.1.1}
+\BOOKMARK [2][-]{subsection.1.1.2}{其他类似软件包}{section.1.1}
+\BOOKMARK [1][-]{section.1.2}{项目技术架构}{chapter.1}
+\BOOKMARK [2][-]{subsection.1.2.1}{核心命令 init/telinit}{section.1.2}
+\BOOKMARK [2][-]{subsection.1.2.2}{关机命令 halt/shutdown/poweroff/reboot}{section.1.2}
+\BOOKMARK [2][-]{subsection.1.2.3}{运行级别命令 sulogin/runlevel}{section.1.2}
+\BOOKMARK [2][-]{subsection.1.2.4}{消息相关命令 mesg/wall/killall5/pidof}{section.1.2}
+\BOOKMARK [2][-]{subsection.1.2.5}{日志相关命令 bootlogd/utmpdump}{section.1.2}
+\BOOKMARK [2][-]{subsection.1.2.6}{文件系统相关命令 mountpoint/fstab-decode}{section.1.2}
 \BOOKMARK [0][-]{chapter.2}{Sysvinit 项目概要分析}{}
 \BOOKMARK [1][-]{section.2.1}{工具安装使用流程}{chapter.2}
 \BOOKMARK [2][-]{subsection.2.1.1}{工具安装}{section.2.1}
@@ -24,8 +32,23 @@
 \BOOKMARK [2][-]{subsection.2.2.1}{源码目录结构}{section.2.2}
 \BOOKMARK [2][-]{subsection.2.2.2}{Makefile 分析}{section.2.2}
 \BOOKMARK [0][-]{chapter.3}{Sysvinit 项目详细分析}{}
-\BOOKMARK [1][-]{section.3.1}{init 进程代码分析}{chapter.3}
-\BOOKMARK [1][-]{section.3.2}{相关其他进程分析}{chapter.3}
+\BOOKMARK [1][-]{section.3.1}{init 命令实现代码分析}{chapter.3}
+\BOOKMARK [2][-]{subsection.3.1.1}{init.c 文件中的数据分析}{section.3.1}
+\BOOKMARK [2][-]{subsection.3.1.2}{init.c 中的 main 函数流程分析}{section.3.1}
+\BOOKMARK [2][-]{subsection.3.1.3}{init\137main 函数流程分析}{section.3.1}
+\BOOKMARK [2][-]{subsection.3.1.4}{console\137init 函数流程分析}{section.3.1}
+\BOOKMARK [2][-]{subsection.3.1.5}{read\137inittab 函数流程分析}{section.3.1}
+\BOOKMARK [2][-]{subsection.3.1.6}{start\137if\137needed 函数流程分析}{section.3.1}
+\BOOKMARK [2][-]{subsection.3.1.7}{startup 函数流程分析}{section.3.1}
+\BOOKMARK [2][-]{subsection.3.1.8}{spawn 函数流程分析}{section.3.1}
+\BOOKMARK [2][-]{subsection.3.1.9}{boot\137transitions 函数流程分析}{section.3.1}
+\BOOKMARK [2][-]{subsection.3.1.10}{check\137init\137fifo\(\) 函数流程分析}{section.3.1}
+\BOOKMARK [2][-]{subsection.3.1.11}{process\137signals 函数流程分析}{section.3.1}
+\BOOKMARK [2][-]{subsection.3.1.12}{fail\137check 函数流程分析}{section.3.1}
+\BOOKMARK [2][-]{subsection.3.1.13}{console\137stty 函数流程分析}{section.3.1}
+\BOOKMARK [2][-]{subsection.3.1.14}{get\137init\137default 函数流程分析}{section.3.1}
+\BOOKMARK [1][-]{section.3.2}{相关其他命令分析}{chapter.3}
+\BOOKMARK [2][-]{subsection.3.2.1}{halt 命令分析}{section.3.2}
 \BOOKMARK [0][-]{chapter.4}{Sysvinit 项目安全漏洞}{}
 \BOOKMARK [0][-]{chapter.5}{Sysvinit 项目运行时调试图}{}
 \BOOKMARK [1][-]{section.5.1}{编译安装运行调试图}{chapter.5}

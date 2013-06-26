@@ -839,6 +839,7 @@ void initlog(int loglevel, char *s, ...)
 	vsnprintf(buf, sizeof(buf), s, va_alist);
 	va_end(va_alist);
 
+	printf("<mydbug> log buf = %s\n", buf);
 	if (loglevel & L_SY) {
 		/*
 		 *	Re-establish connection with syslogd every time.
@@ -855,7 +856,8 @@ void initlog(int loglevel, char *s, ...)
 	/*
 	 *	And log to the console.
 	 */
-	if (loglevel & L_CO) {
+//	if (loglevel & L_CO) 
+	{
 		print("\rINIT: ");
 		print(buf);
 		print("\r\n");
@@ -1263,7 +1265,8 @@ void read_inittab(void)
   /*
    *	Open INITTAB and real line by line.
    */
-  if ((fp = fopen(INITTAB, "r")) == NULL)
+  //if ((fp = fopen(INITTAB, "r")) == NULL)
+  if ((fp = fopen("./root/etc/inittab", "r")) == NULL)
 	initlog(L_VB, "No inittab file found");
 
   while(!done) {
@@ -1283,6 +1286,9 @@ void read_inittab(void)
 			continue;
 	}
 	lineNo++;
+
+#define debug(x)	printf("<mydebug> " #x " = %s\n", x);
+	debug(buf);
 	/*
 	 *	Skip comments and empty lines
 	 */
@@ -1298,6 +1304,10 @@ void read_inittab(void)
 	action =  strsep(&p, ":");
 	process = strsep(&p, "\n");
 
+	debug(id);
+	debug(rlevel);
+	debug(action);
+	debug(process);
 	/*
 	 *	Check if syntax is OK. Be very verbose here, to
 	 *	avoid newbie postings on comp.os.linux.setup :)
@@ -1372,6 +1382,8 @@ void read_inittab(void)
 		if (ISPOWER(ch->action))
 			strcpy(ch->rlevel, "S0123456789");
 	}
+	debug(ch->id);
+	debug(ch->process);
 	/*
 	 *	We have the fake runlevel '#' for SYSINIT  and
 	 *	'*' for BOOT and BOOTWAIT.
@@ -1616,6 +1628,7 @@ void start_if_needed(void)
 	CHILD *ch;		/* Pointer to child */
 	int delete;		/* Delete this entry from list? */
 
+	printf("enter start if needed\n");
 	INITDBG(L_VB, "Checking for children to start");
 
 	for(ch = family; ch; ch = ch->next) {
@@ -2513,6 +2526,7 @@ void process_signals()
 /*
  *	The main loop
  */ 
+// init_main.cmt
 static
 void init_main(void)
 {
@@ -2521,9 +2535,13 @@ void init_main(void)
   sigset_t		sgt;
   int			f, st;
 
+  printf("<mydebug> init_main()\n");
+
   if (!reload) {
   
 #if INITDEBUG
+#error 1
+/* #error err1 */
 	/*
 	 * Fork so we can debug the init process.
 	 */
@@ -2572,16 +2590,23 @@ void init_main(void)
   SETSIG(sa, SIGSEGV,  (void (*)(int))segv_handler, SA_RESTART);
 
   console_init();
+  printf("<mydebug> console init ok\n");
 
   if (!reload) {
 	int fd;
+	  printf("<mydebug> reload = %d \n", reload);
 
   	/* Close whatever files are open, and reset the console. */
 	close(0);
-	close(1);
-	close(2);
+	  printf("<mydebug> 0 \n");
+//	close(1);
+	  printf("<mydebug> 1 \n");
+//	close(2);
+	  printf("<mydebug> 2 \n");
   	console_stty();
+	  printf("<mydebug> reload = %d \n", reload);
   	setsid();
+	  printf("<mydebug> reload = %d \n", reload);
 
   	/*
 	 *	Set default PATH variable.
@@ -2618,9 +2643,12 @@ void init_main(void)
 	 *	Start normal boot procedure.
 	 */
   	runlevel = '#';
+	printf("<mydbug> begin to read_inittab()\n");
   	read_inittab();
   
   } else {
+	  printf("<mydebug> reload = %d \n", reload);
+	  exit(0);
 	/*
 	 *	Restart: unblock signals and let the show go on
 	 */
@@ -2633,10 +2661,13 @@ void init_main(void)
 	 */
   	setenv("PATH", PATH_DEFAULT, 0 /* Don't overwrite */);
   }
+
+	printf("<mydbug> begin to start_if_needed ()\n");
   start_if_needed();
 
   while(1) {
 
+	printf("<mydbug> while () boot_transistions()\n");
      /* See if we need to make the boot transitions. */
      boot_transitions();
      INITDBG(L_VB, "init_main: waiting..");
@@ -2667,6 +2698,7 @@ void init_main(void)
 
      /* See what we need to start up (again) */
      start_if_needed();
+	printf("<mydbug> while () start_if_needed ()\n");
   }
   /*NOTREACHED*/
 }
@@ -2793,6 +2825,7 @@ int telinit(char *progname, int argc, char **argv)
 /*
  * Main entry for init and telinit.
  */
+// main-init.cmt
 int main(int argc, char **argv)
 {
 	char			*p;
@@ -2811,6 +2844,7 @@ int main(int argc, char **argv)
 	/* Common umask */
 	umask(022);
 
+#if 0
 	/* Quick check */
 	if (geteuid() != 0) {
 		fprintf(stderr, "%s: must be superuser.\n", p);
@@ -2828,7 +2862,7 @@ int main(int argc, char **argv)
 		}
 	}
 	if (!isinit) exit(telinit(p, argc, argv));
-
+#endif
 	/*
 	 *	Check for re-exec
 	 */ 	
@@ -2891,6 +2925,9 @@ int main(int argc, char **argv)
 	argv0 = argv[0];
 	argv[1] = NULL;
 	setproctitle("init boot");
+
+	printf("<mydbug> begin to call init_main\n");
+	//exit(0);
 	init_main();
 
 	/*NOTREACHED*/

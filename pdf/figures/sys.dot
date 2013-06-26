@@ -1,0 +1,69 @@
+digraph G
+{
+	rankdir = TB;
+	//size = "7 7";
+	//layout = circo;
+	//layout = fdp;
+	ordering = in;
+
+	compound = true;
+	subgraph cluster_0
+	{
+		label = "关机命令";
+
+		"halt" [shape="rect" style="filled"];
+		"halt" ->  "poweroff" [label="-p"];
+		"halt" ->  "reboot" [label=""];
+
+		"shutdown" [shape="rect"];
+		"shutdown" -> "halt" [label="-h"];
+		"shutdown" -> "reboot" [label="-r now"];
+	}
+
+	subgraph cluster1
+	{
+		label = "核心命令";
+		//style = "filled";
+
+		"telinit" [shape="rect"];
+		"telinit" -> "init";
+
+		"init" [shape="circle" style="filled"];
+		"init" -> "/etc/inittab";
+		"init" -> "halt" [label="runlevel 0"];
+		"init" -> "reboot" [label="runlevel 6"];
+	}
+
+	subgraph cluster2
+	{
+		label = "运行级别命令";
+		"init" -> "sulogin" [lable="runlevel S/s"];
+		"sulogin" [shape="rect"];
+		"runlevel" [shape="rect"];
+	}
+
+	subgraph cluster3
+	{
+		label = "消息相关命令";
+		"killall5" [shape="rect" style="filled"];
+			"killall5" ->  "pidof" [label=""];
+
+		"mesg" [shape="rect"];
+		"wall" [shape="rect"];
+	}
+
+	subgraph cluster4
+	{
+		label = "日志相关命令";
+		"bootlogd" [shape="rect"];
+		"utmpdump" [shape="rect"];
+	}
+
+	subgraph cluster5
+	{
+		label = "文件系统相关命令";
+		"mountpoint" [shape="rect"];
+		"fstab-decode" [shape="rect"];
+	}
+
+}

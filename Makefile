@@ -1,7 +1,7 @@
 
 all:
-	@echo make s to ./s.sh kmod-11
-	@echo make b to make -C kmod-11
+	@echo make s to ./s.sh sysvinit-2.88dsf
+	@echo make b to make -C sysvinit-2.88dsf
 	@echo make p to make -C pdf kmod
 	@echo make f to make -C pdf/figures 
 	@echo make d to execute ../doxygen
@@ -17,13 +17,14 @@ t:
 o open:
 	gedit pdf/sysvinit.md &
 	gedit pdf/test-sysvinit.md &
+	gnome-open  ../ds/html/index.html
 
 b build:
 	make -C sysvinit-2.88dsf
 
 s subs:
-	./s.sh kmod-11
-	cp kmod-11-subs ../doxygen/ -R
+	./s.sh sysvinit-2.88dsf
+	cp sysvinit-2.88dsf-subs ../doxygen/ -R
 
 f figure:
 	make -C pdf/figures
