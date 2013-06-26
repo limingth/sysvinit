@@ -1,0 +1,36 @@
+digraph G
+{
+	size = "7, 7";
+	//label = "方式2 - 用户命令 telinit 启动 init";
+
+	"Bash$ " [shape=box];
+	"execve(\"/sbin/init\")"  [style = filled];
+	"Bash$ " -> "execve(\"/sbin/init\")" [label="init 1/telinit 1"];
+
+
+	"execve(\"/sbin/init\")" -> "main()";
+
+	"main()" -> "getpid() == 1?" -> "isinit=false" -> "exit(telinit())" -> "telinit()";
+	
+	subgraph cluster01
+	{
+		label = "telinit() 函数实现";
+
+		"request" [shape=box];
+		"telinit()" -> "request" [label="struct init_request"] ;
+
+		"telinit()" -> "open(INIT_FIFO)" -> "write()" -> "request";
+	}
+
+	"INIT_FIFO" [shape=box style="filled"];
+	"request" -> "INIT_FIFO"; 
+
+	subgraph cluster02
+	{
+		label = "Daemon init";
+
+		"INIT_FIFO" -> "check_init_fifo()";
+
+		"while(1)" -> "check_init_fifo()"; 
+	}
+}

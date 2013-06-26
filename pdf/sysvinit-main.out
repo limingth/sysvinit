@@ -43,12 +43,16 @@
 \BOOKMARK [2][-]{subsection.3.1.8}{spawn 函数流程分析}{section.3.1}
 \BOOKMARK [2][-]{subsection.3.1.9}{boot\137transitions 函数流程分析}{section.3.1}
 \BOOKMARK [2][-]{subsection.3.1.10}{check\137init\137fifo\(\) 函数流程分析}{section.3.1}
-\BOOKMARK [2][-]{subsection.3.1.11}{process\137signals 函数流程分析}{section.3.1}
-\BOOKMARK [2][-]{subsection.3.1.12}{fail\137check 函数流程分析}{section.3.1}
+\BOOKMARK [2][-]{subsection.3.1.11}{fail\137check 函数流程分析}{section.3.1}
+\BOOKMARK [2][-]{subsection.3.1.12}{process\137signals 函数流程分析}{section.3.1}
 \BOOKMARK [2][-]{subsection.3.1.13}{console\137stty 函数流程分析}{section.3.1}
-\BOOKMARK [2][-]{subsection.3.1.14}{get\137init\137default 函数流程分析}{section.3.1}
-\BOOKMARK [1][-]{section.3.2}{相关其他命令分析}{chapter.3}
-\BOOKMARK [2][-]{subsection.3.2.1}{halt 命令分析}{section.3.2}
+\BOOKMARK [2][-]{subsection.3.1.14}{fifo\137new\137level 函数流程分析}{section.3.1}
+\BOOKMARK [2][-]{subsection.3.1.15}{re\137exec 函数流程分析}{section.3.1}
+\BOOKMARK [2][-]{subsection.3.1.16}{get\137init\137default 函数流程分析}{section.3.1}
+\BOOKMARK [2][-]{subsection.3.1.17}{telinit 函数流程分析}{section.3.1}
+\BOOKMARK [1][-]{section.3.2}{init进程执行流程分析汇总}{chapter.3}
+\BOOKMARK [2][-]{subsection.3.2.1}{init程序的3种启动执行方式}{section.3.2}
+\BOOKMARK [2][-]{subsection.3.2.2}{halt 命令分析}{section.3.2}
 \BOOKMARK [0][-]{chapter.4}{Sysvinit 项目安全漏洞}{}
 \BOOKMARK [0][-]{chapter.5}{Sysvinit 项目运行时调试图}{}
 \BOOKMARK [1][-]{section.5.1}{编译安装运行调试图}{chapter.5}

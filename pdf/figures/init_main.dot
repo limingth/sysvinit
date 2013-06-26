@@ -11,11 +11,16 @@ digraph G
 			"get_init_default()" -> "ask_runlevel()";
 	
 	"init_main()" -> "check_init_fifo()" -> "console_init()";
+		"check_init_fifo()" -> "fifo_new_level()";
+			"fifo_new_level()" -> "console_stty()";
+			"fifo_new_level()" -> "re-exec()";
+
 	"init_main()" -> "fail_check()";
 
-	"init_main()" -> "process_signals()" ;
-		"process_signals()" -> "read_inittab()" -> "/etc/inittab";
+	"init_main()" -> "read_inittab()" -> "/etc/inittab";
 		"/etc/inittab" [shape="box" style="filled"];
+
+	"init_main()" -> "process_signals()" ;
 
 	"init_main()" -> "start_if_needed()";
 		"start_if_needed()" -> "startup()";

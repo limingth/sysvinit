@@ -1,0 +1,43 @@
+digraph G
+{
+	size = "7, 7";
+//	label = "方式3 - 在程序中通过 re_exec() 函数启动 init";
+
+	"Bash\$ " [shape=box];
+	"execve(\"/sbin/init\")"  [style = filled];
+	"Bash$ " -> "execve(\"/sbin/init\")" [style=bold label="init U/telinit U" color="red"];
+
+
+	"execve(\"/sbin/init\")" -> "main()" -> "telinit()";
+	
+	subgraph cluster01
+	{
+		label = "telinit() 函数实现";
+
+		"request" [shape=box];
+		"telinit()" -> "request" [label="struct init_request"] ;
+
+		"telinit()" -> "open(INIT_FIFO)" -> "write()" -> "request";
+	}
+
+	"INIT_FIFO" [shape=box style="filled"];
+	"request" -> "INIT_FIFO" [label="INIT_CMD_RUNLVL, 'U'" color="red"]; 
+
+	subgraph cluster02
+	{
+		label = "Daemon init";
+
+		"INIT_FIFO" -> "check_init_fifo()";
+
+		"while(1)" -> "check_init_fifo()"; 
+		"while(1)" -> "check_init_fifo()" -> "fifo_new_level()" -> "re_exec()"; 
+		"re_exec()" -> "make_pipe(STATE_PIPE)" -> "fork()";
+		
+		"fork()" -> "child process" -> "send_state()" 
+
+		"execle(\"/sbin/init\")"  [style = filled];
+		"fork()" -> "father process" -> "execle(\"/sbin/init\")" ;
+
+		"send_state()" -> "father process" [label="request" color="blue"];
+	}
+}

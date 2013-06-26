@@ -333,12 +333,18 @@ reboot 告诉内核重启系统(参见 halt)
 ### telinit 命令
 telinit 告诉 init 该进入哪个运行级。
 
-#### 命令格式
-	init [OPTION]...
+执行telinit时，telinit函数仍然通过向init fifo写入命令的方式通知init执行相应的操作。
 
-#### 主要选项
-* n 运行级别
-	后面跟着一个整数，代表运行级别。
+#### 命令格式
+	telinit [-t sec] [0123456sSQqabcUu]
+
+#### 参数说明
+* 0,1,2,3,4,5,6 将运行级别切换到指定的运行级别。
+* a,b,c 只运行那些 /etc/inittab 文件中运行级别是 a，b 或 c 的记录。
+* Q,q 通知 init 重新检测 /etc/inittab 文件。
+* S,s 将运行级别切换到单用户模式下。
+* U,u 自动重启（保留状态），此操作不会对文件/etc/inittab 进行重新检测。执行此操作时，运行级别必须处在 Ss12345 之一，否则，该请求将被忽略。
+* -t sec 告诉 init 两次发送 SIGTERM 和 SIGKILL 信号的时间间隔。默认值是 5 秒
 
 ### killall5 命令
 killall5 命令发送一个信号到所有进程，但那些在它自己设定级别的进程将不会被这个运行的脚本所中断。
@@ -967,6 +973,27 @@ utmpdump 命令以一种用户友好的格式向标准输出设备显示 /var/ru
 	00041 #define INIT_CMD_SETENV         6
 	00042 #define INIT_CMD_UNSETENV       7
 
+### fail_check 函数流程分析
+该函数主要完成的功能是： 在每次信号处理完成之后，遍历 family 链表检查每个节点的状态
+
+函数执行流程分析：
+
+	1. 首先调用 time(&t) 获得系统时间。
+
+	2. 从 family 链表头开始，遍历整个链表，直到结束。 
+
+	3. 检查每一个节点 ch 的 flags 是否表示 FAILING
+
+	4. 如果是，并且这个进程已经睡眠 sleep 了至少5分钟，则会清除掉  flags 中的 FAILING 标识位。
+
+	5. 如果不是，则设置下一次 alarm 的时间为这个进程 sleep 的时间加上 5 分钟。
+
+#### SLEEEPTIME 数据
+睡眠时间超过300秒=5分钟的进程，将会被清除标志位
+
+	#define SLEEPTIME   300
+
+
 ### process_signals 函数流程分析
 该函数主要完成的功能是： 根据全局变量 got_signals 中哪些标志位被设置了，获得信号类型，进行相应的处理。
 
@@ -1013,9 +1040,47 @@ utmpdump 命令以一种用户友好的格式向标准输出设备显示 /var/ru
 	63) SIGRTMAX-1	64) SIGRTMAX	
 	$ 
 
-### fail_check 函数流程分析
-
 ### console_stty 函数流程分析
+该函数主要完成的功能是： 设置终端工作参数
+
+函数执行流程分析：
+
+	1. 调用 console_open 打开 console_dev 设备，模式为读写+非阻塞方式。
+
+	2. 调用 tcgetattr() 函数获得当前终端属性 tty (struct termios 结构体)
+
+	3. 设置 tty.c_cflag 和 tty.c_cc[] 的参数配置。
+
+	4. 设置 tty.c_iflag 和 tty.c_oflag 以及 tty.c_lflag 参数配置。
+
+	5. 调用 tcsetattr() 和 tcflush() 完成设置终端属性的操作。
+
+	6. 调用 close(fd) 关闭终端设备文件。
+
+
+### fifo_new_level 函数流程分析
+该函数主要完成的功能是： 真正完成改变 runlevel 的 request 请求，目标为传入参数 level，通过重新读取 inittab 文件来启动与新 runlevel 匹配的命令脚本。
+
+函数执行流程分析：
+
+	1. 如果传入参数 level 和当前的 runlevel 运行级别一致，则无需修改直接返回。
+
+	2. 如果新的 runlevel = 'U'，则通过调用 re_exec() 来执行改变 runlevel 的操作。
+
+	3. 如果新的 runlevel ！= 'U'，则通过调用 read_inittab() 来重新生成 family 链表。
+
+
+### re_exec 函数流程分析
+该函数主要完成的功能是： 强制 init 程序重新执行。
+
+函数执行流程分析：
+	
+	1. 该函数会创建 STATE_PIPE，并向 STATE_PIPE 写入 Signature = "12567362"
+
+	2. 接着fork()出一个子进程，通过子进程调用 send_state() 向 STATE_PIPE 写入父进程（当前init进程）的状态信息；
+
+	3. 然后父进程调用 execle() 重新执行 init 程序，并且传递参数“--init”, 也就是强制init重新执行。而这个重新执行的 init 进程，无需做初始化读取 /etc/inittab 就能调用 init_main()。
+
 
 ### get_init_default 函数流程分析
 该函数主要完成的功能是： 查找 /etc/inittab 文件中的 initdefault 默认运行级别，如果有则返回，如果没有则请用户输入。
@@ -1032,7 +1097,53 @@ utmpdump 命令以一种用户友好的格式向标准输出设备显示 /var/ru
 
 	5. 如果从文件中无法得到正确的 lvl，则调用 ask_runlevel() 函数返回。这个函数中会通过终端来询问用户，并要求用户输入一个默认运行级别。
 
-## 相关其他命令分析
+### telinit 函数流程分析
+在执行 telinit 函数时，实际上是通过向INIT_FIFO（/dev/initctl）写入命令的方式，通知 init 执行相应的操作。Telinit()根据不同请求，构造如下结构体类型的变量并向INIT_FIFO（/dev/initctl）写入该请求来完成其使命：
+
+struct init_request {
+	int	magic;			/* Magic number                 */
+	int	cmd;			/* What kind of request         */
+	int	runlevel;		/* Runlevel to change to        */
+	int	sleeptime;		/* Time between TERM and KILL   */
+	union {
+		struct init_request_bsd	bsd;
+		char			data[368];
+	} i;
+};
+
+
+## init进程执行流程分析汇总
+通过以上这些子函数的分析，我们可以总结一下关于 init 进程的运行状态和相应的执行流程。
+
+### init程序的3种启动执行方式
+
+#### 方式1 - Kernel 启动 init
+在内核启动代码中，start_kernel 函数初始化代码的结束，会通过 command_line 来找出 init=execute_command 字符串中的程序来执行，或者按照默认的4个 init 程序的顺序依次来调用 execve() 执行 init 进程。这种方式启动的 init 进程，会完成读取 /etc/inittab 文件，建立 family 链表，依次执行各个子进程，并等待子进程的结束。当 init 进程运行到最后会进入一个无限循环中，变成一个 daemon init 进程。
+
+这种启动方式，也是在整个操作系统启动过程中，init 程序的初次执行。这种启动是在内核空间启动 init 。
+
+![方式1 - Kernel 启动 init](./figures/how-to-exec-init-1.png)
+
+#### 方式2 - 用户命令 telinit 启动 init
+在 init 进程启动之后，用户通过终端可以完成登录进入 Bash 中，执行 telinit 命令的时候，因为 telinit 命令本身就是一个指向 init 程序的软链接，所以会导致 init 程序再次被执行。通过这种方式运行起来的 init 进程，因为 pid != 1 因此可以判断不是 Kernel 创建的 init 进程，此时会转为调用 telinit() 函数来执行。
+
+这种情况下，telinit() 函数只负责打开 INIT_FIFO（/dev/initctl） 并按照传入参数，组织为一个 struct request 结构体，写入 FIFO 中，通知方式1中的 init 进程，就完成任务了。
+
+这种启动方式通常会涉及到 runlevel 的切换，例如执行 telinit 1 或者 init 1 就会引起系统切换到单用户模式下。这是 init 程序的第2种常用的启动方式。我们可以看成是在用户空间启动 init 。
+
+![方式2 - 用户命令 telinit 启动 init](./figures/how-to-exec-init-2.png)
+
+#### 方式3 - 在程序中通过 re_exec() 函数启动 init
+这种方式发生在通过方式1启动了init之后，在 init 执行的最后，进入了一个无限循环等待中。此时，用户如果在终端下执行 telinit U 命令，则代表着用户希望 re-execute itself，那么在方式2启动 init 之后，新的 init 进程会发送 U 命令给方式1启动的 init 进程，这个最原始的进程在循环中会调用 process_signals() 来处理 U 命令，处理方法是调用 re_exec() 函数。在这个函数中，会 fork 出一个子进程，子进程通过管道向父进程发送消息，由父进程通过 execle() 重新执行 init 程序，并传递 --init 参数，强制 init 重新执行。
+
+和方式1的执行所不同的是，方式1在执行的后期，会读取 /etc/inittab 文件，建立 family 链表；而方式3因为是用户通过 telinit U 的方式告诉 方式1启动的那个 daemon init 进程，调用 re_exec() 函数，因此最原始的那个 init 进程，不会进行之前的 read_inittab() 初始化操作，而是直接进入到无限循环,又一次进入 daemon 的等待/处理循环中。
+
+![方式3 - 在程序中通过 re_exec() 函数启动 init](./figures/how-to-exec-init-3.png)
+
+#### 方式1，2，3的比较区别
+* 通过方式1 启动的 init 进程 pid=1。
+* 通过方式3，又让 pid=1 的进程调用了 re_exec() -> fork() -> execle() 来（让父进程）重新加载了一次的 init 进程，本质上其实都是 1 号进程。
+* 通过方式2 启动的 init 进程，pid 一定不是 1 ，所以这个进程和前面的这个 init 进程完全不同。它们是分别属于内核空间和用户空间的2个不同的进程（前者进程1其实应该称为内核线程，因为它是通过 kernel_thread() 创建出来的，而后者是通过 shell 在用户空间 fork 出来的，是真正的用户。
 
 ### halt 命令分析
 

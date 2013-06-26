@@ -1,0 +1,29 @@
+digraph G
+{
+	size = "7, 7";
+	//label = "方式1 - Kernel 启动 init";
+
+	Kernel zImage" -> "start_kernel()" -> "rest_init()" -> "kernel_thread()" -> "init()";
+
+	"execve(\"/sbin/init\")"  [style = filled];
+	"init()" -> "execve(\"/sbin/init\")" -> "main()" -> "init_main()";
+	
+	"init_main()" -> "read_inittab()"  -> "start_if_needed()" -> "while(1)";
+	
+	subgraph cluster01
+	{
+		label = "Daemon init";
+
+		"while(1)" -> "boot_transitions()" ;
+
+		"while(1)" -> "check_init_fifo()" -> "console_init()";
+			"check_init_fifo()" -> "fifo_new_level()";
+				"fifo_new_level()" -> "re-exec()";
+
+		"while(1)" -> "start_if_needed" -> "startup()" -> "spawn()";
+
+		"while(1)" -> "process_signals()" -> "re_exec()";
+	}
+
+
+}
