@@ -1,0 +1,66 @@
+digraph G
+{
+	size = "7, 10";
+
+	subgraph cluster1
+	{
+		label = "方式1 - Kernel 启动 init";
+		"start_kernel()" -> "init()";
+		"init()" -> "execve1(\"/sbin/init\")" -> "main1()" -> "init_main()";
+		"execve1(\"/sbin/init\")"  [shape=rect color=green style=filled];
+		"init_main()" -> "while(1)";
+		subgraph cluster11
+		{
+			label = "Daemon init";
+
+			"while(1)" -> "start_if_needed()";
+			"start_if_needed()" -> "startup()" -> "spawn()" [color=red]; 
+			"family list" [shape=box style=filled color=red];
+			"family list" -> "start_if_needed()" [color=red];
+
+			"while(1)" -> "check_init_fifo()";
+			"check_init_fifo()" -> "fifo_new_level()" [color=red];
+			"check_init_fifo()" -> "fifo_new_level()" [color=blue];
+			"fifo_new_level()" -> "read_inittab()" -> "family list" [color=red]; 
+			"fifo_new_level()" -> "re_exec()" [color=blue];
+			"re_exec()" -> "make_pipe(STATE_PIPE)" -> "fork()" [color=blue];
+			"fork()" -> "child process" -> "send_state()" -> "exit(0)" [color=blue];
+
+			"fork()" -> "father process" [color=blue];
+			"father process" -> "execle3(\"/sbin/init\")" [label="--init" color=blue];
+			"execle3(\"/sbin/init\")" -> "main1-1()" -> "check_pipe()" [label="--init" color=blue];
+			"execle3(\"/sbin/init\")"  [shape=rect color=blue style=filled];
+
+			"send_state()" -> "check_pipe()" [label="STATE_PIPE=11" color="blue" style=dotted];
+			"check_pipe()" -> "init_main()" [label="re-exec" color="blue" style=solid];
+		}
+		"INIT_FIFO" [label="INIT_FIFO=/dev/initctl" shape=box style="filled"];
+		"INIT_FIFO" -> "check_init_fifo()"  [label="RUNLVL, 'U'" color="blue"]; 
+		"INIT_FIFO" -> "check_init_fifo()"  [label="RUNLVL, '1'" color="red"]; 
+	}
+
+	subgraph cluster2
+	{
+		label = "方式2/3 - 用户命令 telinit 启动 init" 
+		//color=red;
+		"Bash 2\$ " [shape=box color=blue];
+		"Bash 2\$ " -> "execve2(\"/sbin/init\")" [style=bold label="telinit U" color="blue"];
+		"Bash 1\$ " [shape=box color=red];
+		"Bash 1\$ " -> "execve2(\"/sbin/init\")" [style=bold label="init 1" color=red];
+		"execve2(\"/sbin/init\")" -> "main2()" -> "telinit()" [color=red];
+		"execve2(\"/sbin/init\")"  [shape=rect color=red style=filled];
+		"telinit()" -> "open(INIT_FIFO)" -> "write()" -> "request" [color=red];
+		"INIT_FIFO" [shape=box style="filled"];
+		"request" [shape=box];
+		"request" -> "INIT_FIFO" [label="INIT_CMD_RUNLVL, '1'" color="red"]; 
+
+	//subgraph cluster3
+//		label = "方式3 - 在程序中通过 re_exec() 函数启动 init";
+	//	color=blue;
+		"execve2(\"/sbin/init\")" -> "main3()" -> "telinit()" [color=blue];
+		"execve2(\"/sbin/init\")"  [shape=rect color=red style=filled];
+		"telinit()" -> "open(INIT_FIFO)" -> "write()" -> "request" [color=blue];
+		"request" -> "INIT_FIFO" [label="INIT_CMD_RUNLVL, 'U'" color="blue"]; 
+	}
+
+}

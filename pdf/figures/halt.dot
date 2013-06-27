@@ -1,0 +1,37 @@
+digraph G
+{
+	//size = "7, 7";
+	rankdir = LR;
+
+	node [shape=box3d];
+
+	"halt命令" -> "do_reboot=1" [label="argv[0]=reboot"];
+	"halt命令" -> "do_poweroff=1" [label="argv[0=poweroff"];
+	"halt命令" -> "do_sync=0" [label="halt -n"];
+	"halt命令" -> "do_wtmp=0" [label="halt -n"];
+	"halt命令" -> "do_nothing=1" [label="halt -w"];
+	"halt命令" -> "do_wtmp=0" [label="halt -d"];
+	"halt命令" -> "do_hard=1" [label="halt -f"];
+	"halt命令" -> "do_ifdown=1" [label="halt -i"];
+	"halt命令" -> "do_hddown=1" [label="halt -h"];
+	"halt命令" -> "do_poweroff=1" [label="halt -p"];
+	"do_sync=1";
+	"do_wtmp=1";
+	"do_hddown=0";
+	"do_hard=0 && do_nothing=0";
+	"donothing=1 && do_hddown=0 && do_ifdown=0";
+
+	node [shape=ellipse];
+	"do_hard=0 && do_nothing=0" -> "do_shutdown()" -> "execv(\"/sbin/shutdown\")";
+	"do_wtmp=1" -> "write_wtmp()" -> "write(WTMP_FILE)";
+	"donothing=1 && do_hddown=0 && do_ifdown=0" -> "exit(0)";
+
+	node [shape=ellipse];
+	"do_sync=1" -> "sync()";
+	"do_ifdown=1" -> "ifdown()" -> "socket() ioctl()";
+	"do_hddown=1" -> "hddown()" -> "open_disks() do_standby_disks()";
+	"do_hddown=0" -> "hdflush()" -> "return 0";
+	"do_nothing=1" -> "exit(0)";
+	"do_reboot=1" -> "init_reboot()" -> "reboot()" -> "syscall";
+	"halt命令" -> "kill(1, SIGCONT)";
+}

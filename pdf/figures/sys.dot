@@ -1,17 +1,23 @@
 digraph G
 {
-	rankdir = TB;
+	//rankdir = TB;
+	rankdir=BT;
 	//size = "7 7";
 	//layout = circo;
 	//layout = fdp;
 	ordering = in;
 
 	compound = true;
-	subgraph cluster_0
+
+	subgraph cluster0
 	{
 		label = "关机命令";
+		rankdir=BT;
 
-		"halt" [shape="rect" style="filled"];
+		"execv()" -> "shutdown" [label="init N" style=filled dir=back];
+
+		"shutdown" [shape="box" style="filled"];
+		"halt" [shape="box"];
 		"halt" ->  "poweroff" [label="-p"];
 		"halt" ->  "reboot" [label=""];
 
@@ -25,19 +31,19 @@ digraph G
 		label = "核心命令";
 		//style = "filled";
 
-		"telinit" [shape="rect"];
-		"telinit" -> "init";
+		"/etc/inittab" -> "init" [dir=back];
 
 		"init" [shape="circle" style="filled"];
-		"init" -> "/etc/inittab";
-		"init" -> "halt" [label="runlevel 0"];
-		"init" -> "reboot" [label="runlevel 6"];
+		"/etc/inittab" [shape=box3d];
+		"init" -> "shutdown" [taillabel="init 0"];
+	//	"init" -> "reboot" [label="init 6" tailport=nw headport=se];
+		"init" -> "telinit";
 	}
 
 	subgraph cluster2
 	{
 		label = "运行级别命令";
-		"init" -> "sulogin" [lable="runlevel S/s"];
+		"init" -> "sulogin" [taillabel="init S"];
 		"sulogin" [shape="rect"];
 		"runlevel" [shape="rect"];
 	}
@@ -65,5 +71,4 @@ digraph G
 		"mountpoint" [shape="rect"];
 		"fstab-decode" [shape="rect"];
 	}
-
 }

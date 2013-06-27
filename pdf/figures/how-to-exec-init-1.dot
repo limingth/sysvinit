@@ -1,9 +1,9 @@
 digraph G
 {
-	size = "7, 7";
+	size = "7, 10";
 	//label = "方式1 - Kernel 启动 init";
 
-	Kernel zImage" -> "start_kernel()" -> "rest_init()" -> "kernel_thread()" -> "init()";
+	"Kernel zImage" -> "start_kernel()" -> "rest_init()" -> "kernel_thread()" -> "init()";
 
 	"execve(\"/sbin/init\")"  [style = filled];
 	"init()" -> "execve(\"/sbin/init\")" -> "main()" -> "init_main()";

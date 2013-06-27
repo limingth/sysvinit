@@ -7,7 +7,6 @@ digraph G
 	"execve(\"/sbin/init\")"  [style = filled];
 	"Bash$ " -> "execve(\"/sbin/init\")" [label="init 1/telinit 1"];
 
-
 	"execve(\"/sbin/init\")" -> "main()";
 
 	"main()" -> "getpid() == 1?" -> "isinit=false" -> "exit(telinit())" -> "telinit()";
@@ -16,21 +15,27 @@ digraph G
 	{
 		label = "telinit() 函数实现";
 
-		"request" [shape=box];
 		"telinit()" -> "request" [label="struct init_request"] ;
 
-		"telinit()" -> "open(INIT_FIFO)" -> "write()" -> "request";
+		"telinit()" -> "open(INIT_FIFO)" -> "write()" [label="request"];
 	}
 
-	"INIT_FIFO" [shape=box style="filled"];
-	"request" -> "INIT_FIFO"; 
+	"INIT_FIFO_w" [shape=box style="filled"];
+	"write()" -> "INIT_FIFO_w" [label="INIT_CMD_RUNLVL, '1'" color="blue"]; 
+//	"INIT_FIFO_w" -> "INIT_FIFO_r"[style=dotted];
+	"INIT_FIFO_r" [shape=box style="filled"];
+	"INIT_FIFO_r" -> "check_init_fifo()" [label="INIT_CMD_RUNLVL, '1'" color="blue"]; 
+
+	"init_main()" -> "while(1)";
 
 	subgraph cluster02
 	{
 		label = "Daemon init";
 
-		"INIT_FIFO" -> "check_init_fifo()";
-
 		"while(1)" -> "check_init_fifo()"; 
+		"check_init_fifo()" -> "fifo_new_level()" -> "read_inittab()" -> "family list"; 
+		"family list" [shape=box style=filled];
+		"while(1)" -> "start_if_needed()" -> "startup()" -> "spawn()"; 
+		"family list" -> "start_if_needed()";
 	}
 }

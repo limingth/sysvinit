@@ -426,12 +426,13 @@ mountpoint 检查给定的目录是否是一个挂载点
 
 ### runlevel 命令
 runlevel 命令读取系统的登录记录文件(一般是/var/run/utmp)把以前和当前的系统运行级输出到标准输出设备。
+如果之前的系统运行级别没有找到，则会返回一个 N 字母来代替。
 
 #### 命令格式
 	runlevel [utmp]
 
 #### 主要选项
-	utmp   The name of the utmp file to read.
+	utmp   指定要读取的 utmp 文件名，默认是读取 /var/run/utmp
 
 ### sulogin 命令
 sulogin 命令允许 root 登录，它通常情况下是在系统在单用户模式下运行时，由 init 所派生。
@@ -592,6 +593,31 @@ utmpdump 命令以一种用户友好的格式向标准输出设备显示 /var/ru
 
 	5 directories, 69 files
 
+### 源码文件的代码量
+src 目录下的源码文件共 17 个，全部代码量一共 9350 行，接近一万行。其中 init.c 是这里面代码量最大的，约有3000行。killall5.c 约有1100行。其他的源代码都在1000行以内。
+
+	$ ls *.c -l | wc -l
+	17
+	$ ls *.c -l | awk '{print $9}' | xargs wc -l | sort -n
+	    53 runlevel.c
+	    86 fstab-decode.c
+	   109 ifdown.c
+	   122 wall.c
+	   124 mesg.c
+	   128 mountpoint.c
+	   253 dowall.c
+	   264 utmp.c
+	   302 utmpdump.c
+	   315 halt.c
+	   568 hddown.c
+	   607 sulogin.c
+	   690 bootlogd.c
+	   762 shutdown.c
+	   928 last.c
+	  1104 killall5.c
+	  2935 init.c
+	  9350 total
+
 ### Makefile 分析
 	 93 init:           LDLIBS += $(INITLIBS) $(STATIC)
 	 94 init:           init.o init_utmp.o
@@ -701,7 +727,7 @@ utmpdump 命令以一种用户友好的格式向标准输出设备显示 /var/ru
 
 	4. 如果不是要求执行 init 进程，则转交控制权给 telinit(p, argc, argv) 函数进行处理。在后面介绍 telinit 函数的地方，我们再对此做详细说明。
 
-	5. 如果是要求执行 init 进程，还需要接着进行检查是否是属于 re-exec ，也就是重新执行，而不是首次执行。判断思路是通过读取STATE_PIPE，看是否收到一个Signature = "12567362"的字符串来确定。如果是重新执行，则将 reload 全局变量置为1。re-exec 和首次执行最大的区别是没有对/etc/inittab 进行解析，在后面我们会再次提到，为保持思路直接和简单，我们在这里不展开，直奔 init 进程中最关键的代码。
+	5. 如果是要求执行 init 进程，还需要接着进行检查是否是属于 re-exec ，也就是重新执行，而不是首次执行。判断思路是通过 check_pipe() 函数读取 STATE_PIPE (fd=11)，看是否收到一个 Signature = "12567362"的字符串来确定。如果是重新执行，则将 reload 全局变量置为1。re-exec 和首次执行最大的区别是没有对 /etc/inittab 进行解析，在后面我们会再次提到，为保持思路直接和简单，我们在这里不展开，直奔 init 进程中最关键的代码。
 
 	6. 如果是属于 init 进程的首次执行，则需要对 argv[] 的参数进行相应处理，简单说来，就是把 -s single 或者 0123456789 这样的数字，转换为 dfl_level 变量，这个变量代表的就是默认的运行级别。
 
@@ -1112,19 +1138,19 @@ struct init_request {
 };
 
 
-## init进程执行流程分析汇总
+## init进程执行流程分析
 通过以上这些子函数的分析，我们可以总结一下关于 init 进程的运行状态和相应的执行流程。
 
 ### init程序的3种启动执行方式
 
-#### 方式1 - Kernel 启动 init
+### 方式1 - Kernel 启动 init
 在内核启动代码中，start_kernel 函数初始化代码的结束，会通过 command_line 来找出 init=execute_command 字符串中的程序来执行，或者按照默认的4个 init 程序的顺序依次来调用 execve() 执行 init 进程。这种方式启动的 init 进程，会完成读取 /etc/inittab 文件，建立 family 链表，依次执行各个子进程，并等待子进程的结束。当 init 进程运行到最后会进入一个无限循环中，变成一个 daemon init 进程。
 
 这种启动方式，也是在整个操作系统启动过程中，init 程序的初次执行。这种启动是在内核空间启动 init 。
 
 ![方式1 - Kernel 启动 init](./figures/how-to-exec-init-1.png)
 
-#### 方式2 - 用户命令 telinit 启动 init
+### 方式2 - 用户命令 telinit 启动 init
 在 init 进程启动之后，用户通过终端可以完成登录进入 Bash 中，执行 telinit 命令的时候，因为 telinit 命令本身就是一个指向 init 程序的软链接，所以会导致 init 程序再次被执行。通过这种方式运行起来的 init 进程，因为 pid != 1 因此可以判断不是 Kernel 创建的 init 进程，此时会转为调用 telinit() 函数来执行。
 
 这种情况下，telinit() 函数只负责打开 INIT_FIFO（/dev/initctl） 并按照传入参数，组织为一个 struct request 结构体，写入 FIFO 中，通知方式1中的 init 进程，就完成任务了。
@@ -1133,19 +1159,454 @@ struct init_request {
 
 ![方式2 - 用户命令 telinit 启动 init](./figures/how-to-exec-init-2.png)
 
-#### 方式3 - 在程序中通过 re_exec() 函数启动 init
+### 方式3 - 在程序中通过 re_exec() 函数启动 init
 这种方式发生在通过方式1启动了init之后，在 init 执行的最后，进入了一个无限循环等待中。此时，用户如果在终端下执行 telinit U 命令，则代表着用户希望 re-execute itself，那么在方式2启动 init 之后，新的 init 进程会发送 U 命令给方式1启动的 init 进程，这个最原始的进程在循环中会调用 process_signals() 来处理 U 命令，处理方法是调用 re_exec() 函数。在这个函数中，会 fork 出一个子进程，子进程通过管道向父进程发送消息，由父进程通过 execle() 重新执行 init 程序，并传递 --init 参数，强制 init 重新执行。
 
 和方式1的执行所不同的是，方式1在执行的后期，会读取 /etc/inittab 文件，建立 family 链表；而方式3因为是用户通过 telinit U 的方式告诉 方式1启动的那个 daemon init 进程，调用 re_exec() 函数，因此最原始的那个 init 进程，不会进行之前的 read_inittab() 初始化操作，而是直接进入到无限循环,又一次进入 daemon 的等待/处理循环中。
 
 ![方式3 - 在程序中通过 re_exec() 函数启动 init](./figures/how-to-exec-init-3.png)
 
-#### 方式1，2，3的比较区别
-* 通过方式1 启动的 init 进程 pid=1。
-* 通过方式3，又让 pid=1 的进程调用了 re_exec() -> fork() -> execle() 来（让父进程）重新加载了一次的 init 进程，本质上其实都是 1 号进程。
-* 通过方式2 启动的 init 进程，pid 一定不是 1 ，所以这个进程和前面的这个 init 进程完全不同。它们是分别属于内核空间和用户空间的2个不同的进程（前者进程1其实应该称为内核线程，因为它是通过 kernel_thread() 创建出来的，而后者是通过 shell 在用户空间 fork 出来的，是真正的用户。
+### 三种方式的相互联系
+我们用一张总图来表示上述3种启动 init 的方式之间的相互联系。
 
-### halt 命令分析
+![方式1，2，3的相互联系](./figures/how-to-exec-init.png)
+
+* 图中红色部分的线路表示方式2和方式1之间的联系。
+* 图中蓝色部分的线路表示方式3和方式1之间的联系。
+* 方式2和3之间没有通信。
+* 相同点
+	- 方式2和3都是通过 Bash 命令启动 init 进程。
+	- 方式2和3都是通过 INIT_FIFO 来和 Daemon init 进程进行通信。
+
+* 不同点，方式2和3传递的参数不同。
+	- 方式2主要是传递新的优先级，例如 init 1, 表示要切换 init 进程到新的优先级1上工作。
+	- 方式3主要是要求重新启动init进程，并不需要修改优先级，例如 telinit U。
+
+### 三种方式的比较区别
+* 通过方式1启动的 init 进程 pid=1。
+
+* 通过方式2和3启动的 init 进程，pid 一定不是 1 ，所以这个进程和前面的这个 init 进程完全不同。它们是分别属于内核空间和用户空间的2个不同的进程（前者进程1其实应该称为内核线程，因为它是通过 kernel_thread() 创建出来的，而后者是通过 shell 在用户空间 fork 出来的，是真正的用户程序，只不过这个用户程序只做了一个向管道发送数据的操作。
+
+* 通过方式3，又让 pid=1 的原始 init 进程调用了 re_exec() -> fork() -> execle() 来（让父进程pid=1）重新加载了一次的 init 进程，本质上其实都是 1 号进程。但 fork() 出的子进程，其实也算是一个 init 进程，只不过它只完成了向父进程的 STATE_PIPE 写一下状态信息就退出 exit(0) 了，生命期很短。
+
+* 方式2和3虽然启动的参数不一样，但都是通过调用 telinit 函数，对 INIT_FIFO 进行写 request 的操作。
+	- 两者的 request 参数略有不同
+	- request.cmd 都是 INIT_CMD_RUNLVL
+	- request.runlevel 则 一个是 '1', 一个是 'U'
+	- 在 fifo_new_level() 函数中，有对这2者的不同处理，前者调用 read_inittab(), 后者调用 re_exec()。
+
+因此程序从 fifo_new_level() 函数这里开始有了不同的分支流程。
+
+* 方式2会沿着红色线路，执行流程如下
+	- 调用 read_inittab() -> 更新 family 链表
+	- 在 Daemon 循环中，从 start_if_needed() -> startup() 
+	- 最后通过 spawn() 完成启动 inittab 文件中的子进程。
+
+* 方式3会沿着蓝色线路，执行流程如下
+	- 调用 re_exec() -> make_pipe(STATE_PIPE) 创建管道（fd=11）
+	- 然后通过 fork() 分出1个子进程，这个子进程只负责给父进程 STATE_PIPE 管道发送状态信息
+	- 父进程紧接着通过 execle() 来重新启动 init 进程，并传递一个启动参数 --init，使得再次启动 init 进程的时候，isinit=1。
+	- 这时父进程会进入 check_pipe() 函数中检查管道 STATE_PIPE 中是否有数据，是否符合要求。
+	- 如符合，则设置 reload=1，调用 init_main() 再次进入 Deamon 状态。
+	- 这一次进入 Daemon 之前，只需要执行 start_if_needed 而无需执行 read_inittab()，也就是不需要再重新读取 /etc/inittab 文件。这是 re_exec 方式3和 Kernel 启动 init 方式1 之间的最大区别。 
+
+
+## halt命令执行流程分析
+### halt 命令的数据分析
+根据 halt 命令的参数，在 main 函数的实现中，引入了如下这些变量。
+
+	00177         int do_reboot = 0;
+	00178         int do_sync = 1;
+	00179         int do_wtmp = 1;
+	00180         int do_nothing = 0;
+	00181         int do_hard = 0;
+	00182         int do_ifdown = 0;
+	00183         int do_hddown = 0;
+	00184         int do_poweroff = 0;
+
+### halt命令实现代码分析
+
+#### 参数解析
+从下面的 switch-case 语句分支中，可以很清楚的看出 halt 命令参数和上述变量之间的对应关系。
+
+	progname = argv[0];
+
+	00198         if (!strcmp(progname, "reboot")) do_reboot = 1;
+	00199         if (!strcmp(progname, "poweroff")) do_poweroff = 1;
+	00200 
+	00201         /*
+	00202          *      Get flags
+	00203          */
+	00204         while((c = getopt(argc, argv, ":ihdfnpwt:")) != EOF) {
+	00205                 switch(c) {
+	00206                         case 'n':
+	00207                                 do_sync = 0;
+	00208                                 do_wtmp = 0;
+	00209                                 break;
+	00210                         case 'w':
+	00211                                 do_nothing = 1;
+	00212                                 break;
+	00213                         case 'd':
+	00214                                 do_wtmp = 0;
+	00215                                 break;
+	00216                         case 'f':
+	00217                                 do_hard = 1;
+	00218                                 break;
+	00219                         case 'i':
+	00220                                 do_ifdown = 1;
+	00221                                 break;
+	00222                         case 'h':
+	00223                                 do_hddown = 1;
+	00224                                 break;
+	00225                         case 'p':
+	00226                                 do_poweroff = 1;
+	00227                                 break;
+	00228                         case 't':
+	00229                                 tm = optarg;
+	00230                                 break;
+	00231                         default:
+	00232                                 usage();
+	00233                 }
+	00234          }
+
+#### 不同参数对应着不同处理
+后继的代码很简单，就是根据不同的参数，进行不同的函数调用来处理。我们用一张图来表示：
+
+![halt命令参数及相应处理函数流程](./figures/halt.png)
+
+从图中可以看出：
+
+* reboot 是 halt 命令的软链接
+* poweroff 是 halt 命令的软链接，等价于 halt -p
+* halt 命令是依靠 execv("/sbin/shutdown") 调用 shutdown 命令来完成工作的。
+* shutdown 命令是关机的核心命令，其他命令都不如这个命令重要。
+
+## shutdown命令执行流程分析
+
+### shutdown命令的数据分析
+
+### shutdown命令实现代码分析
+shutdown 的核心代码在 shutdown() 函数中，除了用 openlog(), syslog(), closelog() 来写关机日志外，主要是靠调用 execv(INIT, args) 来启动 init 进程完成改变运行级别的工作，从而间接完成关机操作。
+
+## sulogin命令执行流程分析
+
+### sushell函数
+该函数主要完成的功能是： 当用户的密码验证通过后，启动一个shell （由环境变量SUSHELL指定）
+
+函数执行流程分析：
+	
+	1. 调用 chdir 改变根目录
+
+	2. 调用 getenv 获取环境变量 SUSHELL 的值，并赋值给 sushell 指针
+
+	3. 设置一些环境变量 HOME，LOGNAME，USER 的值
+
+	4. 安装一些信号处理函数 SIGINT，SIGTSTP，SIGQUIT
+
+	5. 调用 execl 来执行 sushell 命令，如果失败，则依次执行 /bin/sh,/bin/sash
+
+### getrootpwent函数
+该函数主要完成的功能是： 获得根用户 root 的密码
+
+函数执行流程分析：
+
+	1. 首先通过标准的方法，使用普通库函数 getpwnam() 和 getspnam() 来获得密码，如果能找到则返回 pw
+
+	2. 如果找不到，则接下来尝试通过读取 passwd 和 shadow 文件手工来分析。
+
+	3. 读取 /etc/passwd 找到 root: 字符串开头的那行,如果没有这一行，则返回 root 密码为空
+
+	4. 如果有则调用 valid() 函数进行验证，验证成功，则返回 &pwd
+
+	5. 验证不成功，再检查 /etc/shadow 文件，如果有则返回 &pwd，如果没有则返回 空串。
+	
+### getpasswd 函数
+该函数主要完成的功能是： 从标准输入获得用户输入的密码
+
+函数执行流程分析：
+
+	1. 打印提示信息，要求用户输入密码
+
+	2. 修改终端属性，不进行回显 NO echo
+
+	3. 注册信号 SIGALRM 的处理函数，以便能够超时处理
+
+	4. 从标准输入读取用户输入的密码字符串，存放在静态变量 static char pass[128] 数组中
+
+	5. 修改终端属性，恢复回显功能 echo，返回数组首地址
+
+## runlevel命令执行流程分析
+
+### utmpname 函数
+该函数主要完成的功能是： 设置utmp 文件路径
+
+utmpname()用来设置utmp文件的路径，以提供utmp相关函数的存取路径。如果没有使用utmpname()则默认utmp文件路径为/var/run/utmp。
+
+### setutent 函数
+该函数主要完成的功能是： 从头读取utmp 文件中的登录数据
+
+setutent()用来将getutent()的读写地址指回utmp文件开头。
+
+### getutent 函数
+该函数主要完成的功能是： 从utmp 文件中取得账号登录数据
+
+getutent()用来从utmp 文件(/var/run/utmp)中读取一项登录数据，该数据以utmp 结构返回。第一次调用时会取得第一位用户数据，之后每调用一次就会返回下一项数据，直到已无任何数据时返回NULL。
+
+
+#### utmp结构定义
+
+	struct utmp
+	{
+		short int ut_type; 		/* 登录类型 */
+		pid_t ut_pid; 			/* login进程的pid */
+		char ut_line[UT_LINESIZE];	/* 登录装置名，省略了/dev/ */
+		char ut_id[4];			/* Inittab ID */
+		char ut_user[UT_NAMESIZE];	/* 登录账号 */
+		char ut_host[UT_HOSTSIZE];	/* 登录账号的远程主机名称 */
+		struxt exit_status ut_exit;	/* 当类型为DEAD_PROCESS时进程的结束状态 */
+		long int ut_session; 		/* Sessioc ID */
+		struct timeval ut_tv; 		/* 时间记录 */
+		int32_t ut_addr_v6[4]; 		/* 远程主机的网络地址 */
+		char __unused[20]; 		/* 保留未使用 */
+	};
+
+#### ut_type有以下几种类型
+
+	　　EMPTY 此为空的记录。
+
+	　　RUN_LVL 记录系统run－level的改变
+
+	　　BOOT_TIME 记录系统开机时间
+
+	　　NEW_TIME 记录系统时间改变后的时间
+
+	　　OLD_TINE 记录当改变系统时间时的时间。
+
+	　　INIT_PROCESS 记录一个由init衍生出来的进程。
+
+	　　LOGIN_PROCESS 记录login进程。
+
+	　　USER_PROCESS 记录一般进程。
+
+	　　DEAD_PROCESS 记录一结束的进程。
+
+	　　ACCOUNTING 目前尚未使用。
+
+### endutent 函数
+该函数主要完成的功能是： 关闭utmp 文件
+
+endutent()用来关闭由getutent所打开的utmp文件。
+
+## killall5 命令执行流程分析
+killall5 是 sysvinit 工具软件包中，从实现代码量上是仅次于 init 命令的一个重要命令。
+下面我们从 killall5.c 文件的 main 函数开始分析整个命令的执行流程。
+
+### 获得执行程序名 progname
+	00986 /* Main for either killall or pidof. */
+	00987 int main(int argc, char **argv)
+	00988 {
+	00989         PROC            *p;
+	00990         int             pid, sid = -1;
+	00991         int             sig = SIGKILL;
+	00992         int             c;
+	00993 
+	00994         /* return non-zero if no process was killed */
+	00995         int             retval = 2;
+	00996 
+	00997         /* Get program name. */
+	00998         if ((progname = strrchr(argv[0], '/')) == NULL)
+	00999                 progname = argv[0];
+	01000         else
+	01001                 progname++;
+	01002 
+
+通过最开始一段代码，可以看出 sig = SIGKILL 默认的发送信号是 SIGKILL，这个信号是9号，默认处理动作是 exit。
+progname 字符串指针是一个全局变量，经过赋值之后，获得了正在运行程序的名字，只是文件名，不包含路径名。
+
+	00133 char *progname; /* the name of the running program */
+
+### 打开系统日志
+下面这段代码是调用 openlog() 函数来打开以 progname 为日志文件名的日志文件。
+
+	01003         /* Now connect to syslog. */
+	01004         openlog(progname, LOG_CONS|LOG_PID, LOG_DAEMON);
+	01005 
+	
+### 处理 pidof 命令的情况
+因为 pidof 是指向 killall5 的软链接，因此程序需要判断是通过执行 killall5 命令启动的，还是 pidof 命令启动的。
+如果是 pidof 命令，则调用 main_pidof 的主函数来实现这个命令，并在执行完 main_pidof() 函数后直接返回，不再执行后继的代码。同时这个函数的返回值，也作为整个程序的返回值。
+
+	01006         /* Were we called as 'pidof' ? */
+	01007         if (strcmp(progname, "pidof") == 0)
+	01008                 return main_pidof(argc, argv);
+
+因为 pidof 命令在下面我们专门有一个小节来讨论，因此我们不在此展开，而是继续接着 killall5 命令的执行流程分析下去。
+
+### 分析 -o omitpid 参数创建双向链表 omit
+程序进行到此，确定是用户要执行 killall5 命令。同时给 omit 链表赋值为 0 ，表示此时链表为空。
+
+	01010         /* Right, so we are "killall". */
+	01011         omit = (OMIT*)0;
+	01012 
+
+下面是开始进行传入参数的匹配处理。因为 killall5 命令支持 -o 参数传递 omitpid ，也就是可以被忽略的进程不进行 kill 操作，因此要取出 argv[] 参数列表中的所有 omitpid 。
+
+从代码中可以看出，strsep(&hear, ",;:") 其中以逗号，分号，冒号作为分隔符，以 omit 为链表头，不断分析 argv[] 数组中和 -o 有关的 pid 列表，然后负责用动态生成节点的方式，创建链表。
+
+	01013         if (argc > 1) {
+	01014                 for (c = 1; c < argc; c++) {
+	01015                         if (argv[c][0] == '-') (argv[c])++;
+	01016                         if (argv[c][0] == 'o') {
+	01017                                 char * token, * here;
+	01018 
+	01019                                 if (++c >= argc)
+	01020                                         usage();
+	01021 
+	01022                                 here = argv[c];
+	01023                                 while ((token = strsep(&here, ",;:"))) {
+	01024                                         OMIT *restrict optr;
+	01025                                         pid_t opid = (pid_t)atoi(token);
+	01026 
+	01027                                         if (opid < 1) {
+	01028                                                 nsyslog(LOG_ERR,
+	01029                                                         "illegal omit pid value "
+	01030                                                         "(%s)!\n", token);
+	01031                                                 continue;
+	01032                                         }
+	01033                                         xmemalign((void*)&optr, sizeof(void*), alignof(OMIT));
+	01034                                         optr->next = omit;
+	01035                                         optr->prev = (OMIT*)0;
+	01036                                         optr->pid  = opid;
+	01037                                         omit = optr;
+	01038                                 }
+	01039                         }
+	01040                         else if ((sig = atoi(argv[1])) <= 0 || sig > 31)
+	01041                                 usage();
+	01042                 }
+	01043         }
+
+这段代码中，通过 xmemalign() 函数，动态进行内存分配，并且按对齐方式分配内存，以在链表头部插入新的节点的方法建立 omit 链表。其中要用到一个链表节点的数据结构 OMIT ，这是在 killall5.c 头部定义的一个结构体。这个结构体只有一个成员变量就是 pid_t pid，其他2个成员是为了建立一个双向链表而必须引入的 next 和 prev 指针。
+
+	00096 typedef struct _s_omit {
+	00097         struct _s_omit *next;
+	00098         struct _s_omit *prev;
+	00099         pid_t pid;
+	00100 } OMIT;
+
+### 挂载 /proc 文件系统
+接下来，程序通过调用 mount_proc() 函数来挂载 /proc 文件系统，确保接下来能够访问 /proc 文件系统的节点。
+
+	01044 
+	01045         /* First get the /proc filesystem online. */
+	01046         mount_proc();
+	01047 
+
+这个函数的分析，这里不再展开。简单来说，就是如果 /proc 文件系统已经存在，则可以读取 /proc/version 。如果不存在，则调用 excev("/sbin/mount", args) 来完成程序加载。这里 args 传递的mount参数是 "-t", "proc", "proc", "/proc", 0 。
+
+### 暂时忽略 SIGTERM/SIGSTOP/SIGKILL 信号
+考虑到后面会通过调用 kill(-1, SIGSTOP) 的方式来停止所有进程，因此这里为了确保即使以后 kill(-1, ...) 的调用不会把执行进程也暂停掉，先给这3个信号注册了一个 SIG_IGN 处理函数，表示忽略掉这些信号。
+
+	01054         signal(SIGTERM, SIG_IGN);
+	01055         signal(SIGSTOP, SIG_IGN);
+	01056         signal(SIGKILL, SIG_IGN);
+
+### 禁止内存换出，暂停所有进程
+因为内存管理机制会对暂时处于停止状态的进程进行换出内存的操作，因此提前先禁止这一功能。然后再执行 kill(-1, SIGSTOP) 给所有进程发送 SIGSTOP 信号。
+
+	01058         /* lock us into memory */
+	01059         mlockall(MCL_CURRENT | MCL_FUTURE);
+	01060 
+	01061         /* Now stop all processes. */
+	01062         kill(-1, SIGSTOP);
+	01063         sent_sigstop = 1;
+	01064 
+
+### 读 /proc 文件系统，建立进程链表 plist 
+通过 readproc() 函数来读取 /proc 文件系统的关于运行进程的节点，并将所有进程填入组成一个进程链表 plist 。
+
+	01065         /* Read /proc filesystem */
+	01066         if (readproc(NO_STAT) < 0) {
+	01067                 kill(-1, SIGCONT);
+	01068                 return(1);
+	01069         }
+
+在这里，用到了一个全局变量，进程链表头 plist 指针，接下来所有链表的节点都会插入到表头 plist 所在的位置。
+
+	00119 /* List of processes. */
+	00120 PROC *plist;
+
+readproc() 函数调用会通过读取 /proc 文件系统的目录和文件的方法，将所有进程的pid 信息填入并组建 plist 链表。
+
+	00067 /* Info about a process. */
+	00068 typedef struct proc {
+	00069         char *argv0;            /* Name as found out from argv[0] */
+	00070         char *argv0base;        /* `basename argv[1]`             */
+	00071         char *argv1;            /* Name as found out from argv[1] */
+	00072         char *argv1base;        /* `basename argv[1]`             */
+	00073         char *statname;         /* the statname without braces    */
+	00074         ino_t ino;              /* Inode number                   */
+	00075         dev_t dev;              /* Device it is on                */
+	00076         pid_t pid;              /* Process ID.                    */
+	00077         pid_t sid;              /* Session ID.                    */
+	00078         char kernel;            /* Kernel thread or zombie.       */
+	00079         char nfs;               /* Name found on network FS.      */
+	00080         struct proc *next;      /* Pointer to next struct.        */
+	00081 } PROC;
+
+这个 PROC 结构体中，包含了有关正在运行的进程信息，例如 pid, ino, sid, dev 等。
+
+### 根据 plist 链表开始依次 kill 进程
+这段代码是实现 killall5 命令最核心的部分，逻辑也很简单，就是遍历 plist 链表，对于每一个正在运行的进程，首先判断它是否是 1号 init 进程，当前进程或者当前Session进程，或者是内核线程，如果是这些则忽略过不进行 kill 。
+
+接着判断该进程是否属于 omit 链表中要求被忽略的进程之一，如果是这些用户指定的要忽略的进程，则也不进行 kill 。
+
+如果不属于以上这2种情况，则调用 kill(p->pid, sig) 来完成 kill 操作。
+
+	01071         /* Now kill all processes except init (pid 1) and our session. */
+	01072         sid = (int)getsid(0);
+	01073         pid = (int)getpid();
+	01074         for (p = plist; p; p = p->next) {
+	01075                 if (p->pid == 1 || p->pid == pid || p->sid == sid || p->kernel)
+	01076                         continue;
+	01077 
+	01078                 if (omit) {
+	01079                         OMIT * optr;
+	01080                         for (optr = omit; optr; optr = optr->next) {
+	01081                                 if (optr->pid == p->pid)
+	01082                                         break;
+	01083                         }
+	01084 
+	01085                         /* On a match, continue with the for loop above. */
+	01086                         if (optr)
+	01087                                 continue;
+	01088                 }
+	01089 
+	01090                 kill(p->pid, sig);
+	01091                 retval = 0;
+	01092         }
+
+### 恢复所有进程运行 （从 STOP 又回到 CONT）
+发送完 SIGKILL 之后，调用 kill 函数给每个刚才要求 SIGSTOP 的进程发送 sig=SIGCONT 信号。
+这个引号要求所有刚才被暂停的进程，恢复执行后尽快接收到 SIGCONT 继续运行 (continue)，
+当再次收到 SIGKILL 的时候，可以认为是系统要求结束所有进程，然后由各个进程自己结束。
+
+	01094         /* And let them continue. */
+	01095         kill(-1, SIGCONT);
+
+### 关闭日志
+通过调用 closelog() 函数来正常关闭日志，日志的文件是 /var/log/sysvinit。
+
+	01097         /* Done. */
+	01098         closelog();
+
+### 调用 usleep(1) 强制 Kernel 运行调度器
+强制内核必须要使用 usleep(1) 以便能够让出 CPU，从而要求使用调度器进行调度。
+
+	01100         /* Force the kernel to run the scheduler */
+	01101         usleep(1);
+	01102 
+
+## pidof 命令执行流程分析
 
 # Sysvinit 项目安全漏洞
 
@@ -1548,186 +2009,6 @@ struct init_request {
 我们用下面这张图来表示这些函数和变量之间的关系，可以更直观的看到内核启动init进程的流程。
 
 ![Linux 内核启动 init 进程](./figures/kernel2init.png)
-
-
-#### /sbin/init
-
-init命令的大致工作流程如下：
-
-首先，由于init本身具有两面性(既是init，又是telinit)，因此init通过检查自己的进程号来判断自己是 init 还是 telinit ；真正的 init 的进程号(pid)永远都是 1。此外，用户还可通过参数-i，或者—init明确指定强制执行init（源码中有相关处理，但是man page没有给出说明）。
-
-如果init发现要执行的是telinit，它会调用telinit()函数:
-	if (!isinit) exit(telinit(p, argc, argv));
-telinit()函数的原型如下：
-
-int telinit(char *progname, int argc, char **argv);
-
-实际调用telinit()函数时，是将用户的输入参数列表完全传递给telinit()函数的。在执行telinit时，实际上是通过向INIT_FIFO（/dev/initctl）写入命令的方式，通知init执行相应的操作。Telinit()根据不同请求，构造如下结构体类型的变量并向INIT_FIFO（/dev/initctl）写入该请求来完成其使命：
-
-struct init_request {
-	int	magic;			/* Magic number                 */
-	int	cmd;			/* What kind of request         */
-	int	runlevel;		/* Runlevel to change to        */
-	int	sleeptime;		/* Time between TERM and KILL   */
-	union {
-		struct init_request_bsd	bsd;
-		char			data[368];
-	} i;
-};
-
-如果执行的是真正的init，则又分为两种情形：
-
-对init的重新执行（re-exec）
-标准init的执行（首次执行）
-
-在从判断是否telinit()之后的第一步就是检查是否是对init的重新执行（re-exec）（通过读取STATE_PIPE，看是否收到一个Signature = "12567362"的字符串来确定）。如果是re-exec，则继续从STATE_PIPE读取完整的state信息（这些信息被保存在CHILD类型的链表family上），然后调用init_main()来重新执行init(注意，这里没有对/etc/inittab进行解析，这也就是re-exec的特点)。下面在对标准init的执行过程的描述中会谈到如何发起对init的重新执行。
-
-如果不是对init的重新执行（re-exec），则是标准init的执行（首次执行）。
-首先，会通过检查命令参数，设置dfl_level，emerg_shell变量，如果参数有-a,auto的话，还会设置环境变量AUTOBOOT=YES。
-
-如果sysvinit编译时使能了SELINUX，即定义了WITH_SELINUX，则首先检查SELINUX_INIT是否被设置。如果SELINUX_INIT未被设置，则装载/proc文件系统（实际上这是为了确保/proc文件系统已经被装载上）。之后用is_selinux_enabled()判断是否系统真的使能了SELINUX。如果是的话，则卸载掉/proc文件系统，然后再调用selinux_init_load_policy()加载策略，并在成功时调用execv()再执行init；否则若SELINUX处于强制模式，则输出警告消息“Unable to load SELinux Policy…”并退出。此处似乎有一个问题，参加下面的链接：
-
-http://us.generation-nt.com/answer/bug-580272-sysvinit-2-88-selinux-policy-help-198006521.html
-
-在进行前面的一系列检测之后，最终开始调用init_main()进入标准的init主函数。下面对该函数做初步分析。
-
-首先，会通过调用reboot(RB_DISABLE_CAD)禁止标准的CTRL-ALT-DEL组合键的响应，从而当按下这个组合键时，会发送SIGINT给init进程，让init来进一步决定采取何种动作（负责该组合键会导致系统直接重启）。
-
-接着，安装一些默认的信号处理函数，包括：
-
-signal_handler(),处理SIGALRM，SIGHUP，SIGINT，SIGPWR，SIGWINCH，SIGUSR1
-chld_handler()，处理SIGCHLD
-stop_handler()，处理SIGSTOP，SIGTSTP
-cont_handler()，处理SIGCONT
-segv_handler()，处理SIGSEGV
-
-再之后，考虑首次运行init的情形（reload=0），init_main()会初始化终端，并对终端进行一些默认的设置（在console_stty()函数中通过tcsetattr()实现），设置有一些快捷键，例如：
-ctrl+d 退出登陆，等效于logout命令
-ctrl+c 杀死应用程序
-ctrl+s 暂停应用程序运行，可用ctrl+q恢复运行
-ctrl+z 挂起应用程序，此时ps显示进程状态变为T
-
-紧接着，init_main()设置PATH环境变量，并初始化/var/run/utmp。如果emerg_shell被设置（参数中有-b或者emergency），表示需要启动Emergency shell，则通过调用spawn()初始化Emergency shell子进程，并等待该子进程退出。
-
-当从Emergency shell退出（或者不需要Emergency shell的话），init_main()会调用read_inittab()来读入/etc/inittab文件。该函数主要将/etc/inittab文件解析的结果存入CHILD类型的链表family上，供之后的执行使用。
-
-紧接着，调用start_if_needed()，启动需要在相应运行级别中运行的程序和服务。而该函数主要又是通过调用startup()函数，继而调用spawn()来启动程序或者服务的运行的。
-
-在此之后，init_main()进入其主循环，该循环大致如下：
-while(1)
-{
-    /* See if we need to make the boot transitions. */
-     boot_transitions();
-     /* Check if there are processes to be waited on. */
-     for(ch = family; ch; ch = ch->next)
-	    if ((ch->flags & RUNNING) && ch->action != BOOT) break;
-     if (ch != NULL && got_signals == 0) check_init_fifo();
-     /* Check the 'failing' flags */
-     fail_check();
-     /* Process any signals. */
-     process_signals();
-     /* See what we need to start up (again) */
-     start_if_needed();
-}
-
-该主循环的大致功能是，先判断是否有需要切换运行级别，然后等待需要被等待退出的进程退出；并检测是否有任何失败情形并发出警告；之后处理接收到的信号（检查got_signals）；然后再看有没有需要被启动的程序或者服务。
-
-下面是对上述循环中的一些需要注意的特殊点的描述。
-
-	1. 对于首次运行,上述代码中会调用get_init_default()，解析/etc/inittab文件查找是否有 initdefault 记录。 initdefault 记录决定系统初始运行级别。如果没有这条记录，就调用ask_runlevel()，让用户在系统控制台输入想要进入的运行级别。此后，init会解析/etc/inittab 文件中的各个条目并执行相应操作。
-
-	2. 在正常运行期间，也会对/etc/inittab 文件重新扫描，当发现runlevel为‘U’时，便会调用re_exec()；而该函数实际上会创建STATE_PIPE，并向STATE_PIPE写入Signature = "12567362"，接着fork()出一个子进程，通过子进程向STATE_PIPE写入父进程（当前init进程）的状态信息；接着，父进程调用execle()重新执行init程序，并且传递参数“--init”,也就是强制init重新执行。而这个重新执行的init进程，就会进入前面的re-exec一段代码（见前面的分析），从而无需做初始化就能调用init_main()。
-
-	3. 运行级别 S 或 s 把系统带入单用户模式，此模式不需要 /etc/initttab 文件。单用户模式中， /sbin/sulogin 会在 /dev/console 这个设备上打开。
-
-	4. 当第一次进入多用户模式时，init 会执行boot 和 bootwait 记录以便在用户可以登录之前挂载文件系统。然后再执行相应指定的各进程。
-
-	5. 当调用spawn()启动新进程时， init 会检查是否存在 /etc/initscript 文件。如果存在该文件，则使用该脚本来启动该进程。
-
-	6) 如果系统中存在文件 /var/run/utmp 和 /var/log/wtmp，那么当每个子进程终止时，init 会将终止信息和原因记录进这两个文件中。
-
-	7) 当 init 启动了所有指定的子进程后，它会不断地监测系统进程情况，例如：某个子进程被终止、电源失效、或由 telinit 发出的改变运行级别的信号。当它接收到以上的这些信号时，会自动重新扫描 /etc/inittab 文件，并执行相应操作。因此，新的记录可以随时加入到/etc/inittab文件中。在更新了各种系统文件后，如果希望及时更新，就可以使用telinit Q 或 q 命令来唤醒 init 让它即刻重新检测/etc/inittab 文件。
-
-	8) 当 init 得到更新运行级别的请求， init会向所有没有在新运行级别中定义的进程发送一个警告信号 SIGTERM 。在等待 5 秒钟之后，它会发出的信号 SIGKILL（强制中断所有进程的运行）。init 假设所有的这些进程（包括它们的后代）都仍然在 init 最初创建它们的同一进程组里。如果有进程改变了自己的进程组，那么它就收不到这些信号。这样的进程，就需要分别进行手工终止。
-
-
-
-	<mydbug> begin to call init_main
-	<mydebug> init_main()
-	<mydebug> console init ok
-	<mydebug> reload = 0 
-	<mydebug> 0 
-	<mydebug> 1 
-	<mydebug> 2 
-	<mydebug> reload = 0 
-	<mydebug> reload = 0 
-	<mydbug> log buf = version 2.88 booting
-	<mydbug> begin to read_inittab()
-	<mydebug> buf = id:1:initdefault:
-
-	<mydebug> id = id
-	<mydebug> rlevel = 1
-	<mydebug> action = initdefault
-	<mydebug> process = 
-	<mydebug> ch->id = id
-	<mydebug> ch->process = 
-	<mydebug> buf = 
-
-	<mydebug> buf = rc::bootwait:/bin/date
-
-	<mydebug> id = rc
-	<mydebug> rlevel = 
-	<mydebug> action = bootwait
-	<mydebug> process = /bin/date
-	<mydebug> ch->id = rc
-	<mydebug> ch->process = /bin/date
-	<mydebug> buf = 
-
-	<mydebug> buf = 1:1:respawn:/etc/getty 9600 tty1
-
-	<mydebug> id = 1
-	<mydebug> rlevel = 1
-	<mydebug> action = respawn
-	<mydebug> process = /etc/getty 9600 tty1
-	<mydebug> ch->id = 1
-	<mydebug> ch->process = /etc/getty 9600 tty1
-	<mydebug> buf = 
-
-	<mydebug> buf = 2:1:respawn:/etc/getty 9600 tty2
-
-	<mydebug> id = 2
-	<mydebug> rlevel = 1
-	<mydebug> action = respawn
-	<mydebug> process = /etc/getty 9600 tty2
-	<mydebug> ch->id = 2
-	<mydebug> ch->process = /etc/getty 9600 tty2
-	<mydebug> buf = 
-
-	<mydebug> buf = 3:1:respawn:/etc/getty 9600 tty3
-
-	<mydebug> id = 3
-	<mydebug> rlevel = 1
-	<mydebug> action = respawn
-	<mydebug> process = /etc/getty 9600 tty3
-	<mydebug> ch->id = 3
-	<mydebug> ch->process = /etc/getty 9600 tty3
-	<mydebug> buf = 
-
-	<mydebug> buf = 4:1:respawn:/etc/getty 9600 tty4
-
-	<mydebug> id = 4
-	<mydebug> rlevel = 1
-	<mydebug> action = respawn
-	<mydebug> process = /etc/getty 9600 tty4
-	<mydebug> ch->id = 4
-	<mydebug> ch->process = /etc/getty 9600 tty4
-	<mydebug> buf = ~~:S:wait:/sbin/sulogin
-
-
-
-
-
-
 
 
 

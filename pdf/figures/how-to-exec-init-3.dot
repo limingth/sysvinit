@@ -1,12 +1,11 @@
 digraph G
 {
-	size = "7, 7";
+	size = "7, 8";
 //	label = "方式3 - 在程序中通过 re_exec() 函数启动 init";
 
-	"Bash\$ " [shape=box];
+	"Bash$ " [shape=box];
 	"execve(\"/sbin/init\")"  [style = filled];
-	"Bash$ " -> "execve(\"/sbin/init\")" [style=bold label="init U/telinit U" color="red"];
-
+	"Bash$ " -> "execve(\"/sbin/init\")" [style=bold label="init U/telinit U"];
 
 	"execve(\"/sbin/init\")" -> "main()" -> "telinit()";
 	
@@ -14,30 +13,34 @@ digraph G
 	{
 		label = "telinit() 函数实现";
 
-		"request" [shape=box];
 		"telinit()" -> "request" [label="struct init_request"] ;
 
-		"telinit()" -> "open(INIT_FIFO)" -> "write()" -> "request";
+		"telinit()" -> "open(INIT_FIFO)" -> "write()" [label="request"];
 	}
 
-	"INIT_FIFO" [shape=box style="filled"];
-	"request" -> "INIT_FIFO" [label="INIT_CMD_RUNLVL, 'U'" color="red"]; 
+	"INIT_FIFO_w" [shape=box style="filled"];
+	"write()" -> "INIT_FIFO_w" [label="INIT_CMD_RUNLVL, 'U'" color="red"]; 
+//	"INIT_FIFO_w" -> "INIT_FIFO_r"[style=dotted];
+	"INIT_FIFO_r" [shape=box style="filled"];
+	"INIT_FIFO_r" -> "check_init_fifo()" [label="INIT_CMD_RUNLVL, 'U'" color="red"]; 
+
+	"init_main()" -> "while(1)";
 
 	subgraph cluster02
 	{
 		label = "Daemon init";
 
-		"INIT_FIFO" -> "check_init_fifo()";
-
-		"while(1)" -> "check_init_fifo()"; 
 		"while(1)" -> "check_init_fifo()" -> "fifo_new_level()" -> "re_exec()"; 
 		"re_exec()" -> "make_pipe(STATE_PIPE)" -> "fork()";
-		
-		"fork()" -> "child process" -> "send_state()" 
+		"fork()" -> "child process" -> "send_state()" -> "exit(0)";
 
 		"execle(\"/sbin/init\")"  [style = filled];
 		"fork()" -> "father process" -> "execle(\"/sbin/init\")" ;
+		"execle(\"/sbin/init\")" -> "main2()" -> "check_pipe()" [label="--init" color=blue];
+		"execle(\"/sbin/init\")"  [shape=rect color=blue style=filled];
 
-		"send_state()" -> "father process" [label="request" color="blue"];
+		"send_state()" -> "check_pipe()" [label="STATE_PIPE=11" color="blue" style=dotted];
+		"check_pipe()" -> "init_main2()"  [label="re-exec" color="blue" style=solid];
+		//"init_main2()" -> "while(1)" [style=dotted];
 	}
 }
