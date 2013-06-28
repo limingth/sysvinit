@@ -6,7 +6,7 @@
 \BOOKMARK [2][-]{subsection.1.2.1}{核心命令 init/telinit}{section.1.2}
 \BOOKMARK [2][-]{subsection.1.2.2}{关机命令 halt/shutdown/poweroff/reboot}{section.1.2}
 \BOOKMARK [2][-]{subsection.1.2.3}{运行级别命令 sulogin/runlevel}{section.1.2}
-\BOOKMARK [2][-]{subsection.1.2.4}{消息相关命令 mesg/wall/killall5/pidof}{section.1.2}
+\BOOKMARK [2][-]{subsection.1.2.4}{进程/消息相关命令 mesg/wall/killall5/pidof}{section.1.2}
 \BOOKMARK [2][-]{subsection.1.2.5}{日志相关命令 bootlogd/utmpdump}{section.1.2}
 \BOOKMARK [2][-]{subsection.1.2.6}{文件系统相关命令 mountpoint/fstab-decode}{section.1.2}
 \BOOKMARK [0][-]{chapter.2}{Sysvinit 项目概要分析}{}
@@ -65,28 +65,21 @@
 \BOOKMARK [2][-]{subsection.3.4.1}{shutdown命令的数据分析}{section.3.4}
 \BOOKMARK [2][-]{subsection.3.4.2}{shutdown命令实现代码分析}{section.3.4}
 \BOOKMARK [1][-]{section.3.5}{sulogin命令执行流程分析}{chapter.3}
-\BOOKMARK [2][-]{subsection.3.5.1}{sushell函数}{section.3.5}
-\BOOKMARK [2][-]{subsection.3.5.2}{getrootpwent函数}{section.3.5}
-\BOOKMARK [2][-]{subsection.3.5.3}{getpasswd 函数}{section.3.5}
+\BOOKMARK [2][-]{subsection.3.5.1}{sushell函数代码分析}{section.3.5}
+\BOOKMARK [2][-]{subsection.3.5.2}{getrootpwent函数代码分析}{section.3.5}
+\BOOKMARK [2][-]{subsection.3.5.3}{getpasswd 函数代码分析}{section.3.5}
 \BOOKMARK [1][-]{section.3.6}{runlevel命令执行流程分析}{chapter.3}
-\BOOKMARK [2][-]{subsection.3.6.1}{utmpname 函数}{section.3.6}
-\BOOKMARK [2][-]{subsection.3.6.2}{setutent 函数}{section.3.6}
-\BOOKMARK [2][-]{subsection.3.6.3}{getutent 函数}{section.3.6}
-\BOOKMARK [2][-]{subsection.3.6.4}{endutent 函数}{section.3.6}
+\BOOKMARK [2][-]{subsection.3.6.1}{utmpname 函数代码分析}{section.3.6}
+\BOOKMARK [2][-]{subsection.3.6.2}{setutent 函数代码分析}{section.3.6}
+\BOOKMARK [2][-]{subsection.3.6.3}{getutent 函数代码分析}{section.3.6}
+\BOOKMARK [2][-]{subsection.3.6.4}{utmp结构定义}{section.3.6}
+\BOOKMARK [2][-]{subsection.3.6.5}{endutent 函数}{section.3.6}
 \BOOKMARK [1][-]{section.3.7}{killall5 命令执行流程分析}{chapter.3}
-\BOOKMARK [2][-]{subsection.3.7.1}{获得执行程序名 progname}{section.3.7}
-\BOOKMARK [2][-]{subsection.3.7.2}{打开系统日志}{section.3.7}
-\BOOKMARK [2][-]{subsection.3.7.3}{处理 pidof 命令的情况}{section.3.7}
-\BOOKMARK [2][-]{subsection.3.7.4}{分析 -o omitpid 参数创建双向链表 omit}{section.3.7}
-\BOOKMARK [2][-]{subsection.3.7.5}{挂载 /proc 文件系统}{section.3.7}
-\BOOKMARK [2][-]{subsection.3.7.6}{暂时忽略 SIGTERM/SIGSTOP/SIGKILL 信号}{section.3.7}
-\BOOKMARK [2][-]{subsection.3.7.7}{禁止内存换出，暂停所有进程}{section.3.7}
-\BOOKMARK [2][-]{subsection.3.7.8}{读 /proc 文件系统，建立进程链表 plist}{section.3.7}
-\BOOKMARK [2][-]{subsection.3.7.9}{根据 plist 链表开始依次 kill 进程}{section.3.7}
-\BOOKMARK [2][-]{subsection.3.7.10}{恢复所有进程运行 （从 STOP 又回到 CONT）}{section.3.7}
-\BOOKMARK [2][-]{subsection.3.7.11}{关闭日志}{section.3.7}
-\BOOKMARK [2][-]{subsection.3.7.12}{调用 usleep\(1\) 强制 Kernel 运行调度器}{section.3.7}
+\BOOKMARK [2][-]{subsection.3.7.1}{killall5 主函数代码分析}{section.3.7}
 \BOOKMARK [1][-]{section.3.8}{pidof 命令执行流程分析}{chapter.3}
+\BOOKMARK [2][-]{subsection.3.8.1}{main\137pidof 主程序代码分析}{section.3.8}
+\BOOKMARK [2][-]{subsection.3.8.2}{readproc 函数代码分析}{section.3.8}
+\BOOKMARK [2][-]{subsection.3.8.3}{pidof 函数代码分析}{section.3.8}
 \BOOKMARK [0][-]{chapter.4}{Sysvinit 项目安全漏洞}{}
 \BOOKMARK [0][-]{chapter.5}{Sysvinit 项目运行时调试图}{}
 \BOOKMARK [1][-]{section.5.1}{编译安装运行调试图}{chapter.5}

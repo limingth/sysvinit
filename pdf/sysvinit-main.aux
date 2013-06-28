@@ -23,9 +23,9 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.2.1}核心命令 init/telinit}{9}{subsection.1.2.1}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.2.2}关机命令 halt/shutdown/poweroff/reboot}{9}{subsection.1.2.2}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.2.3}运行级别命令 sulogin/runlevel}{9}{subsection.1.2.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.2.4}消息相关命令 mesg/wall/killall5/pidof}{9}{subsection.1.2.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.2.5}日志相关命令 bootlogd/utmpdump}{9}{subsection.1.2.5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.2.6}文件系统相关命令 mountpoint/fstab-decode}{9}{subsection.1.2.6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2.4}进程/消息相关命令 mesg/wall/killall5/pidof}{9}{subsection.1.2.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2.5}日志相关命令 bootlogd/utmpdump}{10}{subsection.1.2.5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2.6}文件系统相关命令 mountpoint/fstab-decode}{10}{subsection.1.2.6}}
 \@writefile{lof}{\contentsline {figure}{\numberline {1.1}{\ignorespaces sysvinit 系统层次结构图}}{10}{figure.1.1}}
 \@writefile{toc}{\contentsline {chapter}{\numberline {2}Sysvinit 项目概要分析}{11}{chapter.2}}
 \@writefile{lof}{\addvspace {10\p@ }}
@@ -139,54 +139,72 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.4.1}shutdown命令的数据分析}{53}{subsection.3.4.1}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.4.2}shutdown命令实现代码分析}{53}{subsection.3.4.2}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.5}sulogin命令执行流程分析}{54}{section.3.5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.1}sushell函数}{54}{subsection.3.5.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.2}getrootpwent函数}{54}{subsection.3.5.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.3}getpasswd 函数}{55}{subsection.3.5.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.1}sushell函数代码分析}{54}{subsection.3.5.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.2}getrootpwent函数代码分析}{54}{subsection.3.5.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.3}getpasswd 函数代码分析}{55}{subsection.3.5.3}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.6}runlevel命令执行流程分析}{55}{section.3.6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.1}utmpname 函数}{55}{subsection.3.6.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.2}setutent 函数}{55}{subsection.3.6.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.3}getutent 函数}{55}{subsection.3.6.3}}
-\@writefile{toc}{\contentsline {subsubsection}{utmp结构定义}{56}{section*.48}}
-\@writefile{toc}{\contentsline {subsubsection}{ut\_type有以下几种类型}{56}{section*.49}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.4}endutent 函数}{57}{subsection.3.6.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.1}utmpname 函数代码分析}{55}{subsection.3.6.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.2}setutent 函数代码分析}{55}{subsection.3.6.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.3}getutent 函数代码分析}{55}{subsection.3.6.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.4}utmp结构定义}{56}{subsection.3.6.4}}
+\@writefile{toc}{\contentsline {subsubsection}{ut\_type有以下几种类型}{56}{section*.48}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.5}endutent 函数}{57}{subsection.3.6.5}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.7}killall5 命令执行流程分析}{57}{section.3.7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.1}获得执行程序名 progname}{57}{subsection.3.7.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.2}打开系统日志}{58}{subsection.3.7.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.3}处理 pidof 命令的情况}{58}{subsection.3.7.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.4}分析 -o omitpid 参数创建双向链表 omit}{58}{subsection.3.7.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.5}挂载 /proc 文件系统}{60}{subsection.3.7.5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.6}暂时忽略 SIGTERM/SIGSTOP/SIGKILL 信号}{60}{subsection.3.7.6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.7}禁止内存换出，暂停所有进程}{60}{subsection.3.7.7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.8}读 /proc 文件系统，建立进程链表 plist}{61}{subsection.3.7.8}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.9}根据 plist 链表开始依次 kill 进程}{62}{subsection.3.7.9}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.10}恢复所有进程运行 （从 STOP 又回到 CONT）}{63}{subsection.3.7.10}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.11}关闭日志}{63}{subsection.3.7.11}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.12}调用 usleep(1) 强制 Kernel 运行调度器}{63}{subsection.3.7.12}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.1}killall5 主函数代码分析}{57}{subsection.3.7.1}}
+\@writefile{toc}{\contentsline {subsubsection}{获得执行程序名 progname}{57}{section*.49}}
+\@writefile{toc}{\contentsline {subsubsection}{打开系统日志}{58}{section*.50}}
+\@writefile{toc}{\contentsline {subsubsection}{处理 pidof 命令的情况}{58}{section*.51}}
+\@writefile{toc}{\contentsline {subsubsection}{分析 -o omitpid 参数创建双向链表 omit}{58}{section*.52}}
+\@writefile{toc}{\contentsline {subsubsection}{挂载 /proc 文件系统}{60}{section*.53}}
+\@writefile{toc}{\contentsline {subsubsection}{暂时忽略 SIGTERM/SIGSTOP/SIGKILL 信号}{60}{section*.54}}
+\@writefile{toc}{\contentsline {subsubsection}{禁止内存换出，暂停所有进程}{60}{section*.55}}
+\@writefile{toc}{\contentsline {subsubsection}{读 /proc 文件系统，建立进程链表 plist}{61}{section*.56}}
+\@writefile{toc}{\contentsline {subsubsection}{根据 plist 链表开始依次 kill 进程}{62}{section*.57}}
+\@writefile{toc}{\contentsline {subsubsection}{恢复所有进程运行 （从 STOP 又回到 CONT）}{63}{section*.58}}
+\@writefile{toc}{\contentsline {subsubsection}{关闭日志}{63}{section*.59}}
+\@writefile{toc}{\contentsline {subsubsection}{调用 usleep(1) 强制 Kernel 运行调度器}{63}{section*.60}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.8}pidof 命令执行流程分析}{64}{section.3.8}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Sysvinit 项目安全漏洞}{65}{chapter.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.8.1}main\_pidof 主程序代码分析}{64}{subsection.3.8.1}}
+\@writefile{toc}{\contentsline {subsubsection}{初始化和数据结构定义}{64}{section*.61}}
+\@writefile{toc}{\contentsline {subsubsection}{参数处理并完成 omit 进程号链表}{65}{section*.62}}
+\@writefile{toc}{\contentsline {subsubsection}{检查对于 /proc/pid/root 的访问权限}{66}{section*.63}}
+\@writefile{toc}{\contentsline {subsubsection}{检查 fs 是否基于 nfs 的网络文件系统}{66}{section*.64}}
+\@writefile{toc}{\contentsline {subsubsection}{读 /proc 文件系统，建立进程链表 plist}{67}{section*.65}}
+\@writefile{toc}{\contentsline {subsubsection}{调用 pidof 函数，返回进程名为 argv{[}f{]} 进程 PIDQ\_HEAD 链表}{67}{section*.66}}
+\@writefile{toc}{\contentsline {subsubsection}{退出前的清理工作}{68}{section*.67}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.8.2}readproc 函数代码分析}{68}{subsection.3.8.2}}
+\@writefile{toc}{\contentsline {subsubsection}{改变目录到 /proc ，调用 opendir 打开当前目录文件 .}{68}{section*.68}}
+\@writefile{toc}{\contentsline {subsubsection}{释放已经存在的 plist 链表，为重新生成做好准备}{69}{section*.69}}
+\@writefile{toc}{\contentsline {subsubsection}{开始遍历 /proc 目录，找出是进程号（大于0的数字）的文件名}{69}{section*.70}}
+\@writefile{toc}{\contentsline {subsubsection}{以 bash 文件为例,查看进程的 stat 文件信息，找出进程名}{70}{section*.71}}
+\@writefile{toc}{\contentsline {subsubsection}{得到进程 session id，判断其是否 kernel thread}{71}{section*.72}}
+\@writefile{toc}{\contentsline {subsubsection}{获得其他参数}{71}{section*.73}}
+\@writefile{toc}{\contentsline {subsubsection}{添加进入链表，并完成收尾工作}{72}{section*.74}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.8.3}pidof 函数代码分析}{72}{subsection.3.8.3}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Sysvinit 项目安全漏洞}{75}{chapter.4}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Sysvinit 项目运行时调试图}{67}{chapter.5}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Sysvinit 项目运行时调试图}{77}{chapter.5}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}编译安装运行调试图}{67}{section.5.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.1}wget下载源码包}{67}{subsection.5.1.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces wget下载源码包}}{67}{figure.5.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.2}tar解压源码包}{68}{subsection.5.1.2}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces tar解压源码包}}{69}{figure.5.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.3}编译项目源码}{71}{subsection.5.1.3}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces 修改 Makefile}}{74}{figure.5.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.4}修改 Makefile 使之能够编译通过}{75}{subsection.5.1.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.5}继续编译项目源码，成功}{75}{subsection.5.1.5}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces make编译源码包}}{76}{figure.5.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.6}查看生成的可执行文件}{77}{subsection.5.1.6}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.5}{\ignorespaces 查看可执行文件}}{78}{figure.5.5}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.2}Linux 内核启动 init 进程}{79}{section.5.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.1}start\_kernel}{79}{subsection.5.2.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.2}parse\_options}{79}{subsection.5.2.2}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.6}{\ignorespaces 内核start\_kernel函数}}{80}{figure.5.6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.3}rest\_init}{81}{subsection.5.2.3}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.7}{\ignorespaces 内核parse\_options函数}}{82}{figure.5.7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.4}init 函数}{83}{subsection.5.2.4}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.8}{\ignorespaces 内核init函数}}{84}{figure.5.8}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.9}{\ignorespaces Linux 内核启动 init 进程}}{86}{figure.5.9}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}编译安装运行调试图}{77}{section.5.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.1}wget下载源码包}{77}{subsection.5.1.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces wget下载源码包}}{77}{figure.5.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.2}tar解压源码包}{78}{subsection.5.1.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces tar解压源码包}}{79}{figure.5.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.3}编译项目源码}{81}{subsection.5.1.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces 修改 Makefile}}{84}{figure.5.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.4}修改 Makefile 使之能够编译通过}{85}{subsection.5.1.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.5}继续编译项目源码，成功}{85}{subsection.5.1.5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces make编译源码包}}{86}{figure.5.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.6}查看生成的可执行文件}{87}{subsection.5.1.6}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.5}{\ignorespaces 查看可执行文件}}{88}{figure.5.5}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}Linux 内核启动 init 进程}{89}{section.5.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.1}start\_kernel}{89}{subsection.5.2.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.2}parse\_options}{89}{subsection.5.2.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.6}{\ignorespaces 内核start\_kernel函数}}{90}{figure.5.6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.3}rest\_init}{91}{subsection.5.2.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.7}{\ignorespaces 内核parse\_options函数}}{92}{figure.5.7}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.4}init 函数}{93}{subsection.5.2.4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.8}{\ignorespaces 内核init函数}}{94}{figure.5.8}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.9}{\ignorespaces Linux 内核启动 init 进程}}{96}{figure.5.9}}

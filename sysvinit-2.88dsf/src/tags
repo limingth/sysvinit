@@ -297,7 +297,8 @@ count	init.h	/^  int count;			\/* Times respawned in the last 2 minutes *\/$/;"	
 createlogfile	bootlogd.c	/^int createlogfile = 0;$/;"	v
 data	initreq.h	/^		char			data[368];$/;"	m	union:init_request::__anon4
 data	root/usr/include/initreq.h	/^		char			data[368];$/;"	m	union:init_request::__anon5
-debug	init.c	1288;"	d	file:
+debug	bootlogd.c	492;"	d	file:
+debug	init.c	1290;"	d	file:
 decode	fstab-decode.c	/^decode(char *s)$/;"	f	file:
 defcons	bootlogd.c	/^char *defcons[] = { "tty0", "hvc0", "ttyS0", "ttySC0", "ttyB0", NULL };$/;"	v
 dev	killall5.c	/^	dev_t dev;		\/* Device it is on		  *\/$/;"	m	struct:proc	file:

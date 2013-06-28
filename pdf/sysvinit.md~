@@ -71,13 +71,19 @@ Sysvinit 软件包是一组Linux工具集，包含控制启动，运行和关闭
 
 ### 核心命令 init/telinit
 init 是所有命令中的核心，也是该项目最重要的输出成果，提供一个可以和 Kernel 进行对接的 init 程序，实现支持不同运行级别的启动方式。
+telinit 是一个 init 程序的软链接，用来通知 init 进程切换运行级别。
 
 ### 关机命令 halt/shutdown/poweroff/reboot
-这4条命令都是和系统关机有关，名字很接近。
+这4条命令都是和系统关机有关，名字很接近。其中 shutdown 命令是这里面的核心命令，halt 命令是通过调用 shutdown 命令来完成功能的。
+poweroff 和 reboot 这2条命令，都是指向 halt 命令的软链接。我们把它们可以统称为关机命令。
 
 ### 运行级别命令 sulogin/runlevel
+sulogin 是为单用户运行级别提供的登录验证程序，用户运行这个命令就会以 root 方式进入单用户模式。
+runlevel 是一条测试命令，检查当前的运行级别，和之前上一个运行级别，打印出来给用户以便了解。
 
-### 消息相关命令 mesg/wall/killall5/pidof
+### 进程/消息相关命令 mesg/wall/killall5/pidof
+这里面的命令都是和进程/消息有关的。mesg 是给某个用户和终端发消息，wall 是给全部登录用户发消息。
+killall5 是向所有进程发送 SIGKILL 消息，杀死进程。 pidof 是一个 killall5 的软链接，打印出对应输入进程名 progname 的进程号 pid。
 
 ### 日志相关命令 bootlogd/utmpdump
 
@@ -1290,7 +1296,7 @@ shutdown 的核心代码在 shutdown() 函数中，除了用 openlog(), syslog()
 
 ## sulogin命令执行流程分析
 
-### sushell函数
+### sushell函数代码分析
 该函数主要完成的功能是： 当用户的密码验证通过后，启动一个shell （由环境变量SUSHELL指定）
 
 函数执行流程分析：
@@ -1305,7 +1311,7 @@ shutdown 的核心代码在 shutdown() 函数中，除了用 openlog(), syslog()
 
 	5. 调用 execl 来执行 sushell 命令，如果失败，则依次执行 /bin/sh,/bin/sash
 
-### getrootpwent函数
+### getrootpwent函数代码分析
 该函数主要完成的功能是： 获得根用户 root 的密码
 
 函数执行流程分析：
@@ -1320,7 +1326,7 @@ shutdown 的核心代码在 shutdown() 函数中，除了用 openlog(), syslog()
 
 	5. 验证不成功，再检查 /etc/shadow 文件，如果有则返回 &pwd，如果没有则返回 空串。
 	
-### getpasswd 函数
+### getpasswd 函数代码分析
 该函数主要完成的功能是： 从标准输入获得用户输入的密码
 
 函数执行流程分析：
@@ -1337,23 +1343,22 @@ shutdown 的核心代码在 shutdown() 函数中，除了用 openlog(), syslog()
 
 ## runlevel命令执行流程分析
 
-### utmpname 函数
+### utmpname 函数代码分析
 该函数主要完成的功能是： 设置utmp 文件路径
 
 utmpname()用来设置utmp文件的路径，以提供utmp相关函数的存取路径。如果没有使用utmpname()则默认utmp文件路径为/var/run/utmp。
 
-### setutent 函数
+### setutent 函数代码分析
 该函数主要完成的功能是： 从头读取utmp 文件中的登录数据
 
 setutent()用来将getutent()的读写地址指回utmp文件开头。
 
-### getutent 函数
+### getutent 函数代码分析
 该函数主要完成的功能是： 从utmp 文件中取得账号登录数据
 
 getutent()用来从utmp 文件(/var/run/utmp)中读取一项登录数据，该数据以utmp 结构返回。第一次调用时会取得第一位用户数据，之后每调用一次就会返回下一项数据，直到已无任何数据时返回NULL。
 
-
-#### utmp结构定义
+### utmp结构定义
 
 	struct utmp
 	{
@@ -1401,7 +1406,9 @@ endutent()用来关闭由getutent所打开的utmp文件。
 killall5 是 sysvinit 工具软件包中，从实现代码量上是仅次于 init 命令的一个重要命令。
 下面我们从 killall5.c 文件的 main 函数开始分析整个命令的执行流程。
 
-### 获得执行程序名 progname
+### killall5 主函数代码分析
+
+#### 获得执行程序名 progname
 	00986 /* Main for either killall or pidof. */
 	00987 int main(int argc, char **argv)
 	00988 {
@@ -1425,14 +1432,14 @@ progname 字符串指针是一个全局变量，经过赋值之后，获得了�
 
 	00133 char *progname; /* the name of the running program */
 
-### 打开系统日志
+#### 打开系统日志
 下面这段代码是调用 openlog() 函数来打开以 progname 为日志文件名的日志文件。
 
 	01003         /* Now connect to syslog. */
 	01004         openlog(progname, LOG_CONS|LOG_PID, LOG_DAEMON);
 	01005 
 	
-### 处理 pidof 命令的情况
+#### 处理 pidof 命令的情况
 因为 pidof 是指向 killall5 的软链接，因此程序需要判断是通过执行 killall5 命令启动的，还是 pidof 命令启动的。
 如果是 pidof 命令，则调用 main_pidof 的主函数来实现这个命令，并在执行完 main_pidof() 函数后直接返回，不再执行后继的代码。同时这个函数的返回值，也作为整个程序的返回值。
 
@@ -1442,7 +1449,7 @@ progname 字符串指针是一个全局变量，经过赋值之后，获得了�
 
 因为 pidof 命令在下面我们专门有一个小节来讨论，因此我们不在此展开，而是继续接着 killall5 命令的执行流程分析下去。
 
-### 分析 -o omitpid 参数创建双向链表 omit
+#### 分析 -o omitpid 参数创建双向链表 omit
 程序进行到此，确定是用户要执行 killall5 命令。同时给 omit 链表赋值为 0 ，表示此时链表为空。
 
 	01010         /* Right, so we are "killall". */
@@ -1493,7 +1500,7 @@ progname 字符串指针是一个全局变量，经过赋值之后，获得了�
 	00099         pid_t pid;
 	00100 } OMIT;
 
-### 挂载 /proc 文件系统
+#### 挂载 /proc 文件系统
 接下来，程序通过调用 mount_proc() 函数来挂载 /proc 文件系统，确保接下来能够访问 /proc 文件系统的节点。
 
 	01044 
@@ -1503,14 +1510,14 @@ progname 字符串指针是一个全局变量，经过赋值之后，获得了�
 
 这个函数的分析，这里不再展开。简单来说，就是如果 /proc 文件系统已经存在，则可以读取 /proc/version 。如果不存在，则调用 excev("/sbin/mount", args) 来完成程序加载。这里 args 传递的mount参数是 "-t", "proc", "proc", "/proc", 0 。
 
-### 暂时忽略 SIGTERM/SIGSTOP/SIGKILL 信号
+#### 暂时忽略 SIGTERM/SIGSTOP/SIGKILL 信号
 考虑到后面会通过调用 kill(-1, SIGSTOP) 的方式来停止所有进程，因此这里为了确保即使以后 kill(-1, ...) 的调用不会把执行进程也暂停掉，先给这3个信号注册了一个 SIG_IGN 处理函数，表示忽略掉这些信号。
 
 	01054         signal(SIGTERM, SIG_IGN);
 	01055         signal(SIGSTOP, SIG_IGN);
 	01056         signal(SIGKILL, SIG_IGN);
 
-### 禁止内存换出，暂停所有进程
+#### 禁止内存换出，暂停所有进程
 因为内存管理机制会对暂时处于停止状态的进程进行换出内存的操作，因此提前先禁止这一功能。然后再执行 kill(-1, SIGSTOP) 给所有进程发送 SIGSTOP 信号。
 
 	01058         /* lock us into memory */
@@ -1521,7 +1528,7 @@ progname 字符串指针是一个全局变量，经过赋值之后，获得了�
 	01063         sent_sigstop = 1;
 	01064 
 
-### 读 /proc 文件系统，建立进程链表 plist 
+#### 读 /proc 文件系统，建立进程链表 plist 
 通过 readproc() 函数来读取 /proc 文件系统的关于运行进程的节点，并将所有进程填入组成一个进程链表 plist 。
 
 	01065         /* Read /proc filesystem */
@@ -1555,7 +1562,7 @@ readproc() 函数调用会通过读取 /proc 文件系统的目录和文件的�
 
 这个 PROC 结构体中，包含了有关正在运行的进程信息，例如 pid, ino, sid, dev 等。
 
-### 根据 plist 链表开始依次 kill 进程
+#### 根据 plist 链表开始依次 kill 进程
 这段代码是实现 killall5 命令最核心的部分，逻辑也很简单，就是遍历 plist 链表，对于每一个正在运行的进程，首先判断它是否是 1号 init 进程，当前进程或者当前Session进程，或者是内核线程，如果是这些则忽略过不进行 kill 。
 
 接着判断该进程是否属于 omit 链表中要求被忽略的进程之一，如果是这些用户指定的要忽略的进程，则也不进行 kill 。
@@ -1585,7 +1592,7 @@ readproc() 函数调用会通过读取 /proc 文件系统的目录和文件的�
 	01091                 retval = 0;
 	01092         }
 
-### 恢复所有进程运行 （从 STOP 又回到 CONT）
+#### 恢复所有进程运行 （从 STOP 又回到 CONT）
 发送完 SIGKILL 之后，调用 kill 函数给每个刚才要求 SIGSTOP 的进程发送 sig=SIGCONT 信号。
 这个引号要求所有刚才被暂停的进程，恢复执行后尽快接收到 SIGCONT 继续运行 (continue)，
 当再次收到 SIGKILL 的时候，可以认为是系统要求结束所有进程，然后由各个进程自己结束。
@@ -1593,13 +1600,13 @@ readproc() 函数调用会通过读取 /proc 文件系统的目录和文件的�
 	01094         /* And let them continue. */
 	01095         kill(-1, SIGCONT);
 
-### 关闭日志
+#### 关闭日志
 通过调用 closelog() 函数来正常关闭日志，日志的文件是 /var/log/sysvinit。
 
 	01097         /* Done. */
 	01098         closelog();
 
-### 调用 usleep(1) 强制 Kernel 运行调度器
+#### 调用 usleep(1) 强制 Kernel 运行调度器
 强制内核必须要使用 usleep(1) 以便能够让出 CPU，从而要求使用调度器进行调度。
 
 	01100         /* Force the kernel to run the scheduler */
@@ -1607,6 +1614,357 @@ readproc() 函数调用会通过读取 /proc 文件系统的目录和文件的�
 	01102 
 
 ## pidof 命令执行流程分析
+pidof 命令的实现也是在 killall5.c 文件中，由 main_pidof() 主函数负责完成。下面我们详细分析这个函数的实现。
+
+### main_pidof 主程序代码分析
+
+#### 初始化和数据结构定义
+	00852 int main_pidof(int argc, char **argv)
+	00853 {
+	00854         PIDQ_HEAD       *q;
+	00855         PROC            *p;
+	00856         char            *token, *here;
+	00857         int             f;
+	00858         int             first = 1;
+	00859         int             opt, flags = 0;
+	00860         int             chroot_check = 0;
+	00861         struct stat     st;
+	00862         char            tmp[512];
+	00863 
+	00864         omit = (OMIT*)0;
+	00865         nlist = (NFS*)0;
+	00866         opterr = 0;
+	00867 
+
+这里同样引入了 2 个重要的链表结构，PROC *p 和 PIDQ_HEAD *q 。其中 PROC 结构体前面已经介绍过，PIDQ_HEAD 的结构体定义如下：
+
+	00085 typedef struct pidq {
+	00086         PROC            *proc;
+	00087         struct pidq     *next;
+	00088 } PIDQ;
+	00089 
+	00090 typedef struct {
+	00091         PIDQ            *head;
+	00092         PIDQ            *tail;
+	00093         PIDQ            *next;
+	00094 } PIDQ_HEAD;
+
+这是一个双向链表，head 和 tail 指针分别指向头节点和尾节点。而 PIDQ 本身就是一个单向链表，里面的元素是 PROC 结构体。
+
+#### 参数处理并完成 omit 进程号链表
+接下来部分的代码主要负责处理传入参数，特别是通过 -o omitpid,... 方式传进来的可以被忽略的进程号，并将它们组成一个 omit 链表。其他部分的处理，基本都是给 flags 变量进行相关置位 setbit 操作。
+
+	00868         if ((token = getenv("PIDOF_NETFS")) && (strcmp(token,"no") != 0))
+	00869                 flags |= PIDOF_NETFS;
+	00870 
+	00871         while ((opt = getopt(argc,argv,"hco:sxn")) != EOF) switch (opt) {
+	00872                 case '?':
+	00873                         nsyslog(LOG_ERR,"invalid options on command line!\n");
+	00874                         closelog();
+	00875                         exit(1);
+	00876                 case 'c':
+	00877                         if (geteuid() == 0) chroot_check = 1;
+	00878                         break;
+	00879                 case 'o':
+	00880                         here = optarg;
+	00881                         while ((token = strsep(&here, ",;:"))) {
+	00882                                 OMIT *restrict optr;
+	00883                                 pid_t opid;
+	00884 
+	00885                                 if (strcmp("%PPID", token) == 0)
+	00886                                         opid = getppid();
+	00887                                 else
+	00888                                         opid = (pid_t)atoi(token);
+	00889 
+	00890                                 if (opid < 1) {
+	00891                                         nsyslog(LOG_ERR,
+	00892                                                 "illegal omit pid value "
+	00893                                                 "(%s)!\n", token);
+	00894                                         continue;
+	00895                                 }
+	00896                                 xmemalign((void*)&optr, sizeof(void*), alignof(OMIT));
+	00897                                 optr->next = omit;
+	00898                                 optr->prev = (OMIT*)0;
+	00899                                 optr->pid  = opid;
+	00900                                 omit = optr;
+	00901                         }
+	00902                         flags |= PIDOF_OMIT;
+	00903                         break;
+	00904                 case 's':
+	00905                         flags |= PIDOF_SINGLE;
+	00906                         break;
+	00907                 case 'x':
+	00908                         scripts_too++;
+	00909                         break;
+	00910                 case 'n':
+	00911                         flags |= PIDOF_NETFS;
+	00912                         break;
+	00913                 default:
+	00914                         /* Nothing */
+	00915                         break;
+	00916         }
+	00917         argc -= optind;
+	00918         argv += optind;
+
+#### 检查对于 /proc/pid/root 的访问权限
+	00920         /* Check if we are in a chroot */
+	00921         if (chroot_check) {
+	00922                 snprintf(tmp, 512, "/proc/%d/root", getpid());
+	00923                 if (stat(tmp, &st) < 0) {
+	00924                         nsyslog(LOG_ERR, "stat failed for %s!\n", tmp);
+	00925                         closelog();
+	00926                         exit(1);
+	00927                 }
+	00928         }
+
+#### 检查 fs 是否基于 nfs 的网络文件系统
+	00930         if (flags & PIDOF_NETFS)
+	00931                 init_nfs();             /* Which network based FS are online? */
+	00932 
+
+#### 读 /proc 文件系统，建立进程链表 plist 
+	00933         /* Print out process-ID's one by one. */
+	00934         readproc((flags & PIDOF_NETFS) ? DO_NETFS : DO_STAT);
+	00935 
+
+#### 调用 pidof 函数，返回进程名为 argv[f] 进程 PIDQ_HEAD 链表 
+	00936         for(f = 0; f < argc; f++) {
+	00937                 if ((q = pidof(argv[f])) != NULL) {
+	00938                         pid_t spid = 0;
+	00939                         while ((p = get_next_from_pid_q(q))) {
+	00940                                 if ((flags & PIDOF_OMIT) && omit) {
+	00941                                         OMIT * optr;
+	00942                                         for (optr = omit; optr; optr = optr->next) {
+	00943                                                 if (optr->pid == p->pid)
+	00944                                                         break;
+	00945                                         }
+	00946 
+	00947                                         /*
+	00948                                          *      On a match, continue with
+	00949                                          *      the for loop above.
+	00950                                          */
+	00951                                         if (optr)
+	00952                                                 continue;
+	00953                                 }
+	00954                                 if (flags & PIDOF_SINGLE) {
+	00955                                         if (spid)
+	00956                                                 continue;
+	00957                                         else
+	00958                                                 spid = 1;
+	00959                                 }
+	00960                                 if (chroot_check) {
+	00961                                         struct stat st2;
+	00962                                         snprintf(tmp, 512, "/proc/%d/root",
+	00963                                                  p->pid);
+	00964                                         if (stat(tmp, &st2) < 0 ||
+	00965                                             st.st_dev != st2.st_dev ||
+	00966                                             st.st_ino != st2.st_ino) {
+	00967                                                 continue;
+	00968                                         }
+	00969                                 }
+	00970                                 if (!first)
+	00971                                         printf(" ");
+	00972                                 printf("%d", p->pid);
+	00973                                 first = 0;
+	00974                         }
+	00975                 }
+	00976         }
+
+972 行的这行代码至关重要，正是由这句话负责打印输出了 pidof 命令的输出结果，也就是每个符合匹配进程名的进程号。
+
+#### 退出前的清理工作
+最后，程序在退出前，处理是否打印回车，卸载mount上来的 /proc 文件系统，关闭系统日志等。如果成功匹配并输出了进程名，则返回0，否则返回值为1表示没有用户指定名字的进程，不能打印输出其进程号。
+
+	00977         if (!first)
+	00978                 printf("\n");
+	00979 
+	00980         clear_mnt();
+	00981 
+	00982         closelog();
+	00983         return(first ? 1 : 0);
+
+### readproc 函数代码分析
+
+#### 改变目录到 /proc ，调用 opendir 打开当前目录文件 . 
+	00450 int readproc(int do_stat)
+	00451 {
+	00452         DIR             *dir;
+	00453         FILE            *fp;
+	00454         PROC            *p, *n;
+	00455         struct dirent   *d;
+	00456         struct stat     st;
+	00457         char            path[PATH_MAX+1];
+	00458         char            buf[PATH_MAX+1];
+	00459         char            *s, *q;
+	00460         unsigned long   startcode, endcode;
+	00461         int             pid, f;
+	00462 
+	00463         /* Open the /proc directory. */
+	00464         if (chdir("/proc") == -1) {
+	00465                 nsyslog(LOG_ERR, "chdir /proc failed");
+	00466                 return -1;
+	00467         }
+	00468         if ((dir = opendir(".")) == NULL) {
+	00469                 nsyslog(LOG_ERR, "cannot opendir(/proc)");
+	00470                 return -1;
+	00471         }
+
+#### 释放已经存在的 plist 链表，为重新生成做好准备
+	00473         /* Free the already existing process list. */
+	00474         n = plist;
+	00475         for (p = plist; n; p = n) {
+	00476                 n = p->next;
+	00477                 if (p->argv0) free(p->argv0);
+	00478                 if (p->argv1) free(p->argv1);
+	00479                 if (p->statname) free(p->statname);
+	00480                 free(p);
+	00481         }
+	00482         plist = NULL;
+
+#### 开始遍历 /proc 目录，找出是进程号（大于0的数字）的文件名
+	00484         /* Walk through the directory. */
+	00485         while ((d = readdir(dir)) != NULL) {
+	00486 
+	00487                 /* See if this is a process */
+	00488                 if ((pid = atoi(d->d_name)) == 0) continue;
+	00489 
+	00490                 /* Get a PROC struct . */
+	00491                 p = (PROC *)xmalloc(sizeof(PROC));
+	00492                 memset(p, 0, sizeof(PROC));
+	00493 
+	00494                 /* Open the status file. */
+	00495                 snprintf(path, sizeof(path), "%s/stat", d->d_name);
+	00496 
+
+#### 以 bash 文件为例,查看进程的 stat 文件信息，找出进程名
+	$ cat /proc/17500/stat
+	17500 (bash) S 17492 17500 17500 34816 17500 4202496 20014 5614681 596 17984 91 163 41923 13952 20 0 1 0 4974766 8609792 413 4294967295 134512640 135410880 3214451152 3214448040 3078423588 0 0 3686404 1266761467 3241494555 0 0 17 0 0 0 174 0 0
+	$ 
+
+以下代码完成从 /proc/pid/stat 文件中读取内容，找出 ( ) 左右园括号之间的进程名称 statname 存入 PROC 结构体 p 中。
+
+	00502                         /* See if name starts with '(' */
+	00503                         s = buf;
+	00504                         while (*s != ' ') s++;
+	00505                         s++;
+	00506                         if (*s == '(') {
+	00507                                 /* Read program name. */
+	00508                                 q = strrchr(buf, ')');
+	00509                                 if (q == NULL) {
+	00510                                         p->sid = 0;
+	00511                                         nsyslog(LOG_ERR,
+	00512                                         "can't get program name from /proc/%s\n",
+	00513                                                 path);
+	00514                                         if (p->argv0) free(p->argv0);
+	00515                                         if (p->argv1) free(p->argv1);
+	00516                                         if (p->statname) free(p->statname);
+	00517                                         free(p);
+	00518                                         continue;
+	00519                                 }
+	00520                                 s++;
+	00521                         } else {
+	00522                                 q = s;
+	00523                                 while (*q != ' ') q++;
+	00524                         }
+	00525                         *q++ = 0;
+	00526                         while (*q == ' ') q++;
+	00527                         p->statname = (char *)xmalloc(strlen(s)+1);
+	00528                         strcpy(p->statname, s);
+
+#### 得到进程 session id，判断其是否 kernel thread
+	00530                         /* Get session, startcode, endcode. */
+	00531                         startcode = endcode = 0;
+	00532                         if (sscanf(q,   "%*c %*d %*d %d %*d %*d %*u %*u "
+	00533                                         "%*u %*u %*u %*u %*u %*d %*d "
+	00534                                         "%*d %*d %*d %*d %*u %*u %*d "
+	00535                                         "%*u %lu %lu",
+	00536                                         &p->sid, &startcode, &endcode) != 3) {
+	00537                                 p->sid = 0;
+	00538                                 nsyslog(LOG_ERR, "can't read sid from %s\n",
+	00539                                         path);
+	00540                                 if (p->argv0) free(p->argv0);
+	00541                                 if (p->argv1) free(p->argv1);
+	00542                                 if (p->statname) free(p->statname);
+	00543                                 free(p);
+	00544                                 continue;
+	00545                         }
+	00546                         if (startcode == 0 && endcode == 0)
+	00547                                 p->kernel = 1;
+	00548                         fclose(fp);
+	00549                 } else {
+	00550                         /* Process disappeared.. */
+	00551                         if (p->argv0) free(p->argv0);
+	00552                         if (p->argv1) free(p->argv1);
+	00553                         if (p->statname) free(p->statname);
+	00554                         free(p);
+	00555                         continue;
+	00556                 }
+
+#### 获得其他参数
+因为后继代码比较长，就不再一一列出，下面以 smbd 进程为例，总结一下 /proc 文件系统中的相关信息。
+
+* stat 文件包含进程号，进程名  
+在对 stat 文件分析过之后，对 PROC 结构体 p 指针的成员进行赋值。
+
+	p->sid
+	p->statname
+	p->kernel
+	 
+* cmdline 文件包含运行时参数  
+在对 stat 文件分析过之后，对 PROC 结构体 p 指针的成员进行赋值。
+
+	p->argv0
+	p->argv0base
+	p->argv1
+	p->argv1base
+
+* exe 文件路径中包含设备节点号和 inode节点号  
+在对 stat 文件分析过之后，对 PROC 结构体 p 指针的成员进行赋值。
+
+	p->dev
+	p->ino
+
+#### 添加进入链表，并完成收尾工作
+	00623                 /* Link it into the list. */
+	00624                 p->next = plist;
+	00625                 plist = p;
+	00626                 p->pid = pid;
+	00627         }
+	00628         closedir(dir);
+	00629 
+	00630         /* Done. */
+	00631         return 0;
+	00632 }
+
+### pidof 函数代码分析
+该函数主要完成的功能是： 从用户输入的程序名 prog 字符串，得到一个和这个名称相同的进程号链表 PIDQ_HEAD 指针返回
+
+函数执行流程分析：
+
+	1. 调用 stat 获取可执行文件文件信息到 st 结构体中，包含 st_dev 和 st_ino 两个信息
+
+	2. 获得程序名 prog 中的文件名，不包含路径
+
+	3. 遍历 plist 链表，寻找 st_dev 和 st_ino 两个参数都匹配上的进程 p ，把 p 添加进入 q 链表中
+
+	4. 如果通过这种方式没有找到，则会尝试基于完整路径名在 nfs 上找
+
+	5. 如果这样还是没有找到，则会基于 name 来扩大匹配可能
+
+匹配算法见 killall5.c 文件的 757行
+
+	00757                 /*             matching        nonmatching
+	00758                  * proc name   prog name       prog name
+	00759                  * ---         -----------     ------------
+	00760                  *   b         b, p/b, q/b
+	00761                  * p/b         b, p/b          q/b
+	00762                  *
+	00763                  * Algorithm: Match if:
+	00764                  *    cmd = arg
+	00765                  * or cmd = base(arg)
+	00766                  * or base(cmd) = arg
+	00767                  *
+
 
 # Sysvinit 项目安全漏洞
 
