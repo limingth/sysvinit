@@ -30,6 +30,9 @@
 #else
 #  define INIT_FIFO  "/dev/initctl"
 #endif
+/* add by limingth */
+#undef INIT_FIFO
+#define INIT_FIFO  "/tmp/.initctl"
 
 #define INIT_MAGIC 0x03091969
 #define INIT_CMD_START		0

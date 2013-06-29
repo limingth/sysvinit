@@ -26,7 +26,7 @@
 #define CHANGE_WAIT 0			/* Change runlevel while
 					   waiting for a process to exit? */
 /* Debug and test modes */
-#define DEBUG	   0			/* Debug code off */
+#define DEBUG	   1			/* Debug code off */
 #define INITDEBUG  0			/* Fork at startup to debug init. */
 
 /* Some constants */
@@ -61,6 +61,8 @@ void wall(const char *text, int remote);
 #else
 #  define INITDBG(level, fmt, args...)
 #endif
+#undef INITDBG(level, fmt, args...) 
+#define INITDBG(level, fmt, args...) printf(fmt "\n", ##args)
 
 /* Actions to be taken by init */
 #define RESPAWN			1

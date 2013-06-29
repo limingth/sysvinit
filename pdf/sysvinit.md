@@ -86,9 +86,12 @@ runlevel 是一条测试命令，检查当前的运行级别，和之前上一�
 killall5 是向所有进程发送 SIGKILL 消息，杀死进程。 pidof 是一个 killall5 的软链接，打印出对应输入进程名 progname 的进程号 pid。
 
 ### 日志相关命令 bootlogd/utmpdump
-
+bootlogd 命令可以设置启动时候输出的信息到日志文件中，默认的日志文件是 /var/log/boot 。
+utmpdump 命令可以实现以便于查看的格式输出 /var/run/utmp 文件日志内容。
 
 ### 文件系统相关命令 mountpoint/fstab-decode
+mountpoint 命令用来检查某个目录是否是一个挂载点，也就是 mount 上来的目录。例如 / 和 /proc 一般都是，但 /etc /lib 一般不是。
+fstab-decode 命令用来运行一条命令，在这个命令中可以加上一些参数，由 fstab-decode 来解析。
 
 ![sysvinit 系统层次结构图](./figures/sys.png)
 
@@ -430,6 +433,14 @@ mountpoint 检查给定的目录是否是一个挂载点
 
        -x     Print major/minor device number of the blockdevice on stdout.
 
+### fstab-decode 命令
+fstab-decode 可以支持在运行命令时，将某些命令参数展开。
+
+#### 命令格式
+	fstab-decode COMMAND [ARGUMENT]...
+
+#### 举例
+	fstab-decode umount $(awk '$3 == vfat { print $2 }' /etc/fstab)
 
 ### runlevel 命令
 runlevel 命令读取系统的登录记录文件(一般是/var/run/utmp)把以前和当前的系统运行级输出到标准输出设备。
@@ -2369,6 +2380,133 @@ pidof 命令的实现也是在 killall5.c 文件中，由 main_pidof() 主函数
 
 ![Linux 内核启动 init 进程](./figures/kernel2init.png)
 
+
+## init 进程和 telinit 之间的运行调试图
+
+### 修改 INIT_FIFO 改变两者联系的管道
+修改 initreq.h 头文件 33行处，定义为 /tmp/.initctl 以防和现在系统运行的 init 进程有关联
+
+	$ vi initreq.h +33
+
+	 28 #if defined(__FreeBSD_kernel__)
+	 29 #  define INIT_FIFO  "/etc/.initctl"
+	 30 #else
+	 31 #  define INIT_FIFO  "/dev/initctl"
+	 32 #endif
+	 33 /* add by limingth */
+	 34 #undef INIT_FIFO
+	 35 #define INIT_FIFO  "/tmp/.initctl"
+
+### 修改 Makefile ，加上 -DDEBUG 选项
+修改 Makefile 13行处，增加一个 -DDEBUG
+	 11 CPPFLAGS =
+	 12 CFLAGS  ?= -ansi -O2 -fomit-frame-pointer
+	 13 override CFLAGS += -W -Wall -D_GNU_SOURCE -DDEBUG
+	 14 STATIC  =
+
+查看 init.h 头文件 64行处，INITDBG 通过 initlog 函数输出，无需修改
+
+	 59 #if DEBUG
+	 60 #  define INITDBG(level, fmt, args...) initlog(level, fmt, ##args)
+	 61 #else
+	 62 #  define INITDBG(level, fmt, args...)
+	 63 #endif
+
+### 修改 reboot 操作为打印语句，以防系统重启
+修改 reboot.h 头文件 50行处，将 init_reboot 宏，修改为打印语句
+
+	 50 #define init_reboot(magic)      reboot(magic)
+	 51 /* add by limingth */
+	 52 #undef init_reboot(magic)
+	 53 #define init_reboot(magic)      INITDBG(L_VB, "init_reboot: %d\n", magic)
+	 54 
+
+### 修改源码中信号处理函数，以便直接中断 init 执行
+修改 init.c 源文件 102行处，注释掉注册信号处理函数的代码部分
+
+	  93 /* Set a signal handler. */
+	  94 #define SETSIG(sa, sig, fun, flags) \
+	  95                 do { \
+	  96                         sa.sa_handler = fun; \
+	  97                         sa.sa_flags = flags; \
+	  98                         sigemptyset(&sa.sa_mask); \
+	  99                         sigaction(sig, &sa, NULL); \
+	 100                 } while(0)
+	 101 
+	 102 /* add by limingth */
+	 103 #undef SETSIG(sa, sig, fun, flags)
+	 104 #define SETSIG(sa, sig, fun, flags)     INITDBG(L_VB, "setsig %s : %s\t", #sig, #fun)
+
+### 修改源码中关闭标准输出的部分，可以显示出调试信息
+	1049 #if 0
+	1050                 close(0);
+	1051                 close(1);
+	1052                 close(2);
+	1053 #endif
+
+	2591 #if 0
+	2592         close(0);
+	2593         close(1);
+	2594         close(2);
+	2595 #endif
+
+### 在 Daemon 程序中插入打印当前获得 request 的信息
+
+	2278         initlog(L_VB, "request: %d, runlevel: %c\n", request.cmd, request.r     unlevel);
+	2279         switch(request.cmd) {
+	2280                 case INIT_CMD_RUNLVL:
+
+### 重新编译运行 sudo ./init -i 
+
+	$ sudo ./init -i 0
+	[sudo] password for akaedu: 
+	init_reboot: 0
+	setsig f : SIG_IGN	
+	...
+	setsig f : SIG_IGN	
+	setsig SIGALRM : signal_handler	
+	setsig SIGHUP : signal_handler	
+	setsig SIGINT : signal_handler	
+	setsig SIGCHLD : chld_handler	
+	setsig SIGPWR : signal_handler	
+	setsig SIGWINCH : signal_handler	
+	setsig SIGUSR1 : signal_handler	
+	setsig SIGSTOP : stop_handler	
+	setsig SIGTSTP : stop_handler	
+	setsig SIGCONT : cont_handler	
+	setsig SIGSEGV : (void (*)(int))segv_handler	
+	Reading inittab
+	Checking for children to kill
+	Checking for children to start
+	SYSINIT -> BOOT
+	init_main: waiting..
+	Checking for children to start
+	BOOT -> NORMAL
+	init_main: waiting..
+	Checking for children to start
+
+此时 init 进入 Daemon 循环中
+
+![init 进入 Daemon 循环中](./pictures/init-daemon-begin.png)
+
+### 启动 telinit 1 要求切换运行级别为单用户
+
+	$ sudo ./init 1
+	[sudo] password for akaedu: 
+	setsig SIGALRM : signal_handler	
+	write to INIT_FIFO
+	$ 
+
+我们运行了3次，分别要求改变运行级别为 1，5，7，这样就会通过 INIT_FIFO 发送3次数据。
+
+![init 更改运行级别的 request 请求](./pictures/switch-to-runlevels.png)
+
+### 查看 init 接收请求和处理方法 
+可以看出通过 INIT_FIFO ，init 方式2启动后，发送request请求，Deamon init 收到后可以打印出这个请求相关信息。
+
+和请求级别相对应的，Daemon 也分别修改了3次级别，并仍然处于接收下一个 request 请求的循环中。
+
+![Daemon 收到运行级别的 request 请求](./pictures/init-daemon-trans.png)
 
 
 

@@ -23,11 +23,12 @@
 \BOOKMARK [2][-]{subsection.2.1.10}{last/lastb 命令}{section.2.1}
 \BOOKMARK [2][-]{subsection.2.1.11}{mesg 命令}{section.2.1}
 \BOOKMARK [2][-]{subsection.2.1.12}{mountpoint 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.13}{runlevel 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.14}{sulogin 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.15}{wall 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.16}{bootlogd 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.17}{utmpdump 命令}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.13}{fstab-decode 命令}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.14}{runlevel 命令}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.15}{sulogin 命令}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.16}{wall 命令}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.17}{bootlogd 命令}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.18}{utmpdump 命令}{section.2.1}
 \BOOKMARK [1][-]{section.2.2}{代码实现概要分析}{chapter.2}
 \BOOKMARK [2][-]{subsection.2.2.1}{源码目录结构}{section.2.2}
 \BOOKMARK [2][-]{subsection.2.2.2}{源码文件的代码量}{section.2.2}
@@ -94,3 +95,13 @@
 \BOOKMARK [2][-]{subsection.5.2.2}{parse\137options}{section.5.2}
 \BOOKMARK [2][-]{subsection.5.2.3}{rest\137init}{section.5.2}
 \BOOKMARK [2][-]{subsection.5.2.4}{init 函数}{section.5.2}
+\BOOKMARK [1][-]{section.5.3}{init 进程和 telinit 之间的运行调试图}{chapter.5}
+\BOOKMARK [2][-]{subsection.5.3.1}{修改 INIT\137FIFO 改变两者联系的管道}{section.5.3}
+\BOOKMARK [2][-]{subsection.5.3.2}{修改 Makefile ，加上 -DDEBUG 选项}{section.5.3}
+\BOOKMARK [2][-]{subsection.5.3.3}{修改 reboot 操作为打印语句，以防系统重启}{section.5.3}
+\BOOKMARK [2][-]{subsection.5.3.4}{修改源码中信号处理函数，以便直接中断 init 执行}{section.5.3}
+\BOOKMARK [2][-]{subsection.5.3.5}{修改源码中关闭标准输出的部分，可以显示出调试信息}{section.5.3}
+\BOOKMARK [2][-]{subsection.5.3.6}{在 Daemon 程序中插入打印当前获得 request 的信息}{section.5.3}
+\BOOKMARK [2][-]{subsection.5.3.7}{重新编译运行 sudo ./init -i}{section.5.3}
+\BOOKMARK [2][-]{subsection.5.3.8}{启动 telinit 1 要求切换运行级别为单用户}{section.5.3}
+\BOOKMARK [2][-]{subsection.5.3.9}{查看 init 接收请求和处理方法}{section.5.3}

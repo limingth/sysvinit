@@ -47,5 +47,8 @@
 #  define BMAGIC_POWEROFF	BMAGIC_HALT
 #endif
 
-#define init_reboot(magic)	reboot(magic)
+/* #define init_reboot(magic)	reboot(magic) */
+/* add by limingth */
+#undef init_reboot(magic)
+#define init_reboot(magic)      printf("init_reboot: %d\n", magic)
 

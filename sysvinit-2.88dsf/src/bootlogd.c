@@ -104,8 +104,6 @@ void handler(int sig)
 	got_signal = sig;
 }
 
-#define debug(x)	printf(#x " = %s\n", x);
-#define debugd(x)	printf(#x " = %d\n", x);
 
 /*
  *	Scan /dev and find the device name.
@@ -180,11 +178,9 @@ int findpty(int *master, int *slave, char *name)
 	int	i, j;
 	int	found;
 
-	debug(name);
 	if (openpty(master, slave, name, NULL, NULL) >= 0)
 		return 0;
 
-	debug(name);
 	found = 0;
 
 	for (i = 'p'; i <= 'z'; i++) {
@@ -192,8 +188,6 @@ int findpty(int *master, int *slave, char *name)
 			if (j == '9' + 1) j = 'a';
 			sprintf(pty, "/dev/pty%c%c", i, j);
 			sprintf(tty, "/dev/tty%c%c", i, j);
-			debug(pty);
-			debug(tty);
 			if ((*master = open(pty, O_RDWR|O_NOCTTY)) >= 0) {
 				*slave = open(tty, O_RDWR|O_NOCTTY);
 				if (*slave >= 0) {
@@ -495,9 +489,6 @@ int main(int argc, char **argv)
 	rotate = 0;
 	dontfork = 0;
 
-
-	debug("test");
-
 	while ((i = getopt(argc, argv, "cdsl:p:rv")) != EOF) switch(i) {
 		case 'l':
 			logfile = optarg;
@@ -550,23 +541,18 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
-	debug("grab");
 	/*
 	 *	Grab a pty, and redirect console messages to it.
 	 */
 	ptm = -1;
 	pts = -1;
 	buf[0] = 0;
-	debug(buf);
 	if (findpty(&ptm, &pts, buf) < 0) {
 		fprintf(stderr,
 			"bootlogd: cannot allocate pseudo tty: %s\n",
 			strerror(errno));
 		return 1;
 	}
-	debugd(ptm);
-	debugd(pts);
-	debug(buf);
 
 	(void)ioctl(0, TIOCCONS, NULL);
 #if 1
@@ -576,20 +562,17 @@ int main(int argc, char **argv)
 		close(n);
 	}
 #endif
-	debug("open ok");
 	if (ioctl(pts, TIOCCONS, NULL) < 0) {
 		fprintf(stderr, "bootlogd: ioctl(%s, TIOCCONS): %s\n",
 			buf, strerror(errno));
 		return 1;
 	}
 
-	debug("ioctl ok");
 	/*
 	 *	Fork and write pidfile if needed.
 	 */
 	if (!dontfork) {
 		pid_t child_pid = fork();
-		debugd(child_pid);;
 		switch (child_pid) {
 		case -1: /* I am parent and the attempt to create a child failed */
 			fprintf(stderr, "bootlogd: fork failed: %s\n",
@@ -618,13 +601,12 @@ int main(int argc, char **argv)
 	 *	to the real console and the logfile.
 	 */
 	while (!got_signal) {
+
 		/*
 		 *	We timeout after 5 seconds if we still need to
 		 *	open the logfile. There might be buffered messages
 		 *	we want to write.
 		 */
-		 debug("sig");
-		 debugd(ptm);
 		tv.tv_sec = 0;
 		tv.tv_usec = 500000;
 		FD_ZERO(&fds);
@@ -640,9 +622,7 @@ int main(int argc, char **argv)
 				 */
 				m = n;
 				p = inptr;
-				debug("got read");
 				while (m > 0) {
-					debug(p);
 					i = write(realfd, p, m);
 					if (i >= 0) {
 						m -= i;

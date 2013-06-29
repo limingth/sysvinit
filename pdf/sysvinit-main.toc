@@ -50,21 +50,24 @@
 \contentsline {subsection}{\numberline {2.1.12}mountpoint 命令}{20}{subsection.2.1.12}
 \contentsline {subsubsection}{命令格式}{21}{section*.27}
 \contentsline {subsubsection}{主要选项}{21}{section*.28}
-\contentsline {subsection}{\numberline {2.1.13}runlevel 命令}{21}{subsection.2.1.13}
+\contentsline {subsection}{\numberline {2.1.13}fstab-decode 命令}{21}{subsection.2.1.13}
 \contentsline {subsubsection}{命令格式}{21}{section*.29}
-\contentsline {subsubsection}{主要选项}{21}{section*.30}
-\contentsline {subsection}{\numberline {2.1.14}sulogin 命令}{21}{subsection.2.1.14}
+\contentsline {subsubsection}{举例}{21}{section*.30}
+\contentsline {subsection}{\numberline {2.1.14}runlevel 命令}{21}{subsection.2.1.14}
 \contentsline {subsubsection}{命令格式}{22}{section*.31}
 \contentsline {subsubsection}{主要选项}{22}{section*.32}
-\contentsline {subsection}{\numberline {2.1.15}wall 命令}{22}{subsection.2.1.15}
-\contentsline {subsubsection}{wall 命令说明}{22}{section*.33}
-\contentsline {subsubsection}{命令格式}{22}{section*.34}
-\contentsline {subsection}{\numberline {2.1.16}bootlogd 命令}{22}{subsection.2.1.16}
-\contentsline {subsubsection}{命令格式}{22}{section*.35}
-\contentsline {subsubsection}{主要选项}{23}{section*.36}
-\contentsline {subsection}{\numberline {2.1.17}utmpdump 命令}{23}{subsection.2.1.17}
+\contentsline {subsection}{\numberline {2.1.15}sulogin 命令}{22}{subsection.2.1.15}
+\contentsline {subsubsection}{命令格式}{22}{section*.33}
+\contentsline {subsubsection}{主要选项}{22}{section*.34}
+\contentsline {subsection}{\numberline {2.1.16}wall 命令}{22}{subsection.2.1.16}
+\contentsline {subsubsection}{wall 命令说明}{22}{section*.35}
+\contentsline {subsubsection}{命令格式}{23}{section*.36}
+\contentsline {subsection}{\numberline {2.1.17}bootlogd 命令}{23}{subsection.2.1.17}
 \contentsline {subsubsection}{命令格式}{23}{section*.37}
 \contentsline {subsubsection}{主要选项}{23}{section*.38}
+\contentsline {subsection}{\numberline {2.1.18}utmpdump 命令}{24}{subsection.2.1.18}
+\contentsline {subsubsection}{命令格式}{24}{section*.39}
+\contentsline {subsubsection}{主要选项}{24}{section*.40}
 \contentsline {section}{\numberline {2.2}代码实现概要分析}{24}{section.2.2}
 \contentsline {subsection}{\numberline {2.2.1}源码目录结构}{24}{subsection.2.2.1}
 \contentsline {subsection}{\numberline {2.2.2}源码文件的代码量}{26}{subsection.2.2.2}
@@ -76,19 +79,19 @@
 \contentsline {subsection}{\numberline {3.1.3}init\_main 函数流程分析}{31}{subsection.3.1.3}
 \contentsline {subsection}{\numberline {3.1.4}console\_init 函数流程分析}{33}{subsection.3.1.4}
 \contentsline {subsection}{\numberline {3.1.5}read\_inittab 函数流程分析}{34}{subsection.3.1.5}
-\contentsline {subsubsection}{CHILD 机构体 (struct \emph {child})}{34}{section*.39}
-\contentsline {subsubsection}{actions 数组 (struct actions)}{34}{section*.40}
-\contentsline {subsubsection}{ACTIONS 宏定义}{35}{section*.41}
-\contentsline {subsubsection}{read\_inittab 函数执行流程分析}{36}{section*.42}
+\contentsline {subsubsection}{CHILD 机构体 (struct \emph {child})}{34}{section*.41}
+\contentsline {subsubsection}{actions 数组 (struct actions)}{34}{section*.42}
+\contentsline {subsubsection}{ACTIONS 宏定义}{35}{section*.43}
+\contentsline {subsubsection}{read\_inittab 函数执行流程分析}{36}{section*.44}
 \contentsline {subsection}{\numberline {3.1.6}start\_if\_needed 函数流程分析}{36}{subsection.3.1.6}
 \contentsline {subsection}{\numberline {3.1.7}startup 函数流程分析}{37}{subsection.3.1.7}
 \contentsline {subsection}{\numberline {3.1.8}spawn 函数流程分析}{37}{subsection.3.1.8}
 \contentsline {subsection}{\numberline {3.1.9}boot\_transitions 函数流程分析}{38}{subsection.3.1.9}
 \contentsline {subsection}{\numberline {3.1.10}check\_init\_fifo() 函数流程分析}{39}{subsection.3.1.10}
-\contentsline {subsubsection}{struct init\_request 请求协议格式}{39}{section*.43}
-\contentsline {subsubsection}{cmd 请求类别标识}{40}{section*.44}
+\contentsline {subsubsection}{struct init\_request 请求协议格式}{39}{section*.45}
+\contentsline {subsubsection}{cmd 请求类别标识}{40}{section*.46}
 \contentsline {subsection}{\numberline {3.1.11}fail\_check 函数流程分析}{40}{subsection.3.1.11}
-\contentsline {subsubsection}{SLEEEPTIME 数据}{41}{section*.45}
+\contentsline {subsubsection}{SLEEEPTIME 数据}{41}{section*.47}
 \contentsline {subsection}{\numberline {3.1.12}process\_signals 函数流程分析}{41}{subsection.3.1.12}
 \contentsline {subsection}{\numberline {3.1.13}console\_stty 函数流程分析}{42}{subsection.3.1.13}
 \contentsline {subsection}{\numberline {3.1.14}fifo\_new\_level 函数流程分析}{43}{subsection.3.1.14}
@@ -105,8 +108,8 @@
 \contentsline {section}{\numberline {3.3}halt命令执行流程分析}{51}{section.3.3}
 \contentsline {subsection}{\numberline {3.3.1}halt 命令的数据分析}{51}{subsection.3.3.1}
 \contentsline {subsection}{\numberline {3.3.2}halt命令实现代码分析}{51}{subsection.3.3.2}
-\contentsline {subsubsection}{参数解析}{51}{section*.46}
-\contentsline {subsubsection}{不同参数对应着不同处理}{53}{section*.47}
+\contentsline {subsubsection}{参数解析}{51}{section*.48}
+\contentsline {subsubsection}{不同参数对应着不同处理}{53}{section*.49}
 \contentsline {section}{\numberline {3.4}shutdown命令执行流程分析}{53}{section.3.4}
 \contentsline {subsection}{\numberline {3.4.1}shutdown命令的数据分析}{53}{subsection.3.4.1}
 \contentsline {subsection}{\numberline {3.4.2}shutdown命令实现代码分析}{53}{subsection.3.4.2}
@@ -119,39 +122,39 @@
 \contentsline {subsection}{\numberline {3.6.2}setutent 函数代码分析}{55}{subsection.3.6.2}
 \contentsline {subsection}{\numberline {3.6.3}getutent 函数代码分析}{55}{subsection.3.6.3}
 \contentsline {subsection}{\numberline {3.6.4}utmp结构定义}{56}{subsection.3.6.4}
-\contentsline {subsubsection}{ut\_type有以下几种类型}{56}{section*.48}
+\contentsline {subsubsection}{ut\_type有以下几种类型}{56}{section*.50}
 \contentsline {subsection}{\numberline {3.6.5}endutent 函数}{57}{subsection.3.6.5}
 \contentsline {section}{\numberline {3.7}killall5 命令执行流程分析}{57}{section.3.7}
 \contentsline {subsection}{\numberline {3.7.1}killall5 主函数代码分析}{57}{subsection.3.7.1}
-\contentsline {subsubsection}{获得执行程序名 progname}{57}{section*.49}
-\contentsline {subsubsection}{打开系统日志}{58}{section*.50}
-\contentsline {subsubsection}{处理 pidof 命令的情况}{58}{section*.51}
-\contentsline {subsubsection}{分析 -o omitpid 参数创建双向链表 omit}{58}{section*.52}
-\contentsline {subsubsection}{挂载 /proc 文件系统}{60}{section*.53}
-\contentsline {subsubsection}{暂时忽略 SIGTERM/SIGSTOP/SIGKILL 信号}{60}{section*.54}
-\contentsline {subsubsection}{禁止内存换出，暂停所有进程}{60}{section*.55}
-\contentsline {subsubsection}{读 /proc 文件系统，建立进程链表 plist}{61}{section*.56}
-\contentsline {subsubsection}{根据 plist 链表开始依次 kill 进程}{62}{section*.57}
-\contentsline {subsubsection}{恢复所有进程运行 （从 STOP 又回到 CONT）}{63}{section*.58}
-\contentsline {subsubsection}{关闭日志}{63}{section*.59}
-\contentsline {subsubsection}{调用 usleep(1) 强制 Kernel 运行调度器}{63}{section*.60}
+\contentsline {subsubsection}{获得执行程序名 progname}{57}{section*.51}
+\contentsline {subsubsection}{打开系统日志}{58}{section*.52}
+\contentsline {subsubsection}{处理 pidof 命令的情况}{58}{section*.53}
+\contentsline {subsubsection}{分析 -o omitpid 参数创建双向链表 omit}{58}{section*.54}
+\contentsline {subsubsection}{挂载 /proc 文件系统}{60}{section*.55}
+\contentsline {subsubsection}{暂时忽略 SIGTERM/SIGSTOP/SIGKILL 信号}{60}{section*.56}
+\contentsline {subsubsection}{禁止内存换出，暂停所有进程}{60}{section*.57}
+\contentsline {subsubsection}{读 /proc 文件系统，建立进程链表 plist}{61}{section*.58}
+\contentsline {subsubsection}{根据 plist 链表开始依次 kill 进程}{62}{section*.59}
+\contentsline {subsubsection}{恢复所有进程运行 （从 STOP 又回到 CONT）}{63}{section*.60}
+\contentsline {subsubsection}{关闭日志}{63}{section*.61}
+\contentsline {subsubsection}{调用 usleep(1) 强制 Kernel 运行调度器}{63}{section*.62}
 \contentsline {section}{\numberline {3.8}pidof 命令执行流程分析}{64}{section.3.8}
 \contentsline {subsection}{\numberline {3.8.1}main\_pidof 主程序代码分析}{64}{subsection.3.8.1}
-\contentsline {subsubsection}{初始化和数据结构定义}{64}{section*.61}
-\contentsline {subsubsection}{参数处理并完成 omit 进程号链表}{65}{section*.62}
-\contentsline {subsubsection}{检查对于 /proc/pid/root 的访问权限}{66}{section*.63}
-\contentsline {subsubsection}{检查 fs 是否基于 nfs 的网络文件系统}{66}{section*.64}
-\contentsline {subsubsection}{读 /proc 文件系统，建立进程链表 plist}{67}{section*.65}
-\contentsline {subsubsection}{调用 pidof 函数，返回进程名为 argv{[}f{]} 进程 PIDQ\_HEAD 链表}{67}{section*.66}
-\contentsline {subsubsection}{退出前的清理工作}{68}{section*.67}
+\contentsline {subsubsection}{初始化和数据结构定义}{64}{section*.63}
+\contentsline {subsubsection}{参数处理并完成 omit 进程号链表}{65}{section*.64}
+\contentsline {subsubsection}{检查对于 /proc/pid/root 的访问权限}{66}{section*.65}
+\contentsline {subsubsection}{检查 fs 是否基于 nfs 的网络文件系统}{66}{section*.66}
+\contentsline {subsubsection}{读 /proc 文件系统，建立进程链表 plist}{67}{section*.67}
+\contentsline {subsubsection}{调用 pidof 函数，返回进程名为 argv{[}f{]} 进程 PIDQ\_HEAD 链表}{67}{section*.68}
+\contentsline {subsubsection}{退出前的清理工作}{68}{section*.69}
 \contentsline {subsection}{\numberline {3.8.2}readproc 函数代码分析}{68}{subsection.3.8.2}
-\contentsline {subsubsection}{改变目录到 /proc ，调用 opendir 打开当前目录文件 .}{68}{section*.68}
-\contentsline {subsubsection}{释放已经存在的 plist 链表，为重新生成做好准备}{69}{section*.69}
-\contentsline {subsubsection}{开始遍历 /proc 目录，找出是进程号（大于0的数字）的文件名}{69}{section*.70}
-\contentsline {subsubsection}{以 bash 文件为例,查看进程的 stat 文件信息，找出进程名}{70}{section*.71}
-\contentsline {subsubsection}{得到进程 session id，判断其是否 kernel thread}{71}{section*.72}
-\contentsline {subsubsection}{获得其他参数}{71}{section*.73}
-\contentsline {subsubsection}{添加进入链表，并完成收尾工作}{72}{section*.74}
+\contentsline {subsubsection}{改变目录到 /proc ，调用 opendir 打开当前目录文件 .}{68}{section*.70}
+\contentsline {subsubsection}{释放已经存在的 plist 链表，为重新生成做好准备}{69}{section*.71}
+\contentsline {subsubsection}{开始遍历 /proc 目录，找出是进程号（大于0的数字）的文件名}{69}{section*.72}
+\contentsline {subsubsection}{以 bash 文件为例,查看进程的 stat 文件信息，找出进程名}{70}{section*.73}
+\contentsline {subsubsection}{得到进程 session id，判断其是否 kernel thread}{71}{section*.74}
+\contentsline {subsubsection}{获得其他参数}{71}{section*.75}
+\contentsline {subsubsection}{添加进入链表，并完成收尾工作}{72}{section*.76}
 \contentsline {subsection}{\numberline {3.8.3}pidof 函数代码分析}{72}{subsection.3.8.3}
 \contentsline {chapter}{\numberline {4}Sysvinit 项目安全漏洞}{75}{chapter.4}
 \contentsline {chapter}{\numberline {5}Sysvinit 项目运行时调试图}{77}{chapter.5}
@@ -167,3 +170,13 @@
 \contentsline {subsection}{\numberline {5.2.2}parse\_options}{89}{subsection.5.2.2}
 \contentsline {subsection}{\numberline {5.2.3}rest\_init}{91}{subsection.5.2.3}
 \contentsline {subsection}{\numberline {5.2.4}init 函数}{93}{subsection.5.2.4}
+\contentsline {section}{\numberline {5.3}init 进程和 telinit 之间的运行调试图}{95}{section.5.3}
+\contentsline {subsection}{\numberline {5.3.1}修改 INIT\_FIFO 改变两者联系的管道}{95}{subsection.5.3.1}
+\contentsline {subsection}{\numberline {5.3.2}修改 Makefile ，加上 -DDEBUG 选项}{95}{subsection.5.3.2}
+\contentsline {subsection}{\numberline {5.3.3}修改 reboot 操作为打印语句，以防系统重启}{97}{subsection.5.3.3}
+\contentsline {subsection}{\numberline {5.3.4}修改源码中信号处理函数，以便直接中断 init 执行}{97}{subsection.5.3.4}
+\contentsline {subsection}{\numberline {5.3.5}修改源码中关闭标准输出的部分，可以显示出调试信息}{97}{subsection.5.3.5}
+\contentsline {subsection}{\numberline {5.3.6}在 Daemon 程序中插入打印当前获得 request 的信息}{98}{subsection.5.3.6}
+\contentsline {subsection}{\numberline {5.3.7}重新编译运行 sudo ./init -i}{98}{subsection.5.3.7}
+\contentsline {subsection}{\numberline {5.3.8}启动 telinit 1 要求切换运行级别为单用户}{99}{subsection.5.3.8}
+\contentsline {subsection}{\numberline {5.3.9}查看 init 接收请求和处理方法}{100}{subsection.5.3.9}
