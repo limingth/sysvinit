@@ -61,7 +61,7 @@ void wall(const char *text, int remote);
 #else
 #  define INITDBG(level, fmt, args...)
 #endif
-#undef INITDBG(level, fmt, args...) 
+#undef INITDBG
 #define INITDBG(level, fmt, args...) printf(fmt "\n", ##args)
 
 /* Actions to be taken by init */

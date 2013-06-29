@@ -8,9 +8,11 @@
 # Version:	@(#)Makefile  2.85-13  23-Mar-2004  miquels@cistron.nl
 #
 
+CC=gcc
 CPPFLAGS =
-CFLAGS	?= -ansi -O2 -fomit-frame-pointer
-override CFLAGS += -W -Wall -D_GNU_SOURCE -DDEBUG
+#CFLAGS	?= -ansi -O2 -fomit-frame-pointer
+#override CFLAGS += -W -Wall -D_GNU_SOURCE -DDEBUG
+override CFLAGS += -D_GNU_SOURCE -DDEBUG
 STATIC	=
 
 # For some known distributions we do not build all programs, otherwise we do.

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.2-0.9995.2 (TeX Live 2009/Debian) (format=xelatex 2013.6.16)  28 JUN 2013 23:05
+This is XeTeX, Version 3.1415926-2.2-0.9995.2 (TeX Live 2009/Debian) (format=xelatex 2013.6.16)  29 JUN 2013 20:13
 entering extended mode
  %&-line parsing enabled.
 **sysvinit-main.tex
@@ -378,93 +378,124 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 2.
 
-Overfull \hbox (4.80707pt too wide) detected at line 44
-\EU1/CourierNew(0)/m/n/12 2.1.10 
- []
-
-
-Overfull \hbox (4.80707pt too wide) detected at line 47
-\EU1/CourierNew(0)/m/n/12 2.1.11 
- []
-
-
-Overfull \hbox (4.80707pt too wide) detected at line 50
-\EU1/CourierNew(0)/m/n/12 2.1.12 
- []
-
-
-Overfull \hbox (4.80707pt too wide) detected at line 53
-\EU1/CourierNew(0)/m/n/12 2.1.13 
- []
-
-
-Overfull \hbox (4.80707pt too wide) detected at line 56
-\EU1/CourierNew(0)/m/n/12 2.1.14 
- []
-
 [3]
+Overfull \hbox (4.80707pt too wide) detected at line 56
+\EU1/CourierNew(0)/m/n/12 2.3.10 
+ []
+
+
 Overfull \hbox (4.80707pt too wide) detected at line 59
-\EU1/CourierNew(0)/m/n/12 2.1.15 
+\EU1/CourierNew(0)/m/n/12 2.3.11 
  []
 
 
 Overfull \hbox (4.80707pt too wide) detected at line 62
-\EU1/CourierNew(0)/m/n/12 2.1.16 
+\EU1/CourierNew(0)/m/n/12 2.3.12 
  []
 
 
 Overfull \hbox (4.80707pt too wide) detected at line 65
-\EU1/CourierNew(0)/m/n/12 2.1.17 
+\EU1/CourierNew(0)/m/n/12 2.3.13 
  []
 
 
 Overfull \hbox (4.80707pt too wide) detected at line 68
-\EU1/CourierNew(0)/m/n/12 2.1.18 
+\EU1/CourierNew(0)/m/n/12 2.3.14 
  []
 
 
-Overfull \hbox (4.80707pt too wide) detected at line 90
-\EU1/CourierNew(0)/m/n/12 3.1.10 
+Overfull \hbox (4.80707pt too wide) detected at line 71
+\EU1/CourierNew(0)/m/n/12 2.3.15 
  []
 
 
-Overfull \hbox (4.80707pt too wide) detected at line 93
-\EU1/CourierNew(0)/m/n/12 3.1.11 
+Overfull \hbox (4.80707pt too wide) detected at line 74
+\EU1/CourierNew(0)/m/n/12 2.3.16 
  []
 
 
-Overfull \hbox (4.80707pt too wide) detected at line 95
-\EU1/CourierNew(0)/m/n/12 3.1.12 
+Overfull \hbox (4.80707pt too wide) detected at line 77
+\EU1/CourierNew(0)/m/n/12 2.3.17 
  []
 
 
-Overfull \hbox (4.80707pt too wide) detected at line 96
-\EU1/CourierNew(0)/m/n/12 3.1.13 
- []
-
-
-Overfull \hbox (4.80707pt too wide) detected at line 97
-\EU1/CourierNew(0)/m/n/12 3.1.14 
+Overfull \hbox (4.80707pt too wide) detected at line 80
+\EU1/CourierNew(0)/m/n/12 2.3.18 
  []
 
 
 Overfull \hbox (4.80707pt too wide) detected at line 98
+\EU1/CourierNew(0)/m/n/12 3.1.10 
+ []
+
+
+Overfull \hbox (4.80707pt too wide) detected at line 101
+\EU1/CourierNew(0)/m/n/12 3.1.11 
+ []
+
+
+Overfull \hbox (4.80707pt too wide) detected at line 103
+\EU1/CourierNew(0)/m/n/12 3.1.12 
+ []
+
+
+Overfull \hbox (4.80707pt too wide) detected at line 104
+\EU1/CourierNew(0)/m/n/12 3.1.13 
+ []
+
+
+Overfull \hbox (4.80707pt too wide) detected at line 105
+\EU1/CourierNew(0)/m/n/12 3.1.14 
+ []
+
+
+Overfull \hbox (4.80707pt too wide) detected at line 106
 \EU1/CourierNew(0)/m/n/12 3.1.15 
  []
 
 
-Overfull \hbox (4.80707pt too wide) detected at line 99
+Overfull \hbox (4.80707pt too wide) detected at line 107
 \EU1/CourierNew(0)/m/n/12 3.1.16 
  []
 
 
-Overfull \hbox (4.80707pt too wide) detected at line 100
+Overfull \hbox (4.80707pt too wide) detected at line 108
 \EU1/CourierNew(0)/m/n/12 3.1.17 
  []
 
 [4] [5]
-Overfull \hbox (3.00348pt too wide) detected at line 182
- []\EU1/CourierNew(0)/m/n/12 100
+Overfull \hbox (3.00348pt too wide) detected at line 193
+ []\EU1/CourierNew(0)/m/n/12 101
+ []
+
+
+Overfull \hbox (3.00348pt too wide) detected at line 194
+ []\EU1/CourierNew(0)/m/n/12 101
+ []
+
+
+Overfull \hbox (3.00348pt too wide) detected at line 195
+ []\EU1/CourierNew(0)/m/n/12 101
+ []
+
+
+Overfull \hbox (3.00348pt too wide) detected at line 196
+ []\EU1/CourierNew(0)/m/n/12 102
+ []
+
+
+Overfull \hbox (3.00348pt too wide) detected at line 197
+ []\EU1/CourierNew(0)/m/n/12 102
+ []
+
+
+Overfull \hbox (3.00348pt too wide) detected at line 198
+ []\EU1/CourierNew(0)/m/n/12 103
+ []
+
+
+Overfull \hbox (3.00348pt too wide) detected at line 199
+ []\EU1/CourierNew(0)/m/n/12 103
  []
 
 )
@@ -503,160 +534,234 @@ File: ./figures/sys.png Graphic file (type QTm)
 Chapter 2.
 [11
 
-] [12] [13]
-Underfull \hbox (badness 1810) in paragraph at lines 342--342
+]
+Underfull \vbox (badness 10000) detected at line 239
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 239
+ []
+
+[12] [13]
+File: ./pictures/1-1-wget.png Graphic file (type QTm)
+ <use  "./pictures/1-1-wget.png" >
+Underfull \vbox (badness 1308) has occurred while \output is active []
+
+ [14]
+Overfull \hbox (43.4918pt too wide) in paragraph at lines 333--333
+[]\EU1/lmtt/m/n/12 $ wget http://download.savannah.gnu.org/releases/sysvinit/sy
+svinit-latest.tar.bz2[] 
+ []
+
+
+Overfull \hbox (152.65977pt too wide) in paragraph at lines 333--333
+[]\EU1/lmtt/m/n/12 --2013-06-22 13:18:30--  http://download.savannah.gnu.org/re
+leases/sysvinit/sysvinit-latest.tar.bz2[] 
+ []
+
+
+Overfull \hbox (35.23997pt too wide) in paragraph at lines 333--333
+[]\EU1/lmtt/m/n/12 Resolving download.savannah.gnu.org (download.savannah.gnu.o
+rg)... 140.186.70.73[] 
+ []
+
+
+Overfull \hbox (150.59987pt too wide) in paragraph at lines 333--333
+[]\EU1/lmtt/m/n/12 Connecting to download.savannah.gnu.org (download.savannah.g
+nu.org)|140.186.70.73|:80... connected.[] 
+ []
+
+
+Overfull \hbox (191.81189pt too wide) in paragraph at lines 333--333
+[]\EU1/lmtt/m/n/12 Location: http://download.savannah.gnu.org/releases-redirect
+/sysvinit/sysvinit-latest.tar.bz2 [following][] 
+ []
+
+
+Overfull \hbox (208.27986pt too wide) in paragraph at lines 333--333
+[]\EU1/lmtt/m/n/12 --2013-06-22 13:18:31--  http://download.savannah.gnu.org/re
+leases-redirect/sysvinit/sysvinit-latest.tar.bz2[] 
+ []
+
+
+Overfull \hbox (92.93185pt too wide) in paragraph at lines 333--333
+[]\EU1/lmtt/m/n/12 Location: http://ftp.twaren.net/Unix/NonGNU//sysvinit/sysvin
+it-latest.tar.bz2 [following][] 
+ []
+
+
+Overfull \hbox (109.39983pt too wide) in paragraph at lines 333--333
+[]\EU1/lmtt/m/n/12 --2013-06-22 13:18:32--  http://ftp.twaren.net/Unix/NonGNU//
+sysvinit/sysvinit-latest.tar.bz2[] 
+ []
+
+
+Overfull \hbox (20.80806pt too wide) in paragraph at lines 333--333
+[]\EU1/lmtt/m/n/12 Resolving ftp.twaren.net (ftp.twaren.net)... 140.110.123.9, 
+2001:e10:5c00:5::9[] 
+ []
+
+
+Overfull \hbox (14.63997pt too wide) in paragraph at lines 333--333
+[]\EU1/lmtt/m/n/12 Connecting to ftp.twaren.net (ftp.twaren.net)|140.110.123.9|
+:80... connected.[] 
+ []
+
+
+Overfull \hbox (33.18002pt too wide) in paragraph at lines 333--333
+[]\EU1/lmtt/m/n/12 2013-06-22 13:18:35 (45.1 KB/s) - `sysvinit-latest.tar.bz2' 
+saved [105551/105551][] 
+ []
+
+[15]
+File: ./pictures/1-2-tar.png Graphic file (type QTm)
+ <use  "./pictures/1-2-tar.png" > [16]
+Underfull \vbox (badness 10000) detected at line 427
+ []
+
+
+Overfull \vbox (2.55713pt too high) detected at line 427
+ []
+
+[17] [18] [19] [20]
+Overfull \hbox (22.89201pt too wide) in paragraph at lines 569--569
+[]\EU1/lmtt/m/n/12 for i in init halt shutdown runlevel killall5 fstab-decode s
+ulogin bootlogd; do \[] 
+ []
+
+
+Overfull \hbox (348.372pt too wide) in paragraph at lines 569--569
+[]\EU1/lmtt/m/n/12 for i in halt.8 init.8 killall5.8 pidof.8 poweroff.8 reboot.
+8 runlevel.8 shutdown.8 telinit.8 fstab-decode.8 sulogin.8 bootlogd.8; do \[] 
+ []
+
+[21] [22] [23] [24] [25]
+Underfull \hbox (badness 1810) in paragraph at lines 774--774
 []    \rm/m/n/12 在 系 统 引 导 期 间 执 行 本 进 程\EU1/lmtt/m/n/1
 2 . \rm/m/n/12 并 且 \EU1/lmtt/m/n/12 init \rm/m/n/12 等 待 该 进 程 的
  结 束
  []
 
-[14]
-Overfull \hbox (11.28302pt too wide) in paragraph at lines 345--347
+[26]
+Overfull \hbox (11.28302pt too wide) in paragraph at lines 777--779
 []\rm/m/n/12 要 执 行 的 程 序 或 者 脚 本 的 名 称，| 常 见 �
 � 有 \EU1/CourierNew(0)/m/n/12 getty\rm/m/n/12 ，/etc/init.d/rcS, /etc/rc.d/r
 c.sysinit,
  []
 
 
-Underfull \hbox (badness 5847) in paragraph at lines 350--352
+Underfull \hbox (badness 5847) in paragraph at lines 782--784
 []\rm/m/n/12 参 考 资 料\EU1/CourierNew(0)/m/n/12 :[][]$[][][][] [] [] [] [
 ][][] [] [][][][][][][][] [] [][][] [] [][][] [] [][][][][][] [] [][][][][][] [
 ] [][] [] [][][][]$[][] [][]$[][][][] []
  []
 
-
-Underfull \vbox (badness 5832) has occurred while \output is active []
-
- [15]
-[16] [17] [18] [19]
-Overfull \hbox (78.51193pt too wide) in paragraph at lines 521--521
+[27] [28] [29] [30]
+Overfull \hbox (78.51193pt too wide) in paragraph at lines 1032--1032
 []\EU1/lmtt/m/n/12 last  [-R] [-num] [ -n num ] [-adFiowx] [ -f file ] [ -t YYY
 YMMDDHHMMSS] [name...]  [tty...][] 
  []
 
-[20] [21] [22] [23]
-Overfull \hbox (29.07195pt too wide) in paragraph at lines 788--788
-[]\EU1/lmtt/m/n/12 make[1]: Entering directory `/home/akaedu/Github/sysvinit/sy
-svinit-2.88dsf/src'[] 
- []
+[31] [32] [33] [34] [35] [36] [37] [38
 
-
-Overfull \hbox (183.57204pt too wide) in paragraph at lines 788--788
-[]\EU1/lmtt/m/n/12 rm -f  mountpoint init halt shutdown runlevel killall5 fstab
--decode sulogin bootlogd last mesg utmpdump wall[] 
- []
-
-
-Overfull \hbox (22.89194pt too wide) in paragraph at lines 788--788
-[]\EU1/lmtt/m/n/12 make[1]: Leaving directory `/home/akaedu/Github/sysvinit/sys
-vinit-2.88dsf/src'[] 
- []
-
-[24]
-Underfull \vbox (badness 10000) detected at line 788
- []
-
-
-Underfull \vbox (badness 10000) detected at line 788
- []
-
-[25] [26] [27] [28]
+]
 Chapter 3.
 
 Underfull \vbox (badness 1867) has occurred while \output is active []
 
- [29
-
-]
-Overfull \hbox (10.53198pt too wide) in paragraph at lines 925--925
+ [39]
+Overfull \hbox (10.53198pt too wide) in paragraph at lines 1346--1346
 []\EU1/lmtt/m/n/12 00124 sig_atomic_t got_cont = 0;      /* Set if we received 
 the SIGCONT signal */[] 
  []
 
 
-Overfull \hbox (10.51999pt too wide) in paragraph at lines 925--925
+Overfull \hbox (10.51999pt too wide) in paragraph at lines 1346--1346
 []\EU1/lmtt/m/n/12 00129 int wrote_wtmp_rlevel = 1;      /* Set when we wrote t
 he runlevel record */[] 
  []
 
 
-Overfull \hbox (10.53198pt too wide) in paragraph at lines 925--925
+Overfull \hbox (10.53198pt too wide) in paragraph at lines 1346--1346
 []\EU1/lmtt/m/n/12 00130 int wrote_utmp_rlevel = 1;      /* Set when we wrote t
 he runlevel record */[] 
  []
 
-[30] [31]
-Underfull \hbox (badness 3333) in paragraph at lines 993--993
+[40]
+Underfull \vbox (badness 7631) has occurred while \output is active []
+
+ [41]
+Underfull \hbox (badness 3333) in paragraph at lines 1414--1414
 []\EU1/lmtt/m/n/12 1. \rm/m/n/12 调 用 \EU1/lmtt/m/n/12 init_reboot \rm/m/n/1
 2 宏 定 义 |（其 实 就 是 \EU1/lmtt/m/n/12 reboot \rm/m/n/12 函 数）
 | 告 诉 内 核，|
  []
 
-[32]
+[42]
 File: ./figures/init_main.png Graphic file (type QTm)
- <use  "./figures/init_main.png" > [33]
+ <use  "./figures/init_main.png" > [43]
 LaTeX Font Info:    Try loading font information for OML+CourierNew(0) on input
- line 1048.
-LaTeX Font Info:    No file OMLCourierNew(0).fd. on input line 1048.
+ line 1469.
+LaTeX Font Info:    No file OMLCourierNew(0).fd. on input line 1469.
 LaTeX Font Info:    Font shape `OML/CourierNew(0)/m/n' undefined
 (Font)              using `OML/cmm/m/it' instead
-(Font)              for symbol `textgreater' on input line 1048.
- [34] [35]
-Underfull \hbox (badness 10000) in paragraph at lines 1120--1120
+(Font)              for symbol `textgreater' on input line 1469.
+ [44] [45]
+Underfull \hbox (badness 10000) in paragraph at lines 1541--1541
 []\EU1/lmtt/m/n/12 3. \rm/m/n/12 使 用 \EU1/lmtt/m/n/12 strsep \rm/m/n/12 函
  数，| 以 \EU1/lmtt/m/n/12 : \rm/m/n/12 冒 号 作 为 间 隔 符 号，| 
 依 次 找
  []
 
-[36] [37]
-Underfull \hbox (badness 2856) in paragraph at lines 1170--1170
+[46] [47]
+Underfull \hbox (badness 2856) in paragraph at lines 1591--1591
 []\EU1/lmtt/m/n/12 5. \rm/m/n/12 上 述 步 骤 完 成 之 后，| 父 进 �
 � 又 会 创 建 出 一 个 临 时 的 子 进 程，| 来 完
  []
 
-
-Underfull \hbox (badness 1226) in paragraph at lines 1190--1190
+[48]
+Underfull \hbox (badness 1226) in paragraph at lines 1611--1611
 []\EU1/lmtt/m/n/12 5. \rm/m/n/12 如 果 当 前 \EU1/lmtt/m/n/12 runlevel \rm/
 m/n/12 是 \EU1/lmtt/m/n/12 'S'\rm/m/n/12 ，| 则 代 表 着 \EU1/lmtt/m/n/12
  SU \rm/m/n/12 模 式 已 经 结 束，| 重 新 调
  []
 
-[38] [39] [40] [41]
-Overfull \hbox (2.26802pt too wide) in paragraph at lines 1327--1327
+[49] [50] [51]
+Overfull \hbox (2.26802pt too wide) in paragraph at lines 1748--1748
 []\EU1/lmtt/m/n/12 38) SIGRTMIN+4  39) SIGRTMIN+5  40) SIGRTMIN+6  41) SIGRTMIN
 +7  42) SIGRTMIN+8[] 
  []
 
 
-Overfull \hbox (14.628pt too wide) in paragraph at lines 1327--1327
+Overfull \hbox (14.628pt too wide) in paragraph at lines 1748--1748
 []\EU1/lmtt/m/n/12 43) SIGRTMIN+9  44) SIGRTMIN+10 45) SIGRTMIN+11 46) SIGRTMIN
 +12 47) SIGRTMIN+13[] 
  []
 
 
-Overfull \hbox (16.70001pt too wide) in paragraph at lines 1327--1327
+Overfull \hbox (16.70001pt too wide) in paragraph at lines 1748--1748
 []\EU1/lmtt/m/n/12 48) SIGRTMIN+14 49) SIGRTMIN+15 50) SIGRTMAX-14 51) SIGRTMAX
 -13 52) SIGRTMAX-12[] 
  []
 
 
-Overfull \hbox (6.38803pt too wide) in paragraph at lines 1327--1327
+Overfull \hbox (6.38803pt too wide) in paragraph at lines 1748--1748
 []\EU1/lmtt/m/n/12 53) SIGRTMAX-11 54) SIGRTMAX-10 55) SIGRTMAX-9  56) SIGRTMAX
 -8  57) SIGRTMAX-7[] 
  []
 
 
-Overfull \hbox (2.23206pt too wide) in paragraph at lines 1327--1327
+Overfull \hbox (2.23206pt too wide) in paragraph at lines 1748--1748
 []\EU1/lmtt/m/n/12 58) SIGRTMAX-6  59) SIGRTMAX-5  60) SIGRTMAX-4  61) SIGRTMAX
 -3  62) SIGRTMAX-2[] 
  []
 
-[42] [43] [44]
+[52] [53] [54]
 File: ./figures/how-to-exec-init-1.png Graphic file (type QTm)
  <use  "./figures/how-to-exec-init-1.png" >
 File: ./figures/how-to-exec-init-2.png Graphic file (type QTm)
 
-<use  "./figures/how-to-exec-init-2.png" >
+<use  "./figures/how-to-exec-init-2.png" > [55] [56] [57]
 File: ./figures/how-to-exec-init-3.png Graphic file (type QTm)
 
 <use  "./figures/how-to-exec-init-3.png" >
@@ -664,545 +769,149 @@ File: ./figures/how-to-exec-init.png Graphic file (type QTm)
 
 <use  "./figures/how-to-exec-init.png" >
 
-LaTeX Warning: Float too large for page by 53.14871pt on input line 1482.
+LaTeX Warning: Float too large for page by 53.14871pt on input line 1903.
 
-[45] [46] [47] [48] [49] [50] [51]
+[58] [59] [60] [61] [62]
 File: ./figures/halt.png Graphic file (type QTm)
- <use  "./figures/halt.png" >
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [52]
-[53] [54]
-Underfull \hbox (badness 10000) in paragraph at lines 1727--1727
+ <use  "./figures/halt.png" > [63] [64]
+Underfull \hbox (badness 10000) in paragraph at lines 2148--2148
 []\EU1/lmtt/m/n/12 4. \rm/m/n/12 从 标 准 输 入 读 取 用 户 输 入 �
 � 密 码 字 符 串，| 存 放 在 静 态 变
  []
 
-[55] [56] [57] [58]
-Overfull \hbox (76.45186pt too wide) in paragraph at lines 1908--1908
+[65] [66] [67] [68]
+Overfull \hbox (76.45186pt too wide) in paragraph at lines 2329--2329
 []\EU1/lmtt/m/n/12 01033                                         xmemalign((voi
 d*)&optr, sizeof(void*), alignof(OMIT));[] 
  []
 
-[59] [60] [61]
-Overfull \hbox (10.53189pt too wide) in paragraph at lines 2043--2043
+[69] [70] [71]
+Overfull \hbox (10.53189pt too wide) in paragraph at lines 2464--2464
 []\EU1/lmtt/m/n/12 01075                 if (p->pid == 1 || p->pid == pid || p-
 >sid == sid || p->kernel)[] 
  []
 
-[62]
-Overfull \hbox (12.89001pt too wide) in paragraph at lines 2057--2058
+[72]
+Overfull \hbox (12.89001pt too wide) in paragraph at lines 2478--2479
 []\rm/m/n/12 通 过 调 用 \EU1/CourierNew(0)/m/n/12 closelog() \rm/m/n/12 �
 � 数 来 正 常 关 闭 日 志，| 日 志 的 文 件 是\EU1/CourierNew(0)
 /m/n/12 /var/log/sysvinit\rm/m/n/12 。| 
  []
 
-[63] [64]
-Overfull \hbox (2.28pt too wide) in paragraph at lines 2176--2176
+[73] [74]
+Overfull \hbox (2.28pt too wide) in paragraph at lines 2597--2597
 []\EU1/lmtt/m/n/12 00868         if ((token = getenv("PIDOF_NETFS")) && (strcmp
 (token,"no") != 0))[] 
  []
 
 
-Overfull \hbox (6.41194pt too wide) in paragraph at lines 2176--2176
+Overfull \hbox (6.41194pt too wide) in paragraph at lines 2597--2597
 []\EU1/lmtt/m/n/12 00873                         nsyslog(LOG_ERR,"invalid optio
 ns on command line!\n");[] 
  []
 
 
-Overfull \hbox (43.46791pt too wide) in paragraph at lines 2176--2176
+Overfull \hbox (43.46791pt too wide) in paragraph at lines 2597--2597
 []\EU1/lmtt/m/n/12 00896                                 xmemalign((void*)&optr
 , sizeof(void*), alignof(OMIT));[] 
  []
 
-[65]
-Overfull \hbox (2.27989pt too wide) in paragraph at lines 2196--2196
+[75] [76]
+Overfull \hbox (2.27989pt too wide) in paragraph at lines 2617--2617
 []\EU1/lmtt/m/n/12 00931                 init_nfs();             /* Which netwo
 rk based FS are online? */[] 
  []
 
-[66]
-Overfull \hbox (2.27982pt too wide) in paragraph at lines 2249--2249
+
+Overfull \hbox (2.27982pt too wide) in paragraph at lines 2670--2670
 []\EU1/lmtt/m/n/12 00942                                         for (optr = om
 it; optr; optr = optr->next) {[] 
  []
 
-[67] [68] [69]
-Overfull \hbox (959.81976pt too wide) in paragraph at lines 2332--2332
+[77] [78] [79]
+Overfull \hbox (959.81976pt too wide) in paragraph at lines 2753--2753
 []\EU1/lmtt/m/n/12 17500 (bash) S 17492 17500 17500 34816 17500 4202496 20014 5
 614681 596 17984 91 163 41923 13952 20 0 1 0 4974766 8609792 413 4294967295 134
 512640 135410880 3214451152 3214448040 3078423588 0 0 3686404 1266761467 324149
 4555 0 0 17 0 0 0 174 0 0[] 
  []
 
-[70] [71] [72] [73] [74
+[80] [81] [82] [83] [84
 
 ]
 Chapter 4.
-[75] [76
+[85] [86]
+Overfull \hbox (57.89993pt too wide) in paragraph at lines 2991--2991
+[]\EU1/lmtt/m/n/12 Get:1 http://mirrors.ustc.edu.cn/ubuntu/ precise/universe tw
+eak i386 3.01-7 [45.3 kB][] 
+ []
+
+[87]
+File: ./pictures/hack-daemon-init.png Graphic file (type QTm)
+ <use  "./pictures/hack-daemon-init.png" > [88]
+File: ./pictures/hack-init-fifo.png Graphic file (type QTm)
+
+<use  "./pictures/hack-init-fifo.png" > [89]
+LaTeX Font Info:    Font shape `OT1/CourierNew(0)/m/n' undefined
+(Font)              using `OT1/cmr/m/n' instead
+(Font)              for symbol `textdollar' on input line 3095.
+ [90] [91]
+Overfull \hbox (127.9516pt too wide) in paragraph at lines 3139--3139
+[]\EU1/lmtt/m/n/12 ACTION=addDEVPATH=/../data/local/tmpSUBSYSTEM=firmwareFIRMWA
+RE=../../../data/local/tmp/hotplug[] 
+ []
+
+
+Overfull \hbox (77.8324pt too wide) in paragraph at lines 3148--3151
+[]\rm/m/n/12 最 后 在 内 核 \EU1/CourierNew(0)/m/n/12 load[]firmware \rm/m
+/n/12 函 数\EU1/CourierNew(0)/m/n/12 , \rm/m/n/12 把 \EU1/CourierNew(0)/m/n/
+12 hotplug \rm/m/n/12 中 的 数 据 写 到\EU1/CourierNew(0)/m/n/12 /proc/sy
+s/kernel/hotplug
+ []
+
+[92]
+Chapter 5.
+[93
 
 ]
-Chapter 5.
-File: ./pictures/1-1-wget.png Graphic file (type QTm)
-<use  "./pictures/1-1-wget.png" > [77]
-Overfull \hbox (43.4918pt too wide) in paragraph at lines 2501--2501
-[]\EU1/lmtt/m/n/12 $ wget http://download.savannah.gnu.org/releases/sysvinit/sy
-svinit-latest.tar.bz2[] 
- []
-
-
-Overfull \hbox (152.65977pt too wide) in paragraph at lines 2501--2501
-[]\EU1/lmtt/m/n/12 --2013-06-22 13:18:30--  http://download.savannah.gnu.org/re
-leases/sysvinit/sysvinit-latest.tar.bz2[] 
- []
-
-
-Overfull \hbox (35.23997pt too wide) in paragraph at lines 2501--2501
-[]\EU1/lmtt/m/n/12 Resolving download.savannah.gnu.org (download.savannah.gnu.o
-rg)... 140.186.70.73[] 
- []
-
-
-Overfull \hbox (150.59987pt too wide) in paragraph at lines 2501--2501
-[]\EU1/lmtt/m/n/12 Connecting to download.savannah.gnu.org (download.savannah.g
-nu.org)|140.186.70.73|:80... connected.[] 
- []
-
-
-Overfull \hbox (191.81189pt too wide) in paragraph at lines 2501--2501
-[]\EU1/lmtt/m/n/12 Location: http://download.savannah.gnu.org/releases-redirect
-/sysvinit/sysvinit-latest.tar.bz2 [following][] 
- []
-
-
-Overfull \hbox (208.27986pt too wide) in paragraph at lines 2501--2501
-[]\EU1/lmtt/m/n/12 --2013-06-22 13:18:31--  http://download.savannah.gnu.org/re
-leases-redirect/sysvinit/sysvinit-latest.tar.bz2[] 
- []
-
-
-Overfull \hbox (92.93185pt too wide) in paragraph at lines 2501--2501
-[]\EU1/lmtt/m/n/12 Location: http://ftp.twaren.net/Unix/NonGNU//sysvinit/sysvin
-it-latest.tar.bz2 [following][] 
- []
-
-
-Overfull \hbox (109.39983pt too wide) in paragraph at lines 2501--2501
-[]\EU1/lmtt/m/n/12 --2013-06-22 13:18:32--  http://ftp.twaren.net/Unix/NonGNU//
-sysvinit/sysvinit-latest.tar.bz2[] 
- []
-
-
-Overfull \hbox (20.80806pt too wide) in paragraph at lines 2501--2501
-[]\EU1/lmtt/m/n/12 Resolving ftp.twaren.net (ftp.twaren.net)... 140.110.123.9, 
-2001:e10:5c00:5::9[] 
- []
-
-
-Overfull \hbox (14.63997pt too wide) in paragraph at lines 2501--2501
-[]\EU1/lmtt/m/n/12 Connecting to ftp.twaren.net (ftp.twaren.net)|140.110.123.9|
-:80... connected.[] 
- []
-
-
-Overfull \hbox (33.18002pt too wide) in paragraph at lines 2501--2501
-[]\EU1/lmtt/m/n/12 2013-06-22 13:18:35 (45.1 KB/s) - `sysvinit-latest.tar.bz2' 
-saved [105551/105551][] 
- []
-
-File: ./pictures/1-2-tar.png Graphic file (type QTm)
-<use  "./pictures/1-2-tar.png" > [78] [79]
-Underfull \vbox (badness 10000) detected at line 2595
- []
-
-
-Overfull \vbox (2.55713pt too high) detected at line 2595
- []
-
-[80]
-Overfull \hbox (78.51201pt too wide) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 cc -ansi -O2 -fomit-frame-pointer -W -Wall -D_GNU_SOURCE   -
-c -o mountpoint.o mountpoint.c[] 
- []
-
-
-Overfull \hbox (4.35204pt too wide) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 cc -ansi -O2 -fomit-frame-pointer -W -Wall -D_GNU_SOURCE   -
-c -o init.o init.c[] 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 init.c:2737:7: warning: ignoring return value of  |\rm/m/n/1
-2 ‘\EU1/lmtt/m/n/12 chdir\rm/m/n/12 ’|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 init.c:377:11: warning: ignoring return value of  |\rm/m/n/1
-2 ‘\EU1/lmtt/m/n/12 fscanf\rm/m/n/12 ’|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 init.c:380:11: warning: ignoring return value of  |\rm/m/n/1
-2 ‘\EU1/lmtt/m/n/12 fscanf\rm/m/n/12 ’|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 init.c:383:11: warning: ignoring return value of  |\rm/m/n/1
-2 ‘\EU1/lmtt/m/n/12 fscanf\rm/m/n/12 ’|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 init.c:386:11: warning: ignoring return value of  |\rm/m/n/1
-2 ‘\EU1/lmtt/m/n/12 fscanf\rm/m/n/12 ’|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 init.c:389:11: warning: ignoring return value of  |\rm/m/n/1
-2 ‘\EU1/lmtt/m/n/12 fscanf\rm/m/n/12 ’|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 init.c:392:11: warning: ignoring return value of  |\rm/m/n/1
-2 ‘\EU1/lmtt/m/n/12 fscanf\rm/m/n/12 ’|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 init.c:395:11: warning: ignoring return value of  |\rm/m/n/1
-2 ‘\EU1/lmtt/m/n/12 fscanf\rm/m/n/12 ’|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 init.c:398:11: warning: ignoring return value of  |\rm/m/n/1
-2 ‘\EU1/lmtt/m/n/12 fscanf\rm/m/n/12 ’|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 init.c:401:11: warning: ignoring return value of  |\rm/m/n/1
-2 ‘\EU1/lmtt/m/n/12 fscanf\rm/m/n/12 ’|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 init.c:404:11: warning: ignoring return value of  |\rm/m/n/1
-2 ‘\EU1/lmtt/m/n/12 fscanf\rm/m/n/12 ’|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 init.c:423:10: warning: ignoring return value of  |\rm/m/n/1
-2 ‘\EU1/lmtt/m/n/12 fscanf\rm/m/n/12 ’|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 init.c:426:10: warning: ignoring return value of  |\rm/m/n/1
-2 ‘\EU1/lmtt/m/n/12 fscanf\rm/m/n/12 ’|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 init.c:1064:10: warning: ignoring return value of  |\rm/m/n/
-12 ‘\EU1/lmtt/m/n/12 dup\rm/m/n/12 ’|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 init.c:1065:10: warning: ignoring return value of  |\rm/m/n/
-12 ‘\EU1/lmtt/m/n/12 dup\rm/m/n/12 ’|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 init.c:1133:7: warning: ignoring return value of  |\rm/m/n/1
-2 ‘\EU1/lmtt/m/n/12 dup\rm/m/n/12 ’|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 init.c:1134:7: warning: ignoring return value of  |\rm/m/n/1
-2 ‘\EU1/lmtt/m/n/12 dup\rm/m/n/12 ’|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 init.c:1673:10: warning: ignoring return value of  |\rm/m/n/
-12 ‘\EU1/lmtt/m/n/12 write\rm/m/n/12 ’|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 init.c:1675:9: warning: ignoring return value of  |\rm/m/n/1
-2 ‘\EU1/lmtt/m/n/12 read\rm/m/n/12 ’|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 init.c:1960:6: warning: ignoring return value of  |\rm/m/n/1
-2 ‘\EU1/lmtt/m/n/12 pipe\rm/m/n/12 ’|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 init.c:1965:7: warning: ignoring return value of  |\rm/m/n/1
-2 ‘\EU1/lmtt/m/n/12 write\rm/m/n/12 ’|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 init.c:2411:7: warning: ignoring return value of  |\rm/m/n/1
-2 ‘\EU1/lmtt/m/n/12 read\rm/m/n/12 ’|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 init.c:2420:7: warning: ignoring return value of  |\rm/m/n/1
-2 ‘\EU1/lmtt/m/n/12 read\rm/m/n/12 ’|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 init.c:666:7: warning: ignoring return value of  |\rm/m/n/12
- ‘\EU1/lmtt/m/n/12 chdir\rm/m/n/12 ’|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 init.c:821:8: warning: ignoring return value of  |\rm/m/n/12
- ‘\EU1/lmtt/m/n/12 write\rm/m/n/12 ’|
- []
-
-
-Overfull \hbox (99.11203pt too wide) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 cc -ansi -O2 -fomit-frame-pointer -W -Wall -D_GNU_SOURCE -DI
-NIT_MAIN -c -o init_utmp.o utmp.c[] 
- []
-
-
-Overfull \hbox (4.35204pt too wide) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 cc -ansi -O2 -fomit-frame-pointer -W -Wall -D_GNU_SOURCE   -
-c -o halt.o halt.c[] 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 halt.c:242:2: warning: ignoring return value of  |\rm/m/n/12
- ‘\EU1/lmtt/m/n/12 chdir\rm/m/n/12 ’|
- []
-
-
-Overfull \hbox (29.07204pt too wide) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 cc -ansi -O2 -fomit-frame-pointer -W -Wall -D_GNU_SOURCE   -
-c -o ifdown.o ifdown.c[] 
- []
-
-
-Overfull \hbox (29.07204pt too wide) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 cc -ansi -O2 -fomit-frame-pointer -W -Wall -D_GNU_SOURCE   -
-c -o hddown.o hddown.c[] 
- []
-
-
-Overfull \hbox (4.35204pt too wide) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 cc -ansi -O2 -fomit-frame-pointer -W -Wall -D_GNU_SOURCE   -
-c -o utmp.o utmp.c[] 
- []
-
-
-Overfull \hbox (53.79204pt too wide) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 cc -ansi -O2 -fomit-frame-pointer -W -Wall -D_GNU_SOURCE   -
-c -o shutdown.o shutdown.c[] 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 shutdown.c:485:10: warning: variable  |\rm/m/n/12 ‘\EU1/lm
-tt/m/n/12 realuid\rm/m/n/12 ’|
- []
-
-
-Underfull \hbox (badness 6125) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 shutdown.c:630:9: warning: ignoring return value of  |\rm/m/
-n/12 ‘\EU1/lmtt/m/n/12 fscanf\rm/m/n/12 ’|
- []
-
-
-Underfull \hbox (badness 7704) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 shutdown.c:719:7: warning: ignoring return value of  |\rm/m/
-n/12 ‘\EU1/lmtt/m/n/12 chdir\rm/m/n/12 ’|
- []
-
-
-Underfull \hbox (badness 7704) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 shutdown.c:289:7: warning: ignoring return value of  |\rm/m/
-n/12 ‘\EU1/lmtt/m/n/12 chdir\rm/m/n/12 ’|
- []
-
-
-Overfull \hbox (29.07204pt too wide) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 cc -ansi -O2 -fomit-frame-pointer -W -Wall -D_GNU_SOURCE   -
-c -o dowall.o dowall.c[] 
- []
-
-
-Overfull \hbox (53.79204pt too wide) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 cc -ansi -O2 -fomit-frame-pointer -W -Wall -D_GNU_SOURCE   -
-c -o runlevel.o runlevel.c[] 
- []
-
-
-Overfull \hbox (41.43202pt too wide) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 cc -ansi -O2 -fomit-frame-pointer -W -Wall -D_GNU_SOURCE   -
-c -o sulogin.o sulogin.c[] 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 sulogin.c:407:2: warning: ignoring return value of  |\rm/m/n
-/12 ‘\EU1/lmtt/m/n/12 chdir\rm/m/n/12 ’|
- []
-
-
-Underfull \hbox (badness 7704) in paragraph at lines 2667--2667
-[]\EU1/lmtt/m/n/12 sulogin.c:427:8: warning: ignoring return value of  |\rm/m/n
-/12 ‘\EU1/lmtt/m/n/12 getcwd\rm/m/n/12 ’|
- []
-
-[81]
-Underfull \vbox (badness 10000) detected at line 2667
- []
-
-
-Underfull \vbox (badness 10000) detected at line 2667
- []
-
-[82]
-File: ./pictures/1-3-makefile.png Graphic file (type QTm)
- <use  "./pictures/1-3-makefile.png" >
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [83]
-[84]
-File: ./pictures/1-4-make.png Graphic file (type QTm)
- <use  "./pictures/1-4-make.png" >
-Overfull \hbox (53.79204pt too wide) in paragraph at lines 2732--2732
-[]\EU1/lmtt/m/n/12 cc -ansi -O2 -fomit-frame-pointer -W -Wall -D_GNU_SOURCE   -
-c -o bootlogd.o bootlogd.c[] 
- []
-
-
-Underfull \hbox (badness 7704) in paragraph at lines 2732--2732
-[]\EU1/lmtt/m/n/12 bootlogd.c:125:8: warning: ignoring return value of  |\rm/m/
-n/12 ‘\EU1/lmtt/m/n/12 chdir\rm/m/n/12 ’|
- []
-
-
-Underfull \hbox (badness 6125) in paragraph at lines 2732--2732
-[]\EU1/lmtt/m/n/12 bootlogd.c:140:10: warning: ignoring return value of  |\rm/m
-/n/12 ‘\EU1/lmtt/m/n/12 chdir\rm/m/n/12 ’|
- []
-
-
-Underfull \hbox (badness 6125) in paragraph at lines 2732--2732
-[]\EU1/lmtt/m/n/12 bootlogd.c:151:10: warning: ignoring return value of  |\rm/m
-/n/12 ‘\EU1/lmtt/m/n/12 chdir\rm/m/n/12 ’|
- []
-
-
-Underfull \hbox (badness 6125) in paragraph at lines 2732--2732
-[]\EU1/lmtt/m/n/12 bootlogd.c:156:10: warning: ignoring return value of  |\rm/m
-/n/12 ‘\EU1/lmtt/m/n/12 chdir\rm/m/n/12 ’|
- []
-
-
-Underfull \hbox (badness 7704) in paragraph at lines 2732--2732
-[]\EU1/lmtt/m/n/12 bootlogd.c:163:7: warning: ignoring return value of  |\rm/m/
-n/12 ‘\EU1/lmtt/m/n/12 chdir\rm/m/n/12 ’|
- []
-
-
-Overfull \hbox (4.35204pt too wide) in paragraph at lines 2732--2732
-[]\EU1/lmtt/m/n/12 cc -ansi -O2 -fomit-frame-pointer -W -Wall -D_GNU_SOURCE   -
-c -o last.o last.c[] 
- []
-
-
-Overfull \hbox (4.35204pt too wide) in paragraph at lines 2732--2732
-[]\EU1/lmtt/m/n/12 cc -ansi -O2 -fomit-frame-pointer -W -Wall -D_GNU_SOURCE   -
-c -o mesg.o mesg.c[] 
- []
-
-
-Overfull \hbox (53.79204pt too wide) in paragraph at lines 2732--2732
-[]\EU1/lmtt/m/n/12 cc -ansi -O2 -fomit-frame-pointer -W -Wall -D_GNU_SOURCE   -
-c -o utmpdump.o utmpdump.c[] 
- []
-
-
-Overfull \hbox (4.35204pt too wide) in paragraph at lines 2732--2732
-[]\EU1/lmtt/m/n/12 cc -ansi -O2 -fomit-frame-pointer -W -Wall -D_GNU_SOURCE   -
-c -o wall.o wall.c[] 
- []
-
-[85] [86]
-File: ./pictures/1-5-executables.png Graphic file (type QTm)
- <use  "./pictures/1-5-executables.png" >
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [87]
-[88]
 File: ./pictures/start_kernel.png Graphic file (type QTm)
- <use  "./pictures/start_kernel.png" > [89] [90]
+ <use  "./pictures/start_kernel.png" > [94]
 File: ./pictures/parse_options.png Graphic file (type QTm)
 
-<use  "./pictures/parse_options.png" >
-Underfull \vbox (badness 4144) has occurred while \output is active []
-
- [91]
-[92]
+<use  "./pictures/parse_options.png" > [95] [96]
 File: ./pictures/init.png Graphic file (type QTm)
- <use  "./pictures/init.png" > [93] [94]
+ <use  "./pictures/init.png" >
+[97] [98]
 File: ./figures/kernel2init.png Graphic file (type QTm)
-
-<use  "./figures/kernel2init.png" > [95] [96]
-Overfull \hbox (68.21191pt too wide) in paragraph at lines 2987--2987
+ <use  "./figures/kernel2init.png" > [99] [100]
+Overfull \hbox (68.21191pt too wide) in paragraph at lines 3387--3387
 [] \EU1/lmtt/m/n/12 104 #define SETSIG(sa, sig, fun, flags)     INITDBG(L_VB, "
 setsig %s : %s\t", #sig, #fun)[] 
  []
 
-[97]
-Overfull \hbox (86.75194pt too wide) in paragraph at lines 3009--3009
+[101]
+Overfull \hbox (86.75194pt too wide) in paragraph at lines 3409--3409
 []\EU1/lmtt/m/n/12 2278         initlog(L_VB, "request: %d, runlevel: %c\n", re
 quest.cmd, request.r     unlevel);[] 
  []
 
-[98]
 File: ./pictures/init-daemon-begin.png Graphic file (type QTm)
- <use  "./pictures/init-daemon-begin.png" >
+<use  "./pictures/init-daemon-begin.png" > [102]
 File: ./pictures/switch-to-runlevels.png Graphic file (type QTm)
 
-<use  "./pictures/switch-to-runlevels.png" > [99]
+<use  "./pictures/switch-to-runlevels.png" >
 File: ./pictures/init-daemon-trans.png Graphic file (type QTm)
 
-<use  "./pictures/init-daemon-trans.png" >) [100] [101] (./sysvinit-main.aux)
+<use  "./pictures/init-daemon-trans.png" >) [103] [104] (./sysvinit-main.aux)
 LaTeX Font Info:    Some font shapes were not available, defaults substituted.
  ) 
 Here is how much of TeX's memory you used:
- 6353 strings out of 495713
- 108721 string characters out of 1188883
- 227110 words of memory out of 3000000
- 9348 multiletter control sequences out of 15000+50000
+ 6358 strings out of 495713
+ 108793 string characters out of 1188883
+ 223209 words of memory out of 3000000
+ 9354 multiletter control sequences out of 15000+50000
  7529 words of font info for 56 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  38i,6n,44p,471b,424s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on sysvinit-main.pdf (101 pages).
+Output written on sysvinit-main.pdf (104 pages).

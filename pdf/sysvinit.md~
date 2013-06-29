@@ -97,441 +97,12 @@ fstab-decode 命令用来运行一条命令，在这个命令中可以加上一�
 
 # Sysvinit 项目概要分析
 
-## 工具安装使用流程
-
-### 工具安装
-	$ find sbin/ bin/ usr/bin/ | xargs ls -l
-	-rwxr-xr-x 1 akaedu akaedu  7708 Jun 23 17:20 bin/mountpoint
-	lrwxrwxrwx 1 akaedu akaedu    14 Jun 23 17:20 bin/pidof -> /sbin/killall5
-	-rwxr-xr-x 1 akaedu akaedu 18162 Jun 23 17:20 sbin/bootlogd
-	-rwxr-xr-x 1 akaedu akaedu  7402 Jun 23 17:20 sbin/fstab-decode
-	-rwxr-xr-x 1 akaedu akaedu 17625 Jun 23 17:20 sbin/halt
-	-rwxr-xr-x 1 akaedu akaedu 42121 Jun 23 17:20 sbin/init
-	-rwxr-xr-x 1 akaedu akaedu 22259 Jun 23 17:20 sbin/killall5
-	lrwxrwxrwx 1 akaedu akaedu     4 Jun 23 17:20 sbin/poweroff -> halt
-	lrwxrwxrwx 1 akaedu akaedu     4 Jun 23 17:20 sbin/reboot -> halt
-	-rwxr-xr-x 1 akaedu akaedu  7368 Jun 23 17:20 sbin/runlevel
-	-rwxr-xr-x 1 akaedu akaedu 27547 Jun 23 17:20 sbin/shutdown
-	-rwxr-xr-x 1 akaedu akaedu 17677 Jun 23 17:20 sbin/sulogin
-	lrwxrwxrwx 1 akaedu akaedu     4 Jun 23 17:20 sbin/telinit -> init
-	-rwxr-xr-x 1 akaedu akaedu 22117 Jun 23 17:20 usr/bin/last
-	lrwxrwxrwx 1 akaedu akaedu     4 Jun 23 17:20 usr/bin/lastb -> last
-	-rwxr-xr-x 1 akaedu akaedu  7730 Jun 23 17:20 usr/bin/mesg
-	-rwxr-xr-x 1 akaedu akaedu 12638 Jun 23 17:20 usr/bin/utmpdump
-	-rwxr-xr-x 1 akaedu akaedu 13243 Jun 23 17:20 usr/bin/wall
-
-所有工具编译之后可执行文件都生成在 src 源码目录树下，同时，这些命名的帮助文件在 man 目录下。
-
-	$ ls -l
-	total 108
-	-rw-r--r-- 1 akaedu akaedu  2847 Jun 23 11:13 bootlogd.8
-	-rw-r--r-- 1 akaedu akaedu  1971 Jun 23 11:13 bootlogd.8.todo
-	-rw-r--r-- 1 akaedu akaedu  1444 Jun 23 11:13 fstab-decode.8
-	-rw-r--r-- 1 akaedu akaedu  3957 Jun 23 11:13 halt.8
-	-rw-r--r-- 1 akaedu akaedu 12124 Jun 23 11:13 init.8
-	-rw-r--r-- 1 akaedu akaedu  2428 Jun 23 11:13 initscript.5
-	-rw-r--r-- 1 akaedu akaedu  8290 Jun 23 11:13 inittab.5
-	-rw-r--r-- 1 akaedu akaedu  1866 Jun 23 11:13 killall5.8
-	-rw-r--r-- 1 akaedu akaedu  4242 Jun 23 11:13 last.1
-	-rw-r--r-- 1 akaedu akaedu    16 Jun 23 11:13 lastb.1
-	-rw-r--r-- 1 akaedu akaedu  1867 Jun 23 11:13 mesg.1
-	-rw-r--r-- 1 akaedu akaedu  1886 Jun 23 11:13 mountpoint.1
-	-rw-r--r-- 1 akaedu akaedu  3230 Jun 23 11:13 pidof.8
-	-rw-r--r-- 1 akaedu akaedu    16 Jun 23 11:13 poweroff.8
-	-rw-r--r-- 1 akaedu akaedu    16 Jun 23 11:13 reboot.8
-	-rw-r--r-- 1 akaedu akaedu  1872 Jun 23 11:13 runlevel.8
-	-rw-r--r-- 1 akaedu akaedu  8017 Jun 23 11:13 shutdown.8
-	-rw-r--r-- 1 akaedu akaedu  3309 Jun 23 11:13 sulogin.8
-	-rw-r--r-- 1 akaedu akaedu    16 Jun 23 11:13 telinit.8
-	-rw-r--r-- 1 akaedu akaedu  1949 Jun 23 11:13 utmpdump.1
-	-rw-r--r-- 1 akaedu akaedu  1960 Jun 23 11:13 wall.1
-
-通过使用 man 命令，加上 -l 参数，例如 man -l init.8 我们可以了解到这些命令的用法。
-
-* 注意  
-我们这里没有直接使用例如 man init 这样的命令，而是改用 man -l init.8，这是因为前者是查看当前系统的帮助，而当前系统是 ubuntu 12.04 已经改用 upstart 作为 init 进程。后者才是针对 sysvinit 工具中的可执行文件配套的帮助信息。 
-
-下面我们针对这些命令的帮助信息，来给出每个命令的具体用法，在测试案例报告中，我们会详细说明每个命令如何使用。
-
-### init 命令
-
-#### init 命令说明
-init 进程是所有进程的父进程。它的主要任务就是从 /etc/inittab 文件中读取命令行，从而创建出一系列后继进程。
-init 进程本身是被 Kernel 所启动，Kernel 将控制权交给它之后，用它来负责启动所有其他的进程。
-inittab 文件中通常有关于登录接口的定义，就是在每个终端产生getty，使用户可以进行登录.
-	
-#### 命令格式
-       /sbin/init [ -a ] [ -s ] [ -b ] [ -z xxx ] [ 0123456Ss ]
-
-#### 运行级别
-运行级别是Linux操作系统的一个软件配置，用它来决定启动哪些程序集来运行。
-系统启动时，可以根据 /etc/inittab 文件的配置，进入不同的运行级别。
-每个运行级别可以设置启动不同的程序。
-
-启动的每个程序都是init的进程的子进程，运行级别有8个，分别是 0-6,S或s。
-运行级别0,1和6是系统保留的。
-
-* 运行级别0用来关闭系统，
-* 运行级别1先关闭所有用户进程和服务，然后进入单用户模式。
-* 运行级别6用来重启系统。
-* 运行级别S和s，会直接进入到单用户模式。
-	- 这种模式下不再需要 /etc/inittab 文件。
-	- /sbin/sulogin 会在 /dev/console 上 被启动。
-	- 运行级别S和s的功能是相同的。
-
-#### 启动过程
-在kernel启动的最后阶段，会调用init。init会查找/etc/inittab文件内容，进入指定的运行级别。
-其中 initdefault 代表着系统默认要进入的运行级别，如果用户指定了，就会进入到 initdefault 代表的那个运行级别。
-如果用户没有指定，则系统启动时，会通过 console 来要求用户输入一个运行级别。
-
-当启动一个新进程时，init会先检查/etc/initscript文件是否存在。如果存在，则使用这个脚本来启动那个进程。
-
-#### 选项
-* -s, S, single  
-	进入单用户模式.
-
-* 1-5  
-	启动进入的运行级别.
-
-* -b, emergency  
-	直接进入单用户shell，不运行任何其他的启动脚本。
-
-* -a, auto  
-	如果指定该参数，init 会将 AUTOBOOT 环境变量设置为 yes。 
-
-* -z xxx  
-	-z后面的参数将被忽略。可以使用这种方法将命令行加长一点，这样可以增加在堆栈中占用的空间。
-
-* init 0
-	这条命令也可以用来关机。
-
-
-**/etc/inittab文件范例**
-
-	id:1:initdefault:
-	rc::bootwait:/etc/rc
-	1:1:respawn:/etc/getty 9600 tty1
-	2:1:respawn:/etc/getty 9600 tty2
-	3:1:respawn:/etc/getty 9600 tty3
-	4:1:respawn:/etc/getty 9600 tty4
-
-**id**
-
-inittab 文档中条目的唯一标识, 限于1-4 个字符。
-
-**runlevels**
-
-列出发生指定动作的运行级，可以是单个的数字，也可以是连续的多个数字，例如2345表示在多个运行级别下都需要执行。
-
-**action**
-
-描述要发生的动作，常用的有 respawn, wait, boot, once, bootwait, off, initdefault, ctrlaltdel， sysinit 等。具体含义如下：
-
-	* respawn  
-		该进程只要终止就立即重新启动(如getty).
-
-	* wait  
-		只要进入指定的运行级就启动本进程, 并且 init 等待该进程的结束.
-
-	* once  
-		只要进入指定的运行级就启动一次本进程.
-
-	* boot  
-		在系统引导期间执行本进程. runlevels 域被忽略.
-
-	* bootwait  
-		在系统引导期间执行本进程. 并且init 等待该进程的结束(如/etc/rc). runlevels 域被忽略.
-
-	* off  
-		什么也不做.
-
-	* ondemand  
-		在进入ondemand 运行级时才会执行标记为ondemand 的那些进程. 无论怎样, 实际上没有改变运行级(ondemand 运行级就是`a’, `b’, 和`c’).
-
-	* initdefault  
-		initdefault 条目给出系统引导完成后进入的运行级, 假如不存在这样的条目, init 就会在控制台询问要进入的运行级. process 域被忽略.
-
-	* sysinit  
-		系统引导期间执行此进程。本进程会在boot 或 bootwait 条目之前得到执行. runlevels 域被忽略.
-
-	* ctrlaltdel  
-		在init 收到SIGINT 信号时执行此进程. 这意味着有人在控制台按下了CTRL-ALT-DEL 组合键, 典型地, 可能是想执行类似shutdown 然后进入单用户模式或重新引导机器.
-
-	* kbrequest  
-		本进程在init 收到一个从控制台键盘产生的特别组合按键信号时执行.
-
-**process**
-
-要执行的程序或者脚本的名称，常见的有 getty，/etc/init.d/rcS, /etc/rc.d/rc.sysinit, /etc/rc.d/rc, /bin/sh, /bin/umount 等。
-
-* 参考资料:
-<http://www.linuxsky.org/doc/newbie/200706/62.html>
-<http://www.2cto.com/os/201108/98426.html>
-
-
-### shutdown 命令
-
-#### shutdown 命令说明
-shutdown 以一种安全的方式终止系统，所有正在登录的用户都会收到系统将要终止的通知，并且不准新的登录。
-
-#### 命令格式
-	/sbin/shutdown [-akrhPHfFnc] [-t sec] time [warning message]
-
-#### 参数选项
-* -h  
-	将系统关机，在某种程度上功能与halt命令相当。
-
-* -k  
-	只是送出信息给所有用户，但并不会真正关机。
-
-* -n  
-	不调用init程序关机，而是由shutdown自己进行(一般关机程序是由shutdown调用init来实现关机动作)，使用此参数将加快关机速度，但是不建议用户使用此种关机方式。
-
-* -r  
-	shutdown之后重新启动系统。
-
-* -f <秒数>   
-	送出警告信息和关机信号之间要延迟多少秒。警告信息将提醒用户保存当前进行的工作
-
-### halt 命令
-
-#### halt 命令说明
-halt 用来停止系统。正常情况下等效于 shutdown 加上 -h 参数(当前系统运行级别是 0 时除外)。它将告诉内核去中止系统，并在系统正在关闭的过程中将日志记录到 /var/log/wtmp 文件里。
-
-#### 命令格式
-	/sbin/halt [-n] [-w] [-d] [-f] [-i] [-p] [-h]
-
-#### 主要选项
-* -n  
-	reboot或者halt之前，不同步(sync)数据.
-* -w  
-	仅仅往/var/log/wtmp里写一个记录，并不实际做reboot或者halt操作.
-* -f  
-	强制halt或者reboot，不等其他程序退出或者服务停止就重新启动系统.这样会造成数据丢失，建议一般不要这样做.
-* -i  
-	halt或reboot前，关闭所有网络接口.
-* -h  
-	halt或poweroff前，使系统中所有的硬件处于等待状态.
-* -p  
-	在系统halt同时，做poweroff操作.即停止系统同时关闭电源.
-
-### poweroff 命令
-poweroff 告诉内核中止系统并且关闭系统(参见 halt)
-
-#### 命令格式
-	poweroff [OPTION]...
-
-#### 主要选项
-* -f, --force
-	强制关机
-
-* -p, --poweroff  
-	等价于 halt -p
-
-* -w, --wtmp-only
-	仅仅往/var/log/wtmp里写一个记录，并不实际做reboot或者halt操作.
-
-### reboot 命令
-reboot 告诉内核重启系统(参见 halt)
-
-#### 命令格式
-	reboot [OPTION]...
-
-#### 主要选项
-
-
-### telinit 命令
-telinit 告诉 init 该进入哪个运行级。
-
-执行telinit时，telinit函数仍然通过向init fifo写入命令的方式通知init执行相应的操作。
-
-#### 命令格式
-	telinit [-t sec] [0123456sSQqabcUu]
-
-#### 参数说明
-* 0,1,2,3,4,5,6 将运行级别切换到指定的运行级别。
-* a,b,c 只运行那些 /etc/inittab 文件中运行级别是 a，b 或 c 的记录。
-* Q,q 通知 init 重新检测 /etc/inittab 文件。
-* S,s 将运行级别切换到单用户模式下。
-* U,u 自动重启（保留状态），此操作不会对文件/etc/inittab 进行重新检测。执行此操作时，运行级别必须处在 Ss12345 之一，否则，该请求将被忽略。
-* -t sec 告诉 init 两次发送 SIGTERM 和 SIGKILL 信号的时间间隔。默认值是 5 秒
-
-### killall5 命令
-killall5 命令发送一个信号到所有进程，但那些在它自己设定级别的进程将不会被这个运行的脚本所中断。
-killall5 就是SystemV的killall命令。向除自己的会话(session)进程之外的其它进程发出信号，所以不能杀死当前使用的shell。
-
-#### 命令格式
-	killall5  -signalnumber  [-o  omitpid[,omitpid..]]   [-o omitpid[,omit‐pid..]..]
-
-#### 主要选项
-* -o omitpid
-	可以忽略的进程 pid 号
-
-### pidof
-pidof 命令可以报告给定程序的进程识别号(pid)，输出到标准输出设备。
-这个命令其实是指向 killall5 的一个软链接。
-
-#### 命令格式
-	pidof  [-s] [-c] [-n] [-x] [-o omitpid[,omitpid..]]  [-o omitpid[,omit‐pid..]..]  program [program..]
-
-
-#### 主要选项
-* -s 
-	表示只返回1个pid
-
-* -o omitpid
-	表示告诉 piod 表示忽略后面给定的 pid ，可以使用多个 -o 。
-
-### last/lastb 命令
-last 命令给出哪一个用户最后一次登录(或退出登录)，它回溯/var/log/wtmp文件(或者-f选项指定的文件)，显示自从这个文件建立以来，所有用户的登录情况。
-
-lastb 显示所有失败登录企图，并记录在 /var/log/btmp.
-
-#### 命令格式
-	last  [-R] [-num] [ -n num ] [-adFiowx] [ -f file ] [ -t YYYYMMDDHHMMSS] [name...]  [tty...]
-
-#### 主要选项
-* -num（-n num）
-	指定 last 要显示多少行。
-* -R 
-	不显示主机名列。 
-* -a 
-	在最后一列显示主机名（和下一个选项合用时很有用） 
-* -d 
-	对于非本地的登录，Linux 不仅保存远程主机名而且保存IP地址。这个选项可以将IP地址转换为主机名。 
-* -i 
-	这个选项类似于显示远程主机 IP 地址的 -d 选项，只不过它用数字和点符号显示IP地址。
-* -o 
-	读取一个旧格式的 wtmp 文件（用linux-libc5应用程序写入的）。 
-* -x 
-	显示系统关机记录和运行级别改变的日志。
-
-### mesg 命令
-该命令的作用是，控制是否允许在当前终端上显示出其它用户对当前用户终端发送的消息。
-
-#### 命令格式
-	mesg [y|n]
-
-#### 主要选项
-* y 
-	允许消息传到当前终端
-
-* n
-	不允许消息传到当前终端
-
-### mountpoint 命令
-mountpoint 检查给定的目录是否是一个挂载点
-
-#### 命令格式
-	/bin/mountpoint [-q] [-d] /path/to/directory
-       /bin/mountpoint -x /dev/device
-
-#### 主要选项
-       -q     Be quiet - don't print anything.
-
-       -d     Print major/minor device number of the filesystem on stdout.
-
-       -x     Print major/minor device number of the blockdevice on stdout.
-
-### fstab-decode 命令
-fstab-decode 可以支持在运行命令时，将某些命令参数展开。
-
-#### 命令格式
-	fstab-decode COMMAND [ARGUMENT]...
-
-#### 举例
-	fstab-decode umount $(awk '$3 == vfat { print $2 }' /etc/fstab)
-
-### runlevel 命令
-runlevel 命令读取系统的登录记录文件(一般是/var/run/utmp)把以前和当前的系统运行级输出到标准输出设备。
-如果之前的系统运行级别没有找到，则会返回一个 N 字母来代替。
-
-#### 命令格式
-	runlevel [utmp]
-
-#### 主要选项
-	utmp   指定要读取的 utmp 文件名，默认是读取 /var/run/utmp
-
-### sulogin 命令
-sulogin 命令允许 root 登录，它通常情况下是在系统在单用户模式下运行时，由 init 所派生。
-
-#### 命令格式
-	sulogin [ -e ] [ -p ] [ -t SECONDS ] [ TTY ]
-
-#### 主要选项
-	无
-
-### wall 命令
-#### wall 命令说明
-wall命令用来向所有用户的终端发送一条信息。发送的信息可以作为参数在命令行给出，也可在执行wall命令后，从终端中输入。使用终端输入信息时，按Ctrl-D结束输入。wall的信息长度的限制是20行。
-
-只有超级用户有权限，给所有用户的终端发送消息。
-
-#### 命令格式
-	wall [-n] [ message ]
-
-* 用法  
-	usage: wall [message]
-
-* 举例  
-	wall "hello msg"
-
-### bootlogd 命令
-bootlogd 命令把启动信息记录到一个日志文件。
-
-#### 命令格式
-	/sbin/bootlogd [-c] [-d] [-r] [-s] [-v] [ -l logfile ] [ -p pidfile ]
-
-#### 主要选项
-       -d     Do not fork and run in the background.
-
-       -c     Attempt  to  write to the logfile even if it does not yet exist.
-              Without this option, bootlogd  will  wait  for  the  logfile  to
-              appear before attempting to write to it.  This behavior prevents
-              bootlogd from creating logfiles under mount points.
-
-       -r     If there is an existing logfile called logfile rename it to log‐
-              file~ unless logfile~ already exists.
-
-       -s     Ensure  that  the data is written to the file after each line by
-              calling fdatasync(3).  This will slow  down  a  fsck(8)  process
-              running in parallel.
-
-       -v     Show version.
-
-       -l logfile
-              Log to this logfile. The default is /var/log/boot.
-
-
-### utmpdump 命令
-utmpdump 命令以一种用户友好的格式向标准输出设备显示 /var/run/utmp 文件的内容。
-
-#### 命令格式
-	utmpdump [-froh] filename
-
-#### 主要选项
-       -f     output appended data as the file grows.
-
-       -r     reverse. Write back edited login information into utmp  or  wtmp
-              files.
-
-       -o     use old libc5 format.
-
-       -h     usage information.
-
-
 ## 代码实现概要分析
 
 我们目前所要分析的源码压缩包为 2.88 版本的，这个版本的发布时间是 26-Mar-2010。
 
 ### 源码目录结构
-	$ make distclean
-	make -C src distclean
-	make[1]: Entering directory `/home/akaedu/Github/sysvinit/sysvinit-2.88dsf/src'
-	rm -f *.o *.bak
-	rm -f  mountpoint init halt shutdown runlevel killall5 fstab-decode sulogin bootlogd last mesg utmpdump wall
-	make[1]: Leaving directory `/home/akaedu/Github/sysvinit/sysvinit-2.88dsf/src'
-	$ make clean
+
 	$ tree
 	.
 	├── contrib
@@ -611,7 +182,7 @@ utmpdump 命令以一种用户友好的格式向标准输出设备显示 /var/ru
 
 	5 directories, 69 files
 
-### 源码文件的代码量
+### 源文件代码量分析
 src 目录下的源码文件共 17 个，全部代码量一共 9350 行，接近一万行。其中 init.c 是这里面代码量最大的，约有3000行。killall5.c 约有1100行。其他的源代码都在1000行以内。
 
 	$ ls *.c -l | wc -l
@@ -663,6 +234,733 @@ src 目录下的源码文件共 17 个，全部代码量一共 9350 行，接近
 	116 bootlogd:       bootlogd.o
 
 以上是生成可执行文件的 Makefile 关键片段。从这里可以大致看出，每个可执行文件的生成，需要依赖于哪些目标文件，也就是由哪些源码文件生成的。例如 init 程序，是由 init.c init_utmp.c 这2个文件生成，如果我们要研究 init 程序的源码，就需要读懂这2个源码文件。
+
+## 项目下载编译执行
+
+### wget下载源码包
+
+![wget下载源码包](./pictures/1-1-wget.png)
+
+	$ wget http://download.savannah.gnu.org/releases/sysvinit/sysvinit-latest.tar.bz2
+	--2013-06-22 13:18:30--  http://download.savannah.gnu.org/releases/sysvinit/sysvinit-latest.tar.bz2
+	Resolving download.savannah.gnu.org (download.savannah.gnu.org)... 140.186.70.73
+	Connecting to download.savannah.gnu.org (download.savannah.gnu.org)|140.186.70.73|:80... connected.
+	HTTP request sent, awaiting response... 302 Found
+	Location: http://download.savannah.gnu.org/releases-redirect/sysvinit/sysvinit-latest.tar.bz2 [following]
+	--2013-06-22 13:18:31--  http://download.savannah.gnu.org/releases-redirect/sysvinit/sysvinit-latest.tar.bz2
+	Reusing existing connection to download.savannah.gnu.org:80.
+	HTTP request sent, awaiting response... 302 Found
+	Location: http://ftp.twaren.net/Unix/NonGNU//sysvinit/sysvinit-latest.tar.bz2 [following]
+	--2013-06-22 13:18:32--  http://ftp.twaren.net/Unix/NonGNU//sysvinit/sysvinit-latest.tar.bz2
+	Resolving ftp.twaren.net (ftp.twaren.net)... 140.110.123.9, 2001:e10:5c00:5::9
+	Connecting to ftp.twaren.net (ftp.twaren.net)|140.110.123.9|:80... connected.
+	HTTP request sent, awaiting response... 200 OK
+	Length: 105551 (103K) [application/x-tar]
+	Saving to: `sysvinit-latest.tar.bz2'
+
+	100%[======================================>] 105,551     45.1K/s   in 2.3s    
+
+	2013-06-22 13:18:35 (45.1 KB/s) - `sysvinit-latest.tar.bz2' saved [105551/105551]
+
+### tar解压源码包
+
+![tar解压源码包](./pictures/1-2-tar.png)
+
+	$ tar jxvf sysvinit-latest.tar.bz2 
+	sysvinit-2.88dsf/
+	sysvinit-2.88dsf/contrib/
+	sysvinit-2.88dsf/contrib/alexander.viro
+	sysvinit-2.88dsf/contrib/start-stop-daemon.c
+	sysvinit-2.88dsf/contrib/TODO
+	sysvinit-2.88dsf/contrib/zefram-patches
+	sysvinit-2.88dsf/contrib/notify-pam-dead.patch
+	sysvinit-2.88dsf/contrib/start-stop-daemon.README
+	sysvinit-2.88dsf/doc/
+	sysvinit-2.88dsf/doc/bootlogd.README
+	sysvinit-2.88dsf/doc/Install
+	sysvinit-2.88dsf/doc/Changelog
+	sysvinit-2.88dsf/doc/Propaganda
+	sysvinit-2.88dsf/doc/sysvinit-2.86.lsm
+	sysvinit-2.88dsf/src/
+	sysvinit-2.88dsf/src/wall.c
+	sysvinit-2.88dsf/src/reboot.h
+	sysvinit-2.88dsf/src/set.h
+	sysvinit-2.88dsf/src/init.c
+	sysvinit-2.88dsf/src/last.c
+	sysvinit-2.88dsf/src/init.h
+	sysvinit-2.88dsf/src/bootlogd.c
+	sysvinit-2.88dsf/src/killall5.c
+	sysvinit-2.88dsf/src/utmpdump.c
+	sysvinit-2.88dsf/src/shutdown.c
+	sysvinit-2.88dsf/src/mountpoint.c
+	sysvinit-2.88dsf/src/sulogin.c
+	sysvinit-2.88dsf/src/fstab-decode.c
+	sysvinit-2.88dsf/src/initreq.h
+	sysvinit-2.88dsf/src/dowall.c
+	sysvinit-2.88dsf/src/hddown.c
+	sysvinit-2.88dsf/src/paths.h
+	sysvinit-2.88dsf/src/utmp.c
+	sysvinit-2.88dsf/src/ifdown.c
+	sysvinit-2.88dsf/src/initscript.sample
+	sysvinit-2.88dsf/src/halt.c
+	sysvinit-2.88dsf/src/oldutmp.h
+	sysvinit-2.88dsf/src/mesg.c
+	sysvinit-2.88dsf/src/Makefile
+	sysvinit-2.88dsf/src/runlevel.c
+	sysvinit-2.88dsf/COPYING
+	sysvinit-2.88dsf/COPYRIGHT
+	sysvinit-2.88dsf/man/
+	sysvinit-2.88dsf/man/bootlogd.8
+	sysvinit-2.88dsf/man/killall5.8
+	sysvinit-2.88dsf/man/shutdown.8
+	sysvinit-2.88dsf/man/bootlogd.8.todo
+	sysvinit-2.88dsf/man/sulogin.8
+	sysvinit-2.88dsf/man/fstab-decode.8
+	sysvinit-2.88dsf/man/mesg.1
+	sysvinit-2.88dsf/man/initscript.5
+	sysvinit-2.88dsf/man/inittab.5
+	sysvinit-2.88dsf/man/poweroff.8
+	sysvinit-2.88dsf/man/wall.1
+	sysvinit-2.88dsf/man/halt.8
+	sysvinit-2.88dsf/man/reboot.8
+	sysvinit-2.88dsf/man/last.1
+	sysvinit-2.88dsf/man/runlevel.8
+	sysvinit-2.88dsf/man/lastb.1
+	sysvinit-2.88dsf/man/pidof.8
+	sysvinit-2.88dsf/man/init.8
+	sysvinit-2.88dsf/man/utmpdump.1
+	sysvinit-2.88dsf/man/mountpoint.1
+	sysvinit-2.88dsf/man/telinit.8
+	sysvinit-2.88dsf/obsolete/
+	sysvinit-2.88dsf/obsolete/powerd.c
+	sysvinit-2.88dsf/obsolete/powerd.8
+	sysvinit-2.88dsf/obsolete/utmpdump.c.OLD
+	sysvinit-2.88dsf/obsolete/README.RIGHT.NOW
+	sysvinit-2.88dsf/obsolete/bootlogd.init
+	sysvinit-2.88dsf/obsolete/powerd.README
+	sysvinit-2.88dsf/obsolete/powerd.cfg
+	sysvinit-2.88dsf/Makefile
+	sysvinit-2.88dsf/README
+	$ 
+
+	$ ls
+	Makefile  pdf  sysvinit-2.88dsf  sysvinit-latest.tar.bz2
+
+	$ ls sysvinit-2.88dsf/
+	contrib  COPYRIGHT  Makefile  obsolete  src
+	COPYING  doc        man       README
+	$ 
+
+### 修改 Makefile
+增添11行的 CC=gcc，注释掉 13，14行有关 CFLAGS 的定义，否则编译会出很多的警告错误。
+
+	$ vi Makefile 
+
+	10 
+	11 CC=gcc
+	12 CPPFLAGS =
+	13 #CFLAGS ?= -ansi -O2 -fomit-frame-pointer
+	14 #override CFLAGS += -W -Wall -D_GNU_SOURCE -DDEBUG
+	15 override CFLAGS += -D_GNU_SOURCE -DDEBUG
+	16 STATIC  =
+	17 
+	...
+
+在80行处添加83行处的赋值，增加链接时 -lcrypt 选项
+
+	80 SULOGINLIBS     += -lcrypt
+	81 # Additional libs for GNU libc.
+	82 ifneq ($(wildcard /usr/lib*/libcrypt.a),)
+	83   SULOGINLIBS   += -lcrypt
+	84 endif
+	85 
+	86 all:            $(BIN) $(SBIN) $(USRBIN)
+	87 
+	88 #%: %.o
+	89 #       $(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LDLIBS)
+	90 #%.o: %.c
+	91 #       $(CC) $(CFLAGS) $(CPPFLAGS) -c $^ -o $@
+
+### 编译项目源码
+	$ cd sysvinit-2.88dsf/
+	$ make
+	gcc -D_GNU_SOURCE -DDEBUG   -c -o mountpoint.o mountpoint.c
+	gcc   mountpoint.o   -o mountpoint
+	gcc -D_GNU_SOURCE -DDEBUG   -c -o init.o init.c
+	gcc -D_GNU_SOURCE -DDEBUG -DINIT_MAIN -c -o init_utmp.o utmp.c
+	gcc   init.o init_utmp.o    -o init
+	gcc -D_GNU_SOURCE -DDEBUG   -c -o halt.o halt.c
+	gcc -D_GNU_SOURCE -DDEBUG   -c -o ifdown.o ifdown.c
+	gcc -D_GNU_SOURCE -DDEBUG   -c -o hddown.o hddown.c
+	gcc -D_GNU_SOURCE -DDEBUG   -c -o utmp.o utmp.c
+	gcc   halt.o ifdown.o hddown.o utmp.o reboot.h   -o halt
+	gcc -D_GNU_SOURCE -DDEBUG   -c -o shutdown.o shutdown.c
+	gcc -D_GNU_SOURCE -DDEBUG   -c -o dowall.o dowall.c
+	gcc   shutdown.o dowall.o utmp.o reboot.h   -o shutdown
+	gcc -D_GNU_SOURCE -DDEBUG   -c -o runlevel.o runlevel.c
+	gcc   runlevel.o   -o runlevel
+	gcc -D_GNU_SOURCE -DDEBUG   -c -o sulogin.o sulogin.c
+	gcc   sulogin.o   -lcrypt  -o sulogin
+	gcc -D_GNU_SOURCE -DDEBUG   -c -o bootlogd.o bootlogd.c
+	gcc   bootlogd.o  -lutil -o bootlogd
+	gcc -D_GNU_SOURCE -DDEBUG   -c -o last.o last.c
+	gcc   last.o oldutmp.h   -o last
+	gcc -D_GNU_SOURCE -DDEBUG   -c -o mesg.o mesg.c
+	gcc   mesg.o   -o mesg
+	gcc -D_GNU_SOURCE -DDEBUG   -c -o utmpdump.o utmpdump.c
+	gcc   utmpdump.o   -o utmpdump
+	gcc -D_GNU_SOURCE -DDEBUG   -c -o wall.o wall.c
+	gcc   wall.o dowall.o   -o wall
+	$ 
+
+### 查看生成的可执行文件
+
+	$ ls -l | grep "x "
+	-rwxrwxr-x 1 akaedu akaedu 17677 Jun 22 13:28 a.out
+	-rwxrwxr-x 1 akaedu akaedu 18162 Jun 22 13:36 bootlogd
+	-rwxrwxr-x 1 akaedu akaedu  7402 Jun 22 13:27 fstab-decode
+	-rwxrwxr-x 1 akaedu akaedu 17625 Jun 22 13:30 halt
+	-rwxrwxr-x 1 akaedu akaedu 42121 Jun 22 13:30 init
+	-rwxr-xr-x 1 akaedu akaedu   706 Sep 10  2009 initscript.sample
+	-rwxrwxr-x 1 akaedu akaedu 22259 Jun 22 13:27 killall5
+	-rwxrwxr-x 1 akaedu akaedu 22117 Jun 22 13:36 last
+	-rwxrwxr-x 1 akaedu akaedu  7730 Jun 22 13:36 mesg
+	-rwxrwxr-x 1 akaedu akaedu  7708 Jun 22 13:30 mountpoint
+	-rwxrwxr-x 1 akaedu akaedu  7368 Jun 22 13:30 runlevel
+	-rwxrwxr-x 1 akaedu akaedu 27547 Jun 22 13:30 shutdown
+	-rwxrwxr-x 1 akaedu akaedu 17677 Jun 22 13:36 sulogin
+	-rwxrwxr-x 1 akaedu akaedu 12638 Jun 22 13:36 utmpdump
+	-rwxrwxr-x 1 akaedu akaedu 13243 Jun 22 13:36 wall
+	$ 
+
+## 工具安装使用流程
+因为这些工具都是系统工具，执行 make install 安装之后，会覆盖掉原来系统的相关工具，因此这里所做的安装，是安装到了当前目录下一个叫 root 的目录下，并没有安装到 / 根目录下。特此说明。
+
+在 Makefile 中，有一个目标 install ，其中有一个宏变量 ROOT 可以修改为 当前目录下的 root 目录，可以提前用 mkdir root 建好。
+执行 make install 的时候，加上 ROOT=root 就可以了。
+
+### 工具安装
+	$ mkdir root
+	$ make install ROOT=root
+	install -m 755 -d root/bin/ root/sbin/
+	install -m 755 -d root/usr/bin/
+	for i in  mountpoint; do \
+				install -m 755 $i root/bin/ ; \
+			done
+	for i in init halt shutdown runlevel killall5 fstab-decode sulogin bootlogd; do \
+				install -m 755 $i root/sbin/ ; \
+			done
+	for i in last mesg utmpdump wall; do \
+				install -m 755 $i root/usr/bin/ ; \
+			done
+	# install -m 755 -d root/etc/
+	# install -m 755 initscript.sample root/etc/
+	ln -sf halt root/sbin/reboot
+	ln -sf halt root/sbin/poweroff
+	ln -sf init root/sbin/telinit
+	ln -sf /sbin/killall5 root/bin/pidof
+	if [ ! -f root/usr/bin/lastb ]; then \
+				ln -sf last root/usr/bin/lastb; \
+			fi
+	install -m 755 -d root/usr/include/
+	install -m 644 initreq.h root/usr/include/
+	install -m 755 -d root/usr/share/man/man1/
+	install -m 755 -d root/usr/share/man/man5/
+	install -m 755 -d root/usr/share/man/man8/
+	for i in last.1 lastb.1 mesg.1 utmpdump.1 mountpoint.1 wall.1; do \
+				install -m 644 ../man/$i root/usr/share/man/man1/; \
+			done
+	for i in initscript.5 inittab.5; do \
+				install -m 644 ../man/$i root/usr/share/man/man5/; \
+			done
+	for i in halt.8 init.8 killall5.8 pidof.8 poweroff.8 reboot.8 runlevel.8 shutdown.8 telinit.8 fstab-decode.8 sulogin.8 bootlogd.8; do \
+				install -m 644 ../man/$i root/usr/share/man/man8/; \
+			done
+	$ ls root/
+	bin  sbin  usr
+	$ 
+
+#### 查看安装目录
+工具的安装目录主要包括 /sbin, /bin, /usr/bin 这3个地方，当然我们这次是属于模拟安装，所以都会安装在 root 目录下。
+
+	$ cd root
+	$ find sbin/ bin/ usr/bin/ | xargs ls -l
+	-rwxr-xr-x 1 akaedu akaedu  7708 Jun 23 17:20 bin/mountpoint
+	lrwxrwxrwx 1 akaedu akaedu    14 Jun 23 17:20 bin/pidof -> /sbin/killall5
+	-rwxr-xr-x 1 akaedu akaedu 18162 Jun 23 17:20 sbin/bootlogd
+	-rwxr-xr-x 1 akaedu akaedu  7402 Jun 23 17:20 sbin/fstab-decode
+	-rwxr-xr-x 1 akaedu akaedu 17625 Jun 23 17:20 sbin/halt
+	-rwxr-xr-x 1 akaedu akaedu 42121 Jun 23 17:20 sbin/init
+	-rwxr-xr-x 1 akaedu akaedu 22259 Jun 23 17:20 sbin/killall5
+	lrwxrwxrwx 1 akaedu akaedu     4 Jun 23 17:20 sbin/poweroff -> halt
+	lrwxrwxrwx 1 akaedu akaedu     4 Jun 23 17:20 sbin/reboot -> halt
+	-rwxr-xr-x 1 akaedu akaedu  7368 Jun 23 17:20 sbin/runlevel
+	-rwxr-xr-x 1 akaedu akaedu 27547 Jun 23 17:20 sbin/shutdown
+	-rwxr-xr-x 1 akaedu akaedu 17677 Jun 23 17:20 sbin/sulogin
+	lrwxrwxrwx 1 akaedu akaedu     4 Jun 23 17:20 sbin/telinit -> init
+	-rwxr-xr-x 1 akaedu akaedu 22117 Jun 23 17:20 usr/bin/last
+	lrwxrwxrwx 1 akaedu akaedu     4 Jun 23 17:20 usr/bin/lastb -> last
+	-rwxr-xr-x 1 akaedu akaedu  7730 Jun 23 17:20 usr/bin/mesg
+	-rwxr-xr-x 1 akaedu akaedu 12638 Jun 23 17:20 usr/bin/utmpdump
+	-rwxr-xr-x 1 akaedu akaedu 13243 Jun 23 17:20 usr/bin/wall
+
+#### 查看帮助文件
+所有工具编译之后可执行文件都生成在 src 源码目录树下，同时，这些命名的帮助文件在 man 目录下。
+
+	$ cd man
+	$ ls -l
+	total 108
+	-rw-r--r-- 1 akaedu akaedu  2847 Jun 23 11:13 bootlogd.8
+	-rw-r--r-- 1 akaedu akaedu  1971 Jun 23 11:13 bootlogd.8.todo
+	-rw-r--r-- 1 akaedu akaedu  1444 Jun 23 11:13 fstab-decode.8
+	-rw-r--r-- 1 akaedu akaedu  3957 Jun 23 11:13 halt.8
+	-rw-r--r-- 1 akaedu akaedu 12124 Jun 23 11:13 init.8
+	-rw-r--r-- 1 akaedu akaedu  2428 Jun 23 11:13 initscript.5
+	-rw-r--r-- 1 akaedu akaedu  8290 Jun 23 11:13 inittab.5
+	-rw-r--r-- 1 akaedu akaedu  1866 Jun 23 11:13 killall5.8
+	-rw-r--r-- 1 akaedu akaedu  4242 Jun 23 11:13 last.1
+	-rw-r--r-- 1 akaedu akaedu    16 Jun 23 11:13 lastb.1
+	-rw-r--r-- 1 akaedu akaedu  1867 Jun 23 11:13 mesg.1
+	-rw-r--r-- 1 akaedu akaedu  1886 Jun 23 11:13 mountpoint.1
+	-rw-r--r-- 1 akaedu akaedu  3230 Jun 23 11:13 pidof.8
+	-rw-r--r-- 1 akaedu akaedu    16 Jun 23 11:13 poweroff.8
+	-rw-r--r-- 1 akaedu akaedu    16 Jun 23 11:13 reboot.8
+	-rw-r--r-- 1 akaedu akaedu  1872 Jun 23 11:13 runlevel.8
+	-rw-r--r-- 1 akaedu akaedu  8017 Jun 23 11:13 shutdown.8
+	-rw-r--r-- 1 akaedu akaedu  3309 Jun 23 11:13 sulogin.8
+	-rw-r--r-- 1 akaedu akaedu    16 Jun 23 11:13 telinit.8
+	-rw-r--r-- 1 akaedu akaedu  1949 Jun 23 11:13 utmpdump.1
+	-rw-r--r-- 1 akaedu akaedu  1960 Jun 23 11:13 wall.1
+
+通过使用 man 命令，加上 -l 参数，例如 man -l init.8 我们可以了解到这些命令的用法。
+
+* 注意  
+我们这里没有直接使用例如 man init 这样的命令，而是改用 man -l init.8，这是因为前者是查看当前系统的帮助，而当前系统是 ubuntu 12.04 已经改用 upstart 作为 init 进程。后者才是针对 sysvinit 工具中的可执行文件配套的帮助信息。 
+
+下面我们针对这些命令的帮助信息，来给出每个命令的具体用法，在测试案例报告中，我们会详细说明每个命令如何使用。
+
+### init 命令
+
+#### init 命令说明
+init 进程是所有进程的父进程。它的主要任务就是从 /etc/inittab 文件中读取命令行，从而创建出一系列后继进程。
+init 进程本身是被 Kernel 所启动，Kernel 将控制权交给它之后，用它来负责启动所有其他的进程。
+inittab 文件中通常有关于登录接口的定义，就是在每个终端产生getty，使用户可以进行登录.
+
+* init 命令实现代码可以参考源文件
+	- init.c
+	- init_utmp.c
+
+#### 命令格式
+       /sbin/init [ -a ] [ -s ] [ -b ] [ -z xxx ] [ 0123456Ss ]
+
+#### 运行级别
+运行级别是Linux操作系统的一个软件配置，用它来决定启动哪些程序集来运行。
+系统启动时，可以根据 /etc/inittab 文件的配置，进入不同的运行级别。
+每个运行级别可以设置启动不同的程序。
+
+启动的每个程序都是init的进程的子进程，运行级别有8个，分别是 0-6,S或s。
+运行级别0,1和6是系统保留的。
+
+* 运行级别0用来关闭系统，
+* 运行级别1先关闭所有用户进程和服务，然后进入单用户模式。
+* 运行级别6用来重启系统。
+* 运行级别S和s，会直接进入到单用户模式。
+	- 这种模式下不再需要 /etc/inittab 文件。
+	- /sbin/sulogin 会在 /dev/console 上 被启动。
+	- 运行级别S和s的功能是相同的。
+
+#### 启动过程
+在kernel启动的最后阶段，会调用init。init会查找/etc/inittab文件内容，进入指定的运行级别。
+其中 initdefault 代表着系统默认要进入的运行级别，如果用户指定了，就会进入到 initdefault 代表的那个运行级别。
+如果用户没有指定，则系统启动时，会通过 console 来要求用户输入一个运行级别。
+
+当启动一个新进程时，init会先检查/etc/initscript文件是否存在。如果存在，则使用这个脚本来启动那个进程。
+
+#### 选项
+* -s, S, single  
+	进入单用户模式.
+
+* 1-5  
+	启动进入的运行级别.
+
+* -b, emergency  
+	直接进入单用户shell，不运行任何其他的启动脚本。
+
+* -a, auto  
+	如果指定该参数，init 会将 AUTOBOOT 环境变量设置为 yes。 
+
+* -z xxx  
+	-z后面的参数将被忽略。可以使用这种方法将命令行加长一点，这样可以增加在堆栈中占用的空间。
+
+* init 0
+	这条命令也可以用来关机。
+
+**/etc/inittab文件范例**
+
+	id:1:initdefault:
+	rc::bootwait:/etc/rc
+	1:1:respawn:/etc/getty 9600 tty1
+	2:1:respawn:/etc/getty 9600 tty2
+	3:1:respawn:/etc/getty 9600 tty3
+	4:1:respawn:/etc/getty 9600 tty4
+
+**id**
+
+inittab 文档中条目的唯一标识, 限于1-4 个字符。
+
+**runlevels**
+
+列出发生指定动作的运行级，可以是单个的数字，也可以是连续的多个数字，例如2345表示在多个运行级别下都需要执行。
+
+**action**
+
+描述要发生的动作，常用的有 respawn, wait, boot, once, bootwait, off, initdefault, ctrlaltdel， sysinit 等。具体含义如下：
+
+	* respawn  
+		该进程只要终止就立即重新启动(如getty).
+
+	* wait  
+		只要进入指定的运行级就启动本进程, 并且 init 等待该进程的结束.
+
+	* once  
+		只要进入指定的运行级就启动一次本进程.
+
+	* boot  
+		在系统引导期间执行本进程. runlevels 域被忽略.
+
+	* bootwait  
+		在系统引导期间执行本进程. 并且init 等待该进程的结束(如/etc/rc). runlevels 域被忽略.
+
+	* off  
+		什么也不做.
+
+	* ondemand  
+		在进入ondemand 运行级时才会执行标记为ondemand 的那些进程. 无论怎样, 实际上没有改变运行级(ondemand 运行级就是`a’, `b’, 和`c’).
+
+	* initdefault  
+		initdefault 条目给出系统引导完成后进入的运行级, 假如不存在这样的条目, init 就会在控制台询问要进入的运行级. process 域被忽略.
+
+	* sysinit  
+		系统引导期间执行此进程。本进程会在boot 或 bootwait 条目之前得到执行. runlevels 域被忽略.
+
+	* ctrlaltdel  
+		在init 收到SIGINT 信号时执行此进程. 这意味着有人在控制台按下了CTRL-ALT-DEL 组合键, 典型地, 可能是想执行类似shutdown 然后进入单用户模式或重新引导机器.
+
+	* kbrequest  
+		本进程在init 收到一个从控制台键盘产生的特别组合按键信号时执行.
+
+**process**
+
+要执行的程序或者脚本的名称，常见的有 getty，/etc/init.d/rcS, /etc/rc.d/rc.sysinit, /etc/rc.d/rc, /bin/sh, /bin/umount 等。
+
+* 参考资料:
+<http://www.linuxsky.org/doc/newbie/200706/62.html>
+<http://www.2cto.com/os/201108/98426.html>
+
+
+### shutdown 命令
+
+#### shutdown 命令说明
+shutdown 以一种安全的方式终止系统，所有正在登录的用户都会收到系统将要终止的通知，并且不准新的登录。
+
+* shutdown 命令实现代码可以参考源文件
+	- shutdown.c
+	- dowall.c 
+	- utmp.c 
+	- reboot.h
+
+#### 命令格式
+	/sbin/shutdown [-akrhPHfFnc] [-t sec] time [warning message]
+
+#### 参数选项
+* -h  
+	将系统关机，在某种程度上功能与halt命令相当。
+
+* -k  
+	只是送出信息给所有用户，但并不会真正关机。
+
+* -n  
+	不调用init程序关机，而是由shutdown自己进行(一般关机程序是由shutdown调用init来实现关机动作)，使用此参数将加快关机速度，但是不建议用户使用此种关机方式。
+
+* -r  
+	shutdown之后重新启动系统。
+
+* -f <秒数>   
+	送出警告信息和关机信号之间要延迟多少秒。警告信息将提醒用户保存当前进行的工作
+
+### halt 命令
+
+#### halt 命令说明
+halt 用来停止系统。正常情况下等效于 shutdown 加上 -h 参数(当前系统运行级别是 0 时除外)。它将告诉内核去中止系统，并在系统正在关闭的过程中将日志记录到 /var/log/wtmp 文件里。
+
+* halt 命令实现代码可以参考源文件
+	- halt.c 
+	- ifdown.c 
+	- hddown.c
+	- utmp.c
+	- reboot.h
+
+#### 命令格式
+	/sbin/halt [-n] [-w] [-d] [-f] [-i] [-p] [-h]
+
+#### 主要选项
+* -n  
+	reboot或者halt之前，不同步(sync)数据.
+* -w  
+	仅仅往/var/log/wtmp里写一个记录，并不实际做reboot或者halt操作.
+* -f  
+	强制halt或者reboot，不等其他程序退出或者服务停止就重新启动系统.这样会造成数据丢失，建议一般不要这样做.
+* -i  
+	halt或reboot前，关闭所有网络接口.
+* -h  
+	halt或poweroff前，使系统中所有的硬件处于等待状态.
+* -p  
+	在系统halt同时，做poweroff操作.即停止系统同时关闭电源.
+
+### poweroff 命令
+poweroff 告诉内核中止系统并且关闭系统(参见 halt)
+
+* poweroff 命令实现代码可以参考源文件
+	- halt.c (poweroff 是 halt 命令的软链接）
+
+#### 命令格式
+	poweroff [OPTION]...
+
+#### 主要选项
+* -f, --force
+	强制关机
+
+* -p, --poweroff  
+	等价于 halt -p
+
+* -w, --wtmp-only
+	仅仅往/var/log/wtmp里写一个记录，并不实际做reboot或者halt操作.
+
+### reboot 命令
+reboot 告诉内核重启系统(参见 halt)
+
+* reboot 命令实现代码可以参考源文件
+	- halt.c (reboot 是 halt 命令的软链接）
+
+#### 命令格式
+	reboot [OPTION]...
+
+#### 主要选项
+
+
+### telinit 命令
+telinit 告诉 init 该进入哪个运行级。执行 telinit 时，其实是调用 telinit 函数，通过向 INIT_FIFO (/dev/.initctl)写入命令 request 的方式通知 init 执行相应的操作。
+
+* telinit 命令实现代码可以参考源文件
+	- init.c (telinit 是 init 命令的软链接）
+
+#### 命令格式
+	telinit [-t sec] [0123456sSQqabcUu]
+
+#### 参数说明
+* 0,1,2,3,4,5,6 将运行级别切换到指定的运行级别。
+* a,b,c 只运行那些 /etc/inittab 文件中运行级别是 a，b 或 c 的记录。
+* Q,q 通知 init 重新检测 /etc/inittab 文件。
+* S,s 将运行级别切换到单用户模式下。
+* U,u 自动重启（保留状态），此操作不会对文件/etc/inittab 进行重新检测。执行此操作时，运行级别必须处在 Ss12345 之一，否则，该请求将被忽略。
+* -t sec 告诉 init 两次发送 SIGTERM 和 SIGKILL 信号的时间间隔。默认值是 5 秒
+
+### killall5 命令
+killall5 命令发送一个信号到所有进程，但那些在它自己设定级别的进程将不会被这个运行的脚本所中断。
+killall5 就是SystemV的killall命令。向除自己的会话(session)进程之外的其它进程发出信号，所以不能杀死当前使用的shell。
+
+* killall 命令实现代码可以参考源文件
+	- killall5.c (telinit 是 init 命令的软链接）
+
+#### 命令格式
+	killall5  -signalnumber  [-o  omitpid[,omitpid..]]   [-o omitpid[,omit‐pid..]..]
+
+#### 主要选项
+* -o omitpid
+	可以忽略的进程 pid 号
+
+### pidof
+pidof 命令可以报告给定程序的进程识别号(pid)，输出到标准输出设备。
+这个命令其实是指向 killall5 的一个软链接。
+
+* pidof 命令实现代码可以参考源文件
+	- killall5.c (pidof 是 killall 命令的软链接）
+
+#### 命令格式
+	pidof  [-s] [-c] [-n] [-x] [-o omitpid[,omitpid..]]  [-o omitpid[,omit‐pid..]..]  program [program..]
+
+
+#### 主要选项
+* -s 
+	表示只返回1个pid
+
+* -o omitpid
+	表示告诉 piod 表示忽略后面给定的 pid ，可以使用多个 -o 。
+
+### last/lastb 命令
+last 命令给出哪一个用户最后一次登录(或退出登录)，它回溯/var/log/wtmp文件(或者-f选项指定的文件)，显示自从这个文件建立以来，所有用户的登录情况。
+
+lastb 显示所有失败登录企图，并记录在 /var/log/btmp.
+
+* last 命令实现代码可以参考源文件
+	- last.c
+	- oldutmp.h
+
+#### 命令格式
+	last  [-R] [-num] [ -n num ] [-adFiowx] [ -f file ] [ -t YYYYMMDDHHMMSS] [name...]  [tty...]
+
+#### 主要选项
+* -num（-n num）
+	指定 last 要显示多少行。
+* -R 
+	不显示主机名列。 
+* -a 
+	在最后一列显示主机名（和下一个选项合用时很有用） 
+* -d 
+	对于非本地的登录，Linux 不仅保存远程主机名而且保存IP地址。这个选项可以将IP地址转换为主机名。 
+* -i 
+	这个选项类似于显示远程主机 IP 地址的 -d 选项，只不过它用数字和点符号显示IP地址。
+* -o 
+	读取一个旧格式的 wtmp 文件（用linux-libc5应用程序写入的）。 
+* -x 
+	显示系统关机记录和运行级别改变的日志。
+
+### mesg 命令
+该命令的作用是，控制是否允许在当前终端上显示出其它用户对当前用户终端发送的消息。
+
+* mesg 命令实现代码可以参考源文件
+	- mesg.c
+
+#### 命令格式
+	mesg [y|n]
+
+#### 主要选项
+* y 
+	允许消息传到当前终端
+
+* n
+	不允许消息传到当前终端
+
+### mountpoint 命令
+mountpoint 检查给定的目录是否是一个挂载点。
+
+* mountpoint 命令实现代码可以参考源文件
+	- mountpoint.c
+
+#### 命令格式
+	/bin/mountpoint [-q] [-d] /path/to/directory
+       /bin/mountpoint -x /dev/device
+
+#### 主要选项
+       -q     Be quiet - don't print anything.
+
+       -d     Print major/minor device number of the filesystem on stdout.
+
+       -x     Print major/minor device number of the blockdevice on stdout.
+
+### fstab-decode 命令
+fstab-decode 可以支持在运行命令时，将某些命令参数展开。
+
+* fstab-decode 命令实现代码可以参考源文件
+	- fstab-decode.c
+
+#### 命令格式
+	fstab-decode COMMAND [ARGUMENT]...
+
+#### 举例
+	fstab-decode umount $(awk '$3 == vfat { print $2 }' /etc/fstab)
+
+### runlevel 命令
+runlevel 命令读取系统的登录记录文件(一般是/var/run/utmp)把以前和当前的系统运行级输出到标准输出设备。
+如果之前的系统运行级别没有找到，则会返回一个 N 字母来代替。
+
+* runlevel 命令实现代码可以参考源文件
+	- runlevel.c
+
+#### 命令格式
+	runlevel [utmp]
+
+#### 主要选项
+	utmp   指定要读取的 utmp 文件名，默认是读取 /var/run/utmp
+
+### sulogin 命令
+sulogin 命令允许 root 登录，它通常情况下是在系统在单用户模式下运行时，由 init 所派生。
+
+* sulogin 命令实现代码可以参考源文件
+	- sulogin.c
+
+#### 命令格式
+	sulogin [ -e ] [ -p ] [ -t SECONDS ] [ TTY ]
+
+#### 主要选项
+	无
+
+### wall 命令
+#### wall 命令说明
+wall命令用来向所有用户的终端发送一条信息。发送的信息可以作为参数在命令行给出，也可在执行wall命令后，从终端中输入。使用终端输入信息时，按Ctrl-D结束输入。wall的信息长度的限制是20行。只有超级用户有权限，给所有用户的终端发送消息。
+
+* wall 命令实现代码可以参考源文件
+	- wall.c
+	- dowall.c
+
+#### 命令格式
+	wall [-n] [ message ]
+
+* 用法  
+	usage: wall [message]
+
+* 举例  
+	wall "hello msg"
+
+### bootlogd 命令
+bootlogd 命令把启动信息记录到一个日志文件。
+
+* bootlogd 命令实现代码可以参考源文件
+	- bootlogd.c
+	- 链接时需要 -lutil
+
+#### 命令格式
+	/sbin/bootlogd [-c] [-d] [-r] [-s] [-v] [ -l logfile ] [ -p pidfile ]
+
+#### 主要选项
+       -d     Do not fork and run in the background.
+
+       -c     Attempt  to  write to the logfile even if it does not yet exist.
+              Without this option, bootlogd  will  wait  for  the  logfile  to
+              appear before attempting to write to it.  This behavior prevents
+              bootlogd from creating logfiles under mount points.
+
+       -r     If there is an existing logfile called logfile rename it to log‐
+              file~ unless logfile~ already exists.
+
+       -s     Ensure  that  the data is written to the file after each line by
+              calling fdatasync(3).  This will slow  down  a  fsck(8)  process
+              running in parallel.
+
+       -v     Show version.
+
+       -l logfile
+              Log to this logfile. The default is /var/log/boot.
+
+
+### utmpdump 命令
+utmpdump 命令以一种用户友好的格式向标准输出设备显示 /var/run/utmp 文件的内容。
+
+* utmpdump 命令实现代码可以参考源文件
+	- utmpdump.c
+
+#### 命令格式
+	utmpdump [-froh] filename
+
+#### 主要选项
+       -f     output appended data as the file grows.
+
+       -r     reverse. Write back edited login information into utmp  or  wtmp
+              files.
+
+       -o     use old libc5 format.
+
+       -h     usage information.
 
 # Sysvinit 项目详细分析
 
@@ -739,7 +1037,7 @@ src 目录下的源码文件共 17 个，全部代码量一共 9350 行，接近
 
 	1. 获取 argv[0] 参数，用以判断用户执行了 init 还是 telinit，因为 telinit 是指向 init 程序的软链接。
 
-	2. 检查当前执行用户的权限，必须是 superuser，否则直接退出。
+	2. 设置当前的 umask 掩码为 022，此后创建的文件管道的权限为 744。检查当前执行用户的权限，必须是 superuser，否则直接退出。
 
 	3. 通过 getpid() 获取当前执行进程的 pid，判断是否为 1 （1 表示是通过内核调用执行的第一个进程，而不是通过用户来执行 init 程序启动的进程）。（同时从源码中可以看出，init 程序也支持用 -i 或者 --init 参数来表示当前要求执行的是 init 进程。不过这个方式在 man -l init.8 的 man page 中没有明确提供此信息）
 
@@ -1227,7 +1525,6 @@ struct init_request {
 	- 这时父进程会进入 check_pipe() 函数中检查管道 STATE_PIPE 中是否有数据，是否符合要求。
 	- 如符合，则设置 reload=1，调用 init_main() 再次进入 Deamon 状态。
 	- 这一次进入 Daemon 之前，只需要执行 start_if_needed 而无需执行 read_inittab()，也就是不需要再重新读取 /etc/inittab 文件。这是 re_exec 方式3和 Kernel 启动 init 方式1 之间的最大区别。 
-
 
 ## halt命令执行流程分析
 ### halt 命令的数据分析
@@ -1980,271 +2277,214 @@ pidof 命令的实现也是在 killall5.c 文件中，由 main_pidof() 主函数
 
 # Sysvinit 项目安全漏洞
 
+## 案例1-INIT_FIFO管道文件安全漏洞
+因为 init Daemon 进程，是通过 INIT_FIFO (/dev/.initctl) 管道来进行通讯，而这个管道的名字是编译时就指定好的，在整个系统运行过程中，这个管道名是固定不变的。因此只需要用户程序有权限来对这个管道进行写操作，就可以获得对 init 进程的控制。
+
+我们来做一个实验，来模拟测试一下这个潜在的漏洞。
+
+### 修改默认管道文件
+修改源码文件 initreq.h +35行，将 INIT_FIFO 定义为 /tmp/.initctl
+
+	#define INIT_FIFO  "/tmp/.initctl"
+
+	$ ls -l /tmp/.initctl 
+	prw------- 1 root root 0 Jun 28 22:39 /tmp/.initctl
+	$ 
+
+### 修改管道文件权限
+将管道文件的权限改为 777 ，允许任意用户进行读写
+
+	$ chmod 777 /tmp/.initctl 
+	chmod: changing permissions of `/tmp/.initctl': Operation not permitted
+	$ sudo chmod 777 /tmp/.initctl 
+	[sudo] password for akaedu: 
+	$ ls -l /tmp/.initctl 
+	prwxrwxrwx 1 root root 0 Jun 28 22:39 /tmp/.initctl
+	$ 
+
+### 管道传送结构体定义
+参考 initreq.h 头文件中的定义，按照结构体 struct init_request 的格式，向管道中写入数据
+
+	 69 /*
+	 70  *      Because of legacy interfaces, "runlevel" and "sleeptime"
+	 71  *      aren't in a seperate struct in the union.
+	 72  *
+	 73  *      The weird sizes are because init expects the whole
+	 74  *      struct to be 384 bytes.
+	 75  */
+	 76 struct init_request {
+	 77         int     magic;                  /* Magic number                 */
+	 78         int     cmd;                    /* What kind of request         */
+	 79         int     runlevel;               /* Runlevel to change to        */
+	 80         int     sleeptime;              /* Time between TERM and KILL   */
+	 81         union {
+	 82                 struct init_request_bsd bsd;
+	 83                 char                    data[368];
+	 84         } i;
+	 85 };
+
+	 37 #define INIT_MAGIC 0x03091969
+	 38 #define INIT_CMD_START          0
+	 39 #define INIT_CMD_RUNLVL         1
+	 40 #define INIT_CMD_POWERFAIL      2
+	 41 #define INIT_CMD_POWERFAILNOW   3
+	 42 #define INIT_CMD_POWEROK        4
+	 43 #define INIT_CMD_BSD            5
+	 44 #define INIT_CMD_SETENV         6
+	 45 #define INIT_CMD_UNSETENV       7
+
+其中第1个int型（4字节）是 Magic Number，这是一个固定值 0x03091969 。考虑到小尾端的存储方式，数据的前4个字节应该是16进制的 69 19 09 03 倒过来存放的。
+
+第2个int型（4字节）是 cmd ，如果我们选择要更改 runlevel ，则对应的值是 INIT_CMD_RUNLVL = 1，内存里面的顺序为 01 00 00 00
+
+第3个int型（4字节）是 runlevel , 如果我们向修改的运行级别是 3 级，则对应的值是字符（char） '3'，内存里面的顺序为 33 00 00 00
+
+### 制作数据文件
+工具准备：安装 Ubuntu 上的16进制编辑器
+
+	$ sudo apt-get install tweak 
+	Reading package lists... Done
+	Building dependency tree       
+	Reading state information... Done
+	The following NEW packages will be installed:
+	  tweak
+	0 upgraded, 1 newly installed, 0 to remove and 145 not upgraded.
+	Need to get 45.3 kB of archives.
+	After this operation, 184 kB of additional disk space will be used.
+	Get:1 http://mirrors.ustc.edu.cn/ubuntu/ precise/universe tweak i386 3.01-7 [45.3 kB]
+	Fetched 45.3 kB in 0s (63.1 kB/s)                       
+	Selecting previously unselected package tweak.
+	(Reading database ... 209818 files and directories currently installed.)
+	Unpacking tweak (from .../archives/tweak_3.01-7_i386.deb) ...
+	Processing triggers for man-db ...
+	Processing triggers for doc-base ...
+	Processing 1 added doc-base file...
+	Registering documents with scrollkeeper...
+	Processing triggers for menu ...
+	Setting up tweak (3.01-7) ...
+	Processing triggers for menu ...
+
+使用 dd 命令制作一个用于 INIT_FIFO 传送的 request 数据包
+
+	$ dd if=/dev/zero of=request.dat bs=1 count=384
+	384+0 records in
+	384+0 records out
+	384 bytes (384 B) copied, 0.00159663 s, 241 kB/s
+	$ 
+
+struct init_request 的大小为384个字节，每次传送 sizeof(struct init_request) 给 Daemon 表示要进行的操作。
+
+使用 tweak 命令，来用 16进制方式修改 request.dat 文件
+
+	$ tweak request.dat 
+	$ hexdump request.dat -C
+	00000000  69 19 09 03 01 00 00 00  33 00 00 00 00 00 00 00  |i.......3.......|
+	00000010  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+	*
+	00000180
+	$ 
+
+### 测试通过 INIT_FIFO 来传送 request 数据包
+参考运行时调试图的第3个实验，用本地执行 sudo ./init -i 0 的方式来启动一个模拟的 Daemon 进程。
+
+![Daemon init 进程启动进入循环状态等待 request](./pictures/hack-daemon-init.png)
+
+此时，开启另外一个终端窗口，通过 cat request.dat > /dev/.initctl 传送 request 请求包
+	
+	$ cat request.dat > /tmp/.initctl 
+	$ 
+
+观察 Daemon init 进程输出的调试信息，可以看到 init 进程已经识别出有一个修改 runlevel 的请求。
+
+![Daemon init 进程接到 init_request 包](./pictures/hack-init-fifo.png)
+
+	
+## 案例2-umask掩码安全漏洞
+
+Linux内核的某些版本中，在umask设置为0000的情况下生成init进程。在这些版本的Linux，有些进程的初始化数据依赖于“init”的umask,并不自行设置。因为init进程生成系统重要而且敏感的文件，因而这种情况就可能形成漏洞问题。如果成功利用该漏洞，恶意用户就可以获取root权限，并破坏系统。
+
+以下是可能会受到影响的 Linux 内核版本：
+
+	Linux kernel 2.4.6
+	Linux kernel 2.4.5
+	+ Slackware Linux 8.0
+	Linux kernel 2.4.4
+	Linux kernel 2.4.3
+
+### umask用法简介
+umask和创建文件时的默认读写执行的权限相关，是和chmod命令密切相关的。
+
+我们知道用 ls -l 命令查看文件权限，总共为4位（gid/uid,属主，组权，其它用户的权限）,不过通常用到的是后3个。
+
+例如，可以用chmod 755 file（此时这文件的权限是属主读(4)+写(2)＋执行(1),同组的和其它用户有读写权限)
+ 
+### umask的作用权限掩码
+默认情况下的umask值是022，可以用umask命令查看默认值。
+
+此时，建立的文件默认权限是644，建立的目录的默认权限是755，因为建立文件的时候，默认本来就是没有可执行权限x的，而建立目录的时候，默认是可以执行的（也就是可以用 cd 进入）。
+ 
+知道了umask的作用后，就可以修改umask的值了，例如:umask 024 则以后建立的文件和目录的默认权限就为642,753了
+
+### 参考资料
+<http://www.juniper.net/security/auto/vulnerabilities/vuln3031.html>
+
+<http://user.ccidnet.com/tech/hack/2001/07/23/58_2766.html>
+
+## 案例3-利用脚本和符号链接攻击系统目录
+这个安全漏洞描述，是在 Debian 社区邮件列表中提出的。参考信息 BUGTRAQ ID: 52198 
+
+<http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=661627>
+
+因为这个漏洞是在于 init 执行脚本 x11-common 时，创建了一个临时目录，然后将临时目录的权限改为1777。这里，因为 init 脚本的执行是内核启动，以 root 权限执行的，所以执行脚本中的命令行时，也是 root 权限，就可能会造成安全漏洞。
+
+### 举例
+例如，如果用户提前根据创建一个符号链接文件，名字和 $SOCKET_DIR 相同，由于是符号链接，因此 33行的 if 语句不能成立，而36行通过 mkdir -p 操作因为之前 $SOCKET_DIR 存在，也不会覆盖原来的那个软链接文件。这样最初的软链接文件就获得了 root 权限，并且是 777 的可读可写可执行。一旦这个目录是系统 /etc/ 目录，则可能就会导致用户有权限建立和删除文件，从而替换之前的系统文件，造成安全漏洞。
+
+	    33    if [ -e $SOCKET_DIR ] && [ ! -d $SOCKET_DIR ]; then
+	    34      mv $SOCKET_DIR $SOCKET_DIR.$$
+	    35    fi
+	    36    mkdir -p $SOCKET_DIR
+	    37    chown root:root $SOCKET_DIR
+	    38    chmod 1777 $SOCKET_DIR
+	    [...]
+	    47    if [ -e $ICE_DIR ] && [ ! -d $ICE_DIR ]; then
+	    48      mv $ICE_DIR $ICE_DIR.$$
+	    49    fi
+	    50    mkdir -p $ICE_DIR
+	    51    chown root:root $ICE_DIR
+	    52    chmod 1777 $ICE_DIR
+
+这个漏洞产生的原因是，由于init脚本"x11-common"不安全方式创建"/tmp/.X11-unix"和"/tmp/.ICE-unix"，攻击者可以通过符号链接进行攻击，可能获得root特权。 
+
+### 参考资料
+<http://www.jiangmin.com/zixun/3/2012-05-18/537.html>
+
+## 案例4-Android root 提权漏洞
+这篇文章中所提到的安全漏洞，也是和 init 进程有一定关系，但是并不在我们分析的 sysvinit 软件包中，也无法进行验证，仅供参考。
+
+这个安全漏洞中，提到了一个 uevent 数据结构，是在 Linux 2.6 内核中设备驱动程序模型的一个重大调整。uevent事件(以前叫hotplug事件) 被用户出发后，会向内核传递消息，内核收到消息后，会进行解析和处理。
+
+### 举例
+文中提到了这样一条消息
+
+	ACTION=addDEVPATH=/../data/local/tmpSUBSYSTEM=firmwareFIRMWARE=../../../data/local/tmp/hotplug
+
+通过函数parse_event进行解析后，uevent的结构为：
+
+	action="add"
+	path="/../data/local/tmp"
+	subsystem="firmware"
+	firmware="../../../data/local/tmp/hotplug"
+
+最后在内核load_firmware函数,把hotplug中的数据写到 /proc/sys/kernel/hotplug 中，其内容变为 /data/local/tmp/exploid。这样就完成了让内核自动加载恶意程序，只要再次受到如wifi打开、usb插入等热拔插信息，内核就会以root权限加载恶意程序执行，从而达到提权的目的。
+
+### 参考资料
+结合init源码剖析android root提权漏洞
+
+<http://hi.baidu.com/androidhacker/item/1954f41e301c0e773f87ceb0>
+
 
 # Sysvinit 项目运行时调试图
-
-## 编译安装运行调试图
-
-### wget下载源码包
-
-![wget下载源码包](./pictures/1-1-wget.png)
-
-	$ wget http://download.savannah.gnu.org/releases/sysvinit/sysvinit-latest.tar.bz2
-	--2013-06-22 13:18:30--  http://download.savannah.gnu.org/releases/sysvinit/sysvinit-latest.tar.bz2
-	Resolving download.savannah.gnu.org (download.savannah.gnu.org)... 140.186.70.73
-	Connecting to download.savannah.gnu.org (download.savannah.gnu.org)|140.186.70.73|:80... connected.
-	HTTP request sent, awaiting response... 302 Found
-	Location: http://download.savannah.gnu.org/releases-redirect/sysvinit/sysvinit-latest.tar.bz2 [following]
-	--2013-06-22 13:18:31--  http://download.savannah.gnu.org/releases-redirect/sysvinit/sysvinit-latest.tar.bz2
-	Reusing existing connection to download.savannah.gnu.org:80.
-	HTTP request sent, awaiting response... 302 Found
-	Location: http://ftp.twaren.net/Unix/NonGNU//sysvinit/sysvinit-latest.tar.bz2 [following]
-	--2013-06-22 13:18:32--  http://ftp.twaren.net/Unix/NonGNU//sysvinit/sysvinit-latest.tar.bz2
-	Resolving ftp.twaren.net (ftp.twaren.net)... 140.110.123.9, 2001:e10:5c00:5::9
-	Connecting to ftp.twaren.net (ftp.twaren.net)|140.110.123.9|:80... connected.
-	HTTP request sent, awaiting response... 200 OK
-	Length: 105551 (103K) [application/x-tar]
-	Saving to: `sysvinit-latest.tar.bz2'
-
-	100%[======================================>] 105,551     45.1K/s   in 2.3s    
-
-	2013-06-22 13:18:35 (45.1 KB/s) - `sysvinit-latest.tar.bz2' saved [105551/105551]
-
-### tar解压源码包
-
-![tar解压源码包](./pictures/1-2-tar.png)
-
-	$ tar jxvf sysvinit-latest.tar.bz2 
-	sysvinit-2.88dsf/
-	sysvinit-2.88dsf/contrib/
-	sysvinit-2.88dsf/contrib/alexander.viro
-	sysvinit-2.88dsf/contrib/start-stop-daemon.c
-	sysvinit-2.88dsf/contrib/TODO
-	sysvinit-2.88dsf/contrib/zefram-patches
-	sysvinit-2.88dsf/contrib/notify-pam-dead.patch
-	sysvinit-2.88dsf/contrib/start-stop-daemon.README
-	sysvinit-2.88dsf/doc/
-	sysvinit-2.88dsf/doc/bootlogd.README
-	sysvinit-2.88dsf/doc/Install
-	sysvinit-2.88dsf/doc/Changelog
-	sysvinit-2.88dsf/doc/Propaganda
-	sysvinit-2.88dsf/doc/sysvinit-2.86.lsm
-	sysvinit-2.88dsf/src/
-	sysvinit-2.88dsf/src/wall.c
-	sysvinit-2.88dsf/src/reboot.h
-	sysvinit-2.88dsf/src/set.h
-	sysvinit-2.88dsf/src/init.c
-	sysvinit-2.88dsf/src/last.c
-	sysvinit-2.88dsf/src/init.h
-	sysvinit-2.88dsf/src/bootlogd.c
-	sysvinit-2.88dsf/src/killall5.c
-	sysvinit-2.88dsf/src/utmpdump.c
-	sysvinit-2.88dsf/src/shutdown.c
-	sysvinit-2.88dsf/src/mountpoint.c
-	sysvinit-2.88dsf/src/sulogin.c
-	sysvinit-2.88dsf/src/fstab-decode.c
-	sysvinit-2.88dsf/src/initreq.h
-	sysvinit-2.88dsf/src/dowall.c
-	sysvinit-2.88dsf/src/hddown.c
-	sysvinit-2.88dsf/src/paths.h
-	sysvinit-2.88dsf/src/utmp.c
-	sysvinit-2.88dsf/src/ifdown.c
-	sysvinit-2.88dsf/src/initscript.sample
-	sysvinit-2.88dsf/src/halt.c
-	sysvinit-2.88dsf/src/oldutmp.h
-	sysvinit-2.88dsf/src/mesg.c
-	sysvinit-2.88dsf/src/Makefile
-	sysvinit-2.88dsf/src/runlevel.c
-	sysvinit-2.88dsf/COPYING
-	sysvinit-2.88dsf/COPYRIGHT
-	sysvinit-2.88dsf/man/
-	sysvinit-2.88dsf/man/bootlogd.8
-	sysvinit-2.88dsf/man/killall5.8
-	sysvinit-2.88dsf/man/shutdown.8
-	sysvinit-2.88dsf/man/bootlogd.8.todo
-	sysvinit-2.88dsf/man/sulogin.8
-	sysvinit-2.88dsf/man/fstab-decode.8
-	sysvinit-2.88dsf/man/mesg.1
-	sysvinit-2.88dsf/man/initscript.5
-	sysvinit-2.88dsf/man/inittab.5
-	sysvinit-2.88dsf/man/poweroff.8
-	sysvinit-2.88dsf/man/wall.1
-	sysvinit-2.88dsf/man/halt.8
-	sysvinit-2.88dsf/man/reboot.8
-	sysvinit-2.88dsf/man/last.1
-	sysvinit-2.88dsf/man/runlevel.8
-	sysvinit-2.88dsf/man/lastb.1
-	sysvinit-2.88dsf/man/pidof.8
-	sysvinit-2.88dsf/man/init.8
-	sysvinit-2.88dsf/man/utmpdump.1
-	sysvinit-2.88dsf/man/mountpoint.1
-	sysvinit-2.88dsf/man/telinit.8
-	sysvinit-2.88dsf/obsolete/
-	sysvinit-2.88dsf/obsolete/powerd.c
-	sysvinit-2.88dsf/obsolete/powerd.8
-	sysvinit-2.88dsf/obsolete/utmpdump.c.OLD
-	sysvinit-2.88dsf/obsolete/README.RIGHT.NOW
-	sysvinit-2.88dsf/obsolete/bootlogd.init
-	sysvinit-2.88dsf/obsolete/powerd.README
-	sysvinit-2.88dsf/obsolete/powerd.cfg
-	sysvinit-2.88dsf/Makefile
-	sysvinit-2.88dsf/README
-	$ 
-
-	$ ls
-	Makefile  pdf  sysvinit-2.88dsf  sysvinit-latest.tar.bz2
-
-	$ ls sysvinit-2.88dsf/
-	contrib  COPYRIGHT  Makefile  obsolete  src
-	COPYING  doc        man       README
-	$ 
-
-### 编译项目源码
-	$ cd sysvinit-2.88dsf/
-	$ make
-	cc -ansi -O2 -fomit-frame-pointer -W -Wall -D_GNU_SOURCE   -c -o mountpoint.o mountpoint.c
-	cc   mountpoint.o   -o mountpoint
-	cc -ansi -O2 -fomit-frame-pointer -W -Wall -D_GNU_SOURCE   -c -o init.o init.c
-	init.c: In function ‘telinit’:
-	init.c:2737:7: warning: ignoring return value of ‘chdir’, declared with attribute warn_unused_result [-Wunused-result]
-	init.c: In function ‘get_record’:
-	init.c:377:11: warning: ignoring return value of ‘fscanf’, declared with attribute warn_unused_result [-Wunused-result]
-	init.c:380:11: warning: ignoring return value of ‘fscanf’, declared with attribute warn_unused_result [-Wunused-result]
-	init.c:383:11: warning: ignoring return value of ‘fscanf’, declared with attribute warn_unused_result [-Wunused-result]
-	init.c:386:11: warning: ignoring return value of ‘fscanf’, declared with attribute warn_unused_result [-Wunused-result]
-	init.c:389:11: warning: ignoring return value of ‘fscanf’, declared with attribute warn_unused_result [-Wunused-result]
-	init.c:392:11: warning: ignoring return value of ‘fscanf’, declared with attribute warn_unused_result [-Wunused-result]
-	init.c:395:11: warning: ignoring return value of ‘fscanf’, declared with attribute warn_unused_result [-Wunused-result]
-	init.c:398:11: warning: ignoring return value of ‘fscanf’, declared with attribute warn_unused_result [-Wunused-result]
-	init.c:401:11: warning: ignoring return value of ‘fscanf’, declared with attribute warn_unused_result [-Wunused-result]
-	init.c:404:11: warning: ignoring return value of ‘fscanf’, declared with attribute warn_unused_result [-Wunused-result]
-	init.c:423:10: warning: ignoring return value of ‘fscanf’, declared with attribute warn_unused_result [-Wunused-result]
-	init.c:426:10: warning: ignoring return value of ‘fscanf’, declared with attribute warn_unused_result [-Wunused-result]
-	init.c: In function ‘spawn’:
-	init.c:1064:10: warning: ignoring return value of ‘dup’, declared with attribute warn_unused_result [-Wunused-result]
-	init.c:1065:10: warning: ignoring return value of ‘dup’, declared with attribute warn_unused_result [-Wunused-result]
-	init.c:1133:7: warning: ignoring return value of ‘dup’, declared with attribute warn_unused_result [-Wunused-result]
-	init.c:1134:7: warning: ignoring return value of ‘dup’, declared with attribute warn_unused_result [-Wunused-result]
-	init.c: In function ‘ask_runlevel’:
-	init.c:1673:10: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result [-Wunused-result]
-	init.c:1675:9: warning: ignoring return value of ‘read’, declared with attribute warn_unused_result [-Wunused-result]
-	init.c: In function ‘make_pipe’:
-	init.c:1960:6: warning: ignoring return value of ‘pipe’, declared with attribute warn_unused_result [-Wunused-result]
-	init.c:1965:7: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result [-Wunused-result]
-	init.c: In function ‘process_signals’:
-	init.c:2411:7: warning: ignoring return value of ‘read’, declared with attribute warn_unused_result [-Wunused-result]
-	init.c:2420:7: warning: ignoring return value of ‘read’, declared with attribute warn_unused_result [-Wunused-result]
-	init.c: In function ‘coredump’:
-	init.c:666:7: warning: ignoring return value of ‘chdir’, declared with attribute warn_unused_result [-Wunused-result]
-	init.c: In function ‘print’:
-	init.c:821:8: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result [-Wunused-result]
-	cc -ansi -O2 -fomit-frame-pointer -W -Wall -D_GNU_SOURCE -DINIT_MAIN -c -o init_utmp.o utmp.c
-	cc   init.o init_utmp.o    -o init
-	cc -ansi -O2 -fomit-frame-pointer -W -Wall -D_GNU_SOURCE   -c -o halt.o halt.c
-	halt.c: In function ‘main’:
-	halt.c:242:2: warning: ignoring return value of ‘chdir’, declared with attribute warn_unused_result [-Wunused-result]
-	cc -ansi -O2 -fomit-frame-pointer -W -Wall -D_GNU_SOURCE   -c -o ifdown.o ifdown.c
-	cc -ansi -O2 -fomit-frame-pointer -W -Wall -D_GNU_SOURCE   -c -o hddown.o hddown.c
-	cc -ansi -O2 -fomit-frame-pointer -W -Wall -D_GNU_SOURCE   -c -o utmp.o utmp.c
-	cc   halt.o ifdown.o hddown.o utmp.o reboot.h   -o halt
-	cc -ansi -O2 -fomit-frame-pointer -W -Wall -D_GNU_SOURCE   -c -o shutdown.o shutdown.c
-	shutdown.c: In function ‘main’:
-	shutdown.c:485:10: warning: variable ‘realuid’ set but not used [-Wunused-but-set-variable]
-	shutdown.c:630:9: warning: ignoring return value of ‘fscanf’, declared with attribute warn_unused_result [-Wunused-result]
-	shutdown.c:719:7: warning: ignoring return value of ‘chdir’, declared with attribute warn_unused_result [-Wunused-result]
-	shutdown.c: In function ‘spawn’:
-	shutdown.c:289:7: warning: ignoring return value of ‘chdir’, declared with attribute warn_unused_result [-Wunused-result]
-	cc -ansi -O2 -fomit-frame-pointer -W -Wall -D_GNU_SOURCE   -c -o dowall.o dowall.c
-	cc   shutdown.o dowall.o utmp.o reboot.h   -o shutdown
-	cc -ansi -O2 -fomit-frame-pointer -W -Wall -D_GNU_SOURCE   -c -o runlevel.o runlevel.c
-	cc   runlevel.o   -o runlevel
-	cc -ansi -O2 -fomit-frame-pointer -W -Wall -D_GNU_SOURCE   -c -o sulogin.o sulogin.c
-	sulogin.c: In function ‘sushell’:
-	sulogin.c:407:2: warning: ignoring return value of ‘chdir’, declared with attribute warn_unused_result [-Wunused-result]
-	sulogin.c:427:8: warning: ignoring return value of ‘getcwd’, declared with attribute warn_unused_result [-Wunused-result]
-	cc   sulogin.o    -o sulogin
-	sulogin.o: In function `main':
-	sulogin.c:(.text.startup+0x1e2): undefined reference to `crypt'
-	collect2: ld returned 1 exit status
-	make: *** [sulogin] Error 1
-	$ 
-
-### 修改 Makefile 使之能够编译通过
-
-![修改 Makefile](./pictures/1-3-makefile.png)
-
-	$ vi Makefile 
-	69 
-	70 ifeq ($(WITH_SELINUX),yes)
-	71   SELINUX_DEF   =  -DWITH_SELINUX
-	72   INITLIBS      += -lsepol -lselinux
-	73   SULOGINLIBS   = -lselinux
-	74 else
-	75   SELINUX_DEF   =
-	76   INITLIBS      =
-	77   SULOGINLIBS   =
-	78 endif
-	79 
-	80 SULOGINLIBS     += -lcrypt
-	81 # Additional libs for GNU libc.
-	82 ifneq ($(wildcard /usr/lib*/libcrypt.a),)
-	83   SULOGINLIBS   += -lcrypt
-	84 endif
-	85 
-	86 all:            $(BIN) $(SBIN) $(USRBIN)
-	87 
-	88 #%: %.o
-	89 #       $(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LDLIBS)
-	90 #%.o: %.c
-	91 #       $(CC) $(CFLAGS) $(CPPFLAGS) -c $^ -o $@
-
-在80行处添加83行处的赋值，增加链接时 -lcrypt 选项
-
-### 继续编译项目源码，成功
-
-![make编译源码包](./pictures/1-4-make.png)
-
-	$ make
-	cc   sulogin.o   -lcrypt  -o sulogin
-	cc -ansi -O2 -fomit-frame-pointer -W -Wall -D_GNU_SOURCE   -c -o bootlogd.o bootlogd.c
-	bootlogd.c: In function ‘findtty’:
-	bootlogd.c:125:8: warning: ignoring return value of ‘chdir’, declared with attribute warn_unused_result [-Wunused-result]
-	bootlogd.c:140:10: warning: ignoring return value of ‘chdir’, declared with attribute warn_unused_result [-Wunused-result]
-	bootlogd.c:151:10: warning: ignoring return value of ‘chdir’, declared with attribute warn_unused_result [-Wunused-result]
-	bootlogd.c:156:10: warning: ignoring return value of ‘chdir’, declared with attribute warn_unused_result [-Wunused-result]
-	bootlogd.c:163:7: warning: ignoring return value of ‘chdir’, declared with attribute warn_unused_result [-Wunused-result]
-	cc   bootlogd.o  -lutil -o bootlogd
-	cc -ansi -O2 -fomit-frame-pointer -W -Wall -D_GNU_SOURCE   -c -o last.o last.c
-	cc   last.o oldutmp.h   -o last
-	cc -ansi -O2 -fomit-frame-pointer -W -Wall -D_GNU_SOURCE   -c -o mesg.o mesg.c
-	cc   mesg.o   -o mesg
-	cc -ansi -O2 -fomit-frame-pointer -W -Wall -D_GNU_SOURCE   -c -o utmpdump.o utmpdump.c
-	cc   utmpdump.o   -o utmpdump
-	cc -ansi -O2 -fomit-frame-pointer -W -Wall -D_GNU_SOURCE   -c -o wall.o wall.c
-	cc   wall.o dowall.o   -o wall
-	$ 
-
-### 查看生成的可执行文件
-
-![查看可执行文件](./pictures/1-5-executables.png)
-
-	$ ls -l | grep "x "
-	-rwxrwxr-x 1 akaedu akaedu 17677 Jun 22 13:28 a.out
-	-rwxrwxr-x 1 akaedu akaedu 18162 Jun 22 13:36 bootlogd
-	-rwxrwxr-x 1 akaedu akaedu  7402 Jun 22 13:27 fstab-decode
-	-rwxrwxr-x 1 akaedu akaedu 17625 Jun 22 13:30 halt
-	-rwxrwxr-x 1 akaedu akaedu 42121 Jun 22 13:30 init
-	-rwxr-xr-x 1 akaedu akaedu   706 Sep 10  2009 initscript.sample
-	-rwxrwxr-x 1 akaedu akaedu 22259 Jun 22 13:27 killall5
-	-rwxrwxr-x 1 akaedu akaedu 22117 Jun 22 13:36 last
-	-rwxrwxr-x 1 akaedu akaedu  7730 Jun 22 13:36 mesg
-	-rwxrwxr-x 1 akaedu akaedu  7708 Jun 22 13:30 mountpoint
-	-rwxrwxr-x 1 akaedu akaedu  7368 Jun 22 13:30 runlevel
-	-rwxrwxr-x 1 akaedu akaedu 27547 Jun 22 13:30 shutdown
-	-rwxrwxr-x 1 akaedu akaedu 17677 Jun 22 13:36 sulogin
-	-rwxrwxr-x 1 akaedu akaedu 12638 Jun 22 13:36 utmpdump
-	-rwxrwxr-x 1 akaedu akaedu 13243 Jun 22 13:36 wall
-	$ 
 
 ## Linux 内核启动 init 进程
 
@@ -2497,7 +2737,7 @@ pidof 命令的实现也是在 killall5.c 文件中，由 main_pidof() 主函数
 	write to INIT_FIFO
 	$ 
 
-我们运行了3次，分别要求改变运行级别为 1，5，7，这样就会通过 INIT_FIFO 发送3次数据。
+我们运行了3次，分别要求改变运行级别为 1，5，7，这样就会通过 INIT_FIFO 发送3次数据。	
 
 ![init 更改运行级别的 request 请求](./pictures/switch-to-runlevels.png)
 

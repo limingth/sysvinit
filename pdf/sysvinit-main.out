@@ -10,29 +10,35 @@
 \BOOKMARK [2][-]{subsection.1.2.5}{日志相关命令 bootlogd/utmpdump}{section.1.2}
 \BOOKMARK [2][-]{subsection.1.2.6}{文件系统相关命令 mountpoint/fstab-decode}{section.1.2}
 \BOOKMARK [0][-]{chapter.2}{Sysvinit 项目概要分析}{}
-\BOOKMARK [1][-]{section.2.1}{工具安装使用流程}{chapter.2}
-\BOOKMARK [2][-]{subsection.2.1.1}{工具安装}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.2}{init 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.3}{shutdown 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.4}{halt 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.5}{poweroff 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.6}{reboot 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.7}{telinit 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.8}{killall5 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.9}{pidof}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.10}{last/lastb 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.11}{mesg 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.12}{mountpoint 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.13}{fstab-decode 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.14}{runlevel 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.15}{sulogin 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.16}{wall 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.17}{bootlogd 命令}{section.2.1}
-\BOOKMARK [2][-]{subsection.2.1.18}{utmpdump 命令}{section.2.1}
-\BOOKMARK [1][-]{section.2.2}{代码实现概要分析}{chapter.2}
-\BOOKMARK [2][-]{subsection.2.2.1}{源码目录结构}{section.2.2}
-\BOOKMARK [2][-]{subsection.2.2.2}{源码文件的代码量}{section.2.2}
-\BOOKMARK [2][-]{subsection.2.2.3}{Makefile 分析}{section.2.2}
+\BOOKMARK [1][-]{section.2.1}{代码实现概要分析}{chapter.2}
+\BOOKMARK [2][-]{subsection.2.1.1}{源码目录结构}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.2}{源文件代码量分析}{section.2.1}
+\BOOKMARK [2][-]{subsection.2.1.3}{Makefile 分析}{section.2.1}
+\BOOKMARK [1][-]{section.2.2}{项目下载编译执行}{chapter.2}
+\BOOKMARK [2][-]{subsection.2.2.1}{wget下载源码包}{section.2.2}
+\BOOKMARK [2][-]{subsection.2.2.2}{tar解压源码包}{section.2.2}
+\BOOKMARK [2][-]{subsection.2.2.3}{修改 Makefile}{section.2.2}
+\BOOKMARK [2][-]{subsection.2.2.4}{编译项目源码}{section.2.2}
+\BOOKMARK [2][-]{subsection.2.2.5}{查看生成的可执行文件}{section.2.2}
+\BOOKMARK [1][-]{section.2.3}{工具安装使用流程}{chapter.2}
+\BOOKMARK [2][-]{subsection.2.3.1}{工具安装}{section.2.3}
+\BOOKMARK [2][-]{subsection.2.3.2}{init 命令}{section.2.3}
+\BOOKMARK [2][-]{subsection.2.3.3}{shutdown 命令}{section.2.3}
+\BOOKMARK [2][-]{subsection.2.3.4}{halt 命令}{section.2.3}
+\BOOKMARK [2][-]{subsection.2.3.5}{poweroff 命令}{section.2.3}
+\BOOKMARK [2][-]{subsection.2.3.6}{reboot 命令}{section.2.3}
+\BOOKMARK [2][-]{subsection.2.3.7}{telinit 命令}{section.2.3}
+\BOOKMARK [2][-]{subsection.2.3.8}{killall5 命令}{section.2.3}
+\BOOKMARK [2][-]{subsection.2.3.9}{pidof}{section.2.3}
+\BOOKMARK [2][-]{subsection.2.3.10}{last/lastb 命令}{section.2.3}
+\BOOKMARK [2][-]{subsection.2.3.11}{mesg 命令}{section.2.3}
+\BOOKMARK [2][-]{subsection.2.3.12}{mountpoint 命令}{section.2.3}
+\BOOKMARK [2][-]{subsection.2.3.13}{fstab-decode 命令}{section.2.3}
+\BOOKMARK [2][-]{subsection.2.3.14}{runlevel 命令}{section.2.3}
+\BOOKMARK [2][-]{subsection.2.3.15}{sulogin 命令}{section.2.3}
+\BOOKMARK [2][-]{subsection.2.3.16}{wall 命令}{section.2.3}
+\BOOKMARK [2][-]{subsection.2.3.17}{bootlogd 命令}{section.2.3}
+\BOOKMARK [2][-]{subsection.2.3.18}{utmpdump 命令}{section.2.3}
 \BOOKMARK [0][-]{chapter.3}{Sysvinit 项目详细分析}{}
 \BOOKMARK [1][-]{section.3.1}{init 命令实现代码分析}{chapter.3}
 \BOOKMARK [2][-]{subsection.3.1.1}{init.c 文件中的数据分析}{section.3.1}
@@ -82,26 +88,35 @@
 \BOOKMARK [2][-]{subsection.3.8.2}{readproc 函数代码分析}{section.3.8}
 \BOOKMARK [2][-]{subsection.3.8.3}{pidof 函数代码分析}{section.3.8}
 \BOOKMARK [0][-]{chapter.4}{Sysvinit 项目安全漏洞}{}
+\BOOKMARK [1][-]{section.4.1}{案例1-INIT\137FIFO管道文件安全漏洞}{chapter.4}
+\BOOKMARK [2][-]{subsection.4.1.1}{修改默认管道文件}{section.4.1}
+\BOOKMARK [2][-]{subsection.4.1.2}{修改管道文件权限}{section.4.1}
+\BOOKMARK [2][-]{subsection.4.1.3}{管道传送结构体定义}{section.4.1}
+\BOOKMARK [2][-]{subsection.4.1.4}{制作数据文件}{section.4.1}
+\BOOKMARK [2][-]{subsection.4.1.5}{测试通过 INIT\137FIFO 来传送 request 数据包}{section.4.1}
+\BOOKMARK [1][-]{section.4.2}{案例2-umask掩码安全漏洞}{chapter.4}
+\BOOKMARK [2][-]{subsection.4.2.1}{umask用法简介}{section.4.2}
+\BOOKMARK [2][-]{subsection.4.2.2}{umask的作用权限掩码}{section.4.2}
+\BOOKMARK [2][-]{subsection.4.2.3}{参考资料}{section.4.2}
+\BOOKMARK [1][-]{section.4.3}{案例3-利用脚本和符号链接攻击系统目录}{chapter.4}
+\BOOKMARK [2][-]{subsection.4.3.1}{举例}{section.4.3}
+\BOOKMARK [2][-]{subsection.4.3.2}{参考资料}{section.4.3}
+\BOOKMARK [1][-]{section.4.4}{案例4-Android root 提权漏洞}{chapter.4}
+\BOOKMARK [2][-]{subsection.4.4.1}{举例}{section.4.4}
+\BOOKMARK [2][-]{subsection.4.4.2}{参考资料}{section.4.4}
 \BOOKMARK [0][-]{chapter.5}{Sysvinit 项目运行时调试图}{}
-\BOOKMARK [1][-]{section.5.1}{编译安装运行调试图}{chapter.5}
-\BOOKMARK [2][-]{subsection.5.1.1}{wget下载源码包}{section.5.1}
-\BOOKMARK [2][-]{subsection.5.1.2}{tar解压源码包}{section.5.1}
-\BOOKMARK [2][-]{subsection.5.1.3}{编译项目源码}{section.5.1}
-\BOOKMARK [2][-]{subsection.5.1.4}{修改 Makefile 使之能够编译通过}{section.5.1}
-\BOOKMARK [2][-]{subsection.5.1.5}{继续编译项目源码，成功}{section.5.1}
-\BOOKMARK [2][-]{subsection.5.1.6}{查看生成的可执行文件}{section.5.1}
-\BOOKMARK [1][-]{section.5.2}{Linux 内核启动 init 进程}{chapter.5}
-\BOOKMARK [2][-]{subsection.5.2.1}{start\137kernel}{section.5.2}
-\BOOKMARK [2][-]{subsection.5.2.2}{parse\137options}{section.5.2}
-\BOOKMARK [2][-]{subsection.5.2.3}{rest\137init}{section.5.2}
-\BOOKMARK [2][-]{subsection.5.2.4}{init 函数}{section.5.2}
-\BOOKMARK [1][-]{section.5.3}{init 进程和 telinit 之间的运行调试图}{chapter.5}
-\BOOKMARK [2][-]{subsection.5.3.1}{修改 INIT\137FIFO 改变两者联系的管道}{section.5.3}
-\BOOKMARK [2][-]{subsection.5.3.2}{修改 Makefile ，加上 -DDEBUG 选项}{section.5.3}
-\BOOKMARK [2][-]{subsection.5.3.3}{修改 reboot 操作为打印语句，以防系统重启}{section.5.3}
-\BOOKMARK [2][-]{subsection.5.3.4}{修改源码中信号处理函数，以便直接中断 init 执行}{section.5.3}
-\BOOKMARK [2][-]{subsection.5.3.5}{修改源码中关闭标准输出的部分，可以显示出调试信息}{section.5.3}
-\BOOKMARK [2][-]{subsection.5.3.6}{在 Daemon 程序中插入打印当前获得 request 的信息}{section.5.3}
-\BOOKMARK [2][-]{subsection.5.3.7}{重新编译运行 sudo ./init -i}{section.5.3}
-\BOOKMARK [2][-]{subsection.5.3.8}{启动 telinit 1 要求切换运行级别为单用户}{section.5.3}
-\BOOKMARK [2][-]{subsection.5.3.9}{查看 init 接收请求和处理方法}{section.5.3}
+\BOOKMARK [1][-]{section.5.1}{Linux 内核启动 init 进程}{chapter.5}
+\BOOKMARK [2][-]{subsection.5.1.1}{start\137kernel}{section.5.1}
+\BOOKMARK [2][-]{subsection.5.1.2}{parse\137options}{section.5.1}
+\BOOKMARK [2][-]{subsection.5.1.3}{rest\137init}{section.5.1}
+\BOOKMARK [2][-]{subsection.5.1.4}{init 函数}{section.5.1}
+\BOOKMARK [1][-]{section.5.2}{init 进程和 telinit 之间的运行调试图}{chapter.5}
+\BOOKMARK [2][-]{subsection.5.2.1}{修改 INIT\137FIFO 改变两者联系的管道}{section.5.2}
+\BOOKMARK [2][-]{subsection.5.2.2}{修改 Makefile ，加上 -DDEBUG 选项}{section.5.2}
+\BOOKMARK [2][-]{subsection.5.2.3}{修改 reboot 操作为打印语句，以防系统重启}{section.5.2}
+\BOOKMARK [2][-]{subsection.5.2.4}{修改源码中信号处理函数，以便直接中断 init 执行}{section.5.2}
+\BOOKMARK [2][-]{subsection.5.2.5}{修改源码中关闭标准输出的部分，可以显示出调试信息}{section.5.2}
+\BOOKMARK [2][-]{subsection.5.2.6}{在 Daemon 程序中插入打印当前获得 request 的信息}{section.5.2}
+\BOOKMARK [2][-]{subsection.5.2.7}{重新编译运行 sudo ./init -i}{section.5.2}
+\BOOKMARK [2][-]{subsection.5.2.8}{启动 telinit 1 要求切换运行级别为单用户}{section.5.2}
+\BOOKMARK [2][-]{subsection.5.2.9}{查看 init 接收请求和处理方法}{section.5.2}

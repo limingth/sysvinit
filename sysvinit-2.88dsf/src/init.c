@@ -99,7 +99,7 @@
 			sigaction(sig, &sa, NULL); \
 		} while(0)
 /* add by limingth */		
-#undef SETSIG(sa, sig, fun, flags)
+#undef SETSIG
 #define SETSIG(sa, sig, fun, flags)     INITDBG(L_VB, "setsig %s : %s\t", #sig, #fun)
 
 
@@ -2245,6 +2245,7 @@ void check_init_fifo(void)
 
 	/* Read the data, return on EINTR. */
 	n = read(pipe_fd, &request, sizeof(request));
+	printf("read fifo %d bytes\n", n);
 	if (n == 0) {
 		/*
 		 *	End of file. This can't happen under Linux (because
@@ -2270,12 +2271,16 @@ void check_init_fifo(void)
 	/*
 	 *	Process request.
 	 */
+	printf("request size need to be = %d\n", sizeof(request));
+	printf("request.magic = %x, should be %x\n", request.magic, INIT_MAGIC);
 	if (request.magic != INIT_MAGIC || n != sizeof(request)) {
 		initlog(L_VB, "got bogus initrequest");
+		printf("request to be = %d\n", sizeof(request));
 		continue;
 	}
 	
 	initlog(L_VB, "request: %d, runlevel: %c\n", request.cmd, request.runlevel);
+	printf("request: %d, runlevel: %c\n", request.cmd, request.runlevel);
 	switch(request.cmd) {
 		case INIT_CMD_RUNLVL:
 			sltime = request.sleeptime;

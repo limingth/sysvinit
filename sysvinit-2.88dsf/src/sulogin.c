@@ -501,11 +501,12 @@ int main(int argc, char **argv)
 			/* Do not exit! */
 			break;
 	}
-
+#if 0
 	if (geteuid() != 0) {
 		fprintf(stderr, "sulogin: only root can run sulogin.\n");
 		exit(1);
 	}
+#endif
 
 	/*
 	 *	See if we need to open an other tty device.
@@ -586,6 +587,7 @@ int main(int argc, char **argv)
 		sleep(2);
 	}
 
+	sushell(pwd);
 	/*
 	 *	Ask for the password.
 	 */
