@@ -1,0 +1,17 @@
+/*
+ * @brief runlevel 命令实现的主函数，调用 getutent() 获取当前运行级别，并打印出来
+ *
+ * @details runlevel 命令详细用法
+
+   runlevel 命令读取系统的登录记录文件(一般是/var/run/utmp)把以前和当前的系统运行级输出到标准输出设备。
+如果之前的系统运行级别没有找到，则会返回一个 N 字母来代替。
+
+	* 命令格式
+		runlevel [utmp]
+
+	* 主要选项
+		utmp   指定要读取的 utmp 文件名，默认是读取 /var/run/utmp
+
+
+ *
+ */

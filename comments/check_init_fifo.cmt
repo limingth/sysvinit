@@ -1,0 +1,26 @@
+/*
+ * @brief 主要用于 init daemon 程序中，通过 select 函数监听来自于 /dev/initctl 管道的请求 request，分析并执行该请求 request。
+ *
+ * @details 函数执行流程分析：
+
+	1. 如果 /etc/initctl 管道不存在，则创建这个管道，并设置权限 0600，只允许 root 用户读写。
+
+	2. 如果管道已经打开，则比较该管道是否是最初原始打开的管道。如果不是，则关闭后，重新打开。
+
+	3. 以读写+非阻塞方式打开管道，并且使用 dup2 将采用 PIPE_FD = 10 来使用管道，而不使用 0，1，2
+
+	4. 使用 select 调用在该管道上等待来自于 init N 的切换运行级别的请求 request
+
+	5. 一旦有来自这个管道的 request ，则检查这个 request 数据的合法性
+
+	6. 对于输入正确的 request 请求，则分析是什么请求，并判断要采取什么动作。
+	
+	7. 请求包括进行 
+		INIT_CMD_RUNLVL （runlevel 的切换） -> 调用 fifo_new_level()
+		INIT_CMD_POWERFAIL
+		INIT_CMD_POWERFAILNOW
+		INIT_CMD_POWEROK (以上三个请求都是和电源事件有关)  -> 调用 do_power_fail()
+		INIT_CMD_SETENV (设置环境变量) -> 调用 initcmd_setenv()
+ *
+ */
+

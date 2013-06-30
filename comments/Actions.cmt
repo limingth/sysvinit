@@ -1,0 +1,3 @@
+/*
+ * @brief 该宏定义主要用来标识在解析 /etc/inittab 文件时，不同 runlevel 对应要采取的不同动作
+ */

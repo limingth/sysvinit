@@ -26,6 +26,26 @@
 #define CONSOLE		"/dev/console"		/* Logical system console */
 #define SECURETTY	"/etc/securetty"	/* List of root terminals */
 #define SDALLOW		"/etc/shutdown.allow"	/* Users allowed to shutdown */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 这个宏定义指定了系统 init 进程要从 /etc/inittab 文件中读取启动文件脚本，并从中启动后继进程
+ */
+
 #define INITTAB		"/etc/inittab"		/* Location of inittab */
 #define INIT		"/sbin/init"		/* Location of init itself. */
 #define NOLOGIN		"/etc/nologin"		/* Stop user logging in. */

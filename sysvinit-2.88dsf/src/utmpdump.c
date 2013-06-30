@@ -146,6 +146,7 @@ print_utline(struct utmp ut)
                addr_string, time_string);
 }
 
+// dump.cmt
 void
 dump(FILE *fp, int forever, int oldfmt)
 {
@@ -250,6 +251,7 @@ usage(int result)
 	exit(result);
 }
 
+// utmpdump-main.cmt
 int main(int argc, char **argv)
 {
 	int c;

@@ -81,6 +81,7 @@ static int flush_cache_ext(const char *device);
 /*
  *	Find all disks through /sys/block.
  */
+// list_disks.cmt
 static char *list_disks(DIR* blk, unsigned int* flags)
 {
 	struct dirent *d;
@@ -257,6 +258,7 @@ static int do_standby_disk(char *device, unsigned int flags)
  *	This has the side-effect of flushing the writecache,
  *	which is exactly what we want on poweroff.
  */
+// hddown.cmt
 int hddown(void)
 {
 	unsigned int flags;
@@ -275,6 +277,7 @@ int hddown(void)
 /*
  *	List all disks and cause them to flush their buffers.
  */
+// hdflush.cmt
 int hdflush(void)
 {
 	unsigned int flags;
@@ -409,6 +412,7 @@ out:
 /*
  *	Find all IDE disks through /proc.
  */
+// find_idedisks.cmt
 static int find_idedisks(const char **dev, int maxdev, int *count)
 {
 	DIR *dd;
@@ -484,6 +488,7 @@ static int open_disks(const char **disks, int *fds, int count)
  *	Put an IDE/SCSI/SATA disk in standby mode.
  *	Code stolen from hdparm.c
  */
+// do_standby_disk.cmt
 static int do_standby_disk(int fd)
 {
 #ifndef WIN_STANDBYNOW1
@@ -523,6 +528,7 @@ static int do_standby_disks(const int *fds, int count)
  *	This has the side-effect of flushing the writecache,
  *	which is exactly what we want on poweroff.
  */
+// hddown.cmt
 int hddown(void)
 {
 	const char *disks[MAX_DISKS];

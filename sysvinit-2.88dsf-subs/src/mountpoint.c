@@ -32,6 +32,43 @@
 #include <getopt.h>
 #include <stdio.h>
 
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 给定一个目录路径 path，通过调用 stat 获得目录的相关属性，返回 struct stat 结构体
+ *
+ * 
+           struct stat {
+               dev_t     st_dev;     
+               ino_t     st_ino;    
+               mode_t    st_mode;   
+               nlink_t   st_nlink;  
+               uid_t     st_uid;    
+               gid_t     st_gid;   
+               dev_t     st_rdev;  
+               off_t     st_size;  
+               blksize_t st_blksize;
+               blkcnt_t  st_blocks; 
+               time_t    st_atime; 
+               time_t    st_mtime; 
+               time_t    st_ctime;
+           };
+ *
+ */
 int dostat(char *path, struct stat *st, int do_lstat, int quiet)
 {
 	int		n;
@@ -50,11 +87,66 @@ int dostat(char *path, struct stat *st, int do_lstat, int quiet)
 	return 0;
 }
 
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 通过 fprintf() 函数，向标准出错 stderr 打印该条命令的用户使用帮助信息
+ */
 void usage(void) {
 	fprintf(stderr, "Usage: mountpoint [-q] [-d] [-x] path\n");
 	exit(1);
 }
 
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief mountpoint 命令实现的主函数，通过比较当前目录和上一级目录的设备属性来进行判断
+ *
+ * @details mountpoint 命令详细用法
+
+   mountpoint 检查给定的目录是否是一个挂载点。
+
+	* 命令格式
+		/bin/mountpoint [-q] [-d] /path/to/directory
+	       /bin/mountpoint -x /dev/device
+
+	* 主要选项
+	       -q     Be quiet - don't print anything.
+
+	       -d     Print major/minor device number of the filesystem on stdout.
+
+	       -x     Print major/minor device number of the blockdevice on stdout.
+
+ *
+ */
 int main(int argc, char **argv)
 {
 	struct stat	st, st2;

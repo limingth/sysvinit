@@ -1,0 +1,18 @@
+/*
+ * @brief 设置终端工作参数
+ *
+ * @details 函数执行流程分析：
+
+	1. 调用 console_open 打开 console_dev 设备，模式为读写+非阻塞方式。
+
+	2. 调用 tcgetattr() 函数获得当前终端属性 tty (struct termios 结构体)
+
+	3. 设置 tty.c_cflag 和 tty.c_cc[] 的参数配置。
+
+	4. 设置 tty.c_iflag 和 tty.c_oflag 以及 tty.c_lflag 参数配置。
+
+	5. 调用 tcsetattr() 和 tcflush() 完成设置终端属性的操作。
+
+	6. 调用 close(fd) 关闭终端设备文件。
+ *
+ */

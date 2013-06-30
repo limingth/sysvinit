@@ -26,17 +26,20 @@
 #define CHANGE_WAIT 0			/* Change runlevel while
 					   waiting for a process to exit? */
 /* Debug and test modes */
+// DEBUG.cmt
 #define DEBUG	   1			/* Debug code off */
 #define INITDEBUG  0			/* Fork at startup to debug init. */
 
 /* Some constants */
 #define INITPID	   1			/* pid of first process */
 #define PIPE_FD    10			/* Fileno of initfifo. */
+// STATE_PIPE.cmt
 #define STATE_PIPE 11			/* used to pass state through exec */
 
 /* Failsafe configuration */
 #define MAXSPAWN   10			/* Max times respawned in.. */
 #define TESTTIME   120			/* this much seconds */
+// SLEEPTIME.cmt
 #define SLEEPTIME  300			/* Disable time */
 
 /* Default path inherited by every child. */
@@ -56,6 +59,7 @@ void print(char *fmt);
 /* from dowall.c */
 void wall(const char *text, int remote);
 
+// INITDBG.cmt
 #if DEBUG
 #  define INITDBG(level, fmt, args...) initlog(level, fmt, ##args)
 #else
@@ -65,6 +69,7 @@ void wall(const char *text, int remote);
 #define INITDBG(level, fmt, args...) printf(fmt "\n", ##args)
 
 /* Actions to be taken by init */
+// Actions.cmt
 #define RESPAWN			1
 #define WAIT			2
 #define ONCE			3
@@ -82,6 +87,7 @@ void wall(const char *text, int remote);
 #define KBREQUEST               15
 
 /* Information about a process in the in-core inittab */
+// struct_child.cmt
 typedef struct _child_ {
   int flags;			/* Status of this entry */
   int exstat;			/* Exit status of process */
@@ -106,6 +112,7 @@ typedef struct _child_ {
 #define XECUTED		128	/* Set if spawned once or more times */
 
 /* Log levels. */
+// log-level.cmt
 #define L_CO	1		/* Log on the console. */
 #define L_SY	2		/* Log with syslog() */
 #define L_VB	(L_CO|L_SY)	/* Log with both. */

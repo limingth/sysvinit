@@ -120,6 +120,7 @@ void stopit(int sig)
 /*
  *	Show usage message.
  */
+// usage.cmt
 void usage(void)
 {
 	fprintf(stderr,
@@ -472,6 +473,7 @@ static int needwarning(int wt)
  *	Main program.
  *	Process the options and do the final countdown.
  */
+// main-shutdown.cmt
 int main(int argc, char **argv)
 {
 	FILE			*fp;

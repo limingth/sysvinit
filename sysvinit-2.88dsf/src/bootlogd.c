@@ -425,6 +425,7 @@ void writelog(FILE *fp, unsigned char *ptr, int len)
 /*
  *	Print usage message and exit.
  */
+// usage.cmt
 void usage(void)
 {
 	fprintf(stderr, "Usage: bootlogd [-v] [-r] [-d] [-s] [-c] [-p pidfile] [-l logfile]\n");

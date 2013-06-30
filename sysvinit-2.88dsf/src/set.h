@@ -21,6 +21,7 @@
  *
  */
 
+// SIGNALS-OP.cmt 
 #define ISMEMBER(set, val) ((set) & (1 << (val)))
 #define DELSET(set, val)   ((set) &= ~(1 << (val)))
 #define ADDSET(set, val)   ((set) |=  (1 << (val)))

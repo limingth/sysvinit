@@ -149,6 +149,7 @@ static int file_isatty(const char *fname)
 /*
  *	Wall function.
  */
+// wall.cmt
 void wall(const char *text, int remote)
 {
 	FILE			*tp;

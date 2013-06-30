@@ -1,0 +1,22 @@
+/*
+ * @brief 实现 utmpdump 命令的主函数，主要调用 dump 函数来完成输出
+ *
+ * @details utmpdump 命令详细用法
+
+   utmpdump 命令以一种用户友好的格式向标准输出设备显示 /var/run/utmp 文件的内容。
+
+	* 命令格式
+		utmpdump [-froh] filename
+
+	* 主要选项
+	       -f     output appended data as the file grows.
+
+	       -r     reverse. Write back edited login information into utmp  or  wtmp
+		      files.
+
+	       -o     use old libc5 format.
+
+	       -h     usage information.
+
+ *
+ */

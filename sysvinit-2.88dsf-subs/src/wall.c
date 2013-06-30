@@ -36,6 +36,39 @@ char *Version = "@(#) wall 2.79 12-Sep-2000 miquels@cistron.nl";
 #define MAXLEN 4096
 #define MAXLINES 20
 
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief wall 命令实现的主函数，调用 wall() 函数完成消息发送
+ *
+ * @details wall 命令详细用法
+
+   wall命令用来向所有用户的终端发送一条信息。发送的信息可以作为参数在命令行给出，也可在执行wall命令后，从终端中输入。使用终端输入信息时，按Ctrl-D结束输入。wall的信息长度的限制是20行。只有超级用户有权限，给所有用户的终端发送消息。
+
+	* 命令格式
+		wall [-n] [ message ]
+
+	* 用法  
+		usage: wall [message]
+
+	* 举例  
+		wall "hello msg"
+ *
+ */
 int main(int argc, char **argv)
 {
   char buf[MAXLEN];

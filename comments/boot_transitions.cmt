@@ -1,0 +1,19 @@
+/*
+ * @brief 实现一个启动过程中所需要的状态机，完成状态的迁移。
+ *
+ * @details 函数执行流程分析：
+
+	1. 以 runlevel 代表状态，如果当前 runlevel = '#' 状态开始，系统进入 SYSINIT -> BOOT 的转变。
+
+	2. 如果在 read_inittab 时从文件中获得了 def_level,则直接用这个变量的值，否则通过 get_init_default() 得到的是默认的运行级别并赋值给 newlevel
+
+	3. 如果 newlevel 是 'S', 则下一个状态为 'S'，否则下一个状态设为 '*'
+
+	4. 如果当前 runlevel 是 '*'，则系统从 BOOT -> NORMAL。
+
+	5. 如果当前 runlevel 是 'S'，则代表着 SU 模式已经结束，重新调用 get_init_default() 得到新的运行级别 newlevel.
+
+	6. 将本次状态变迁的信息写入日志 write_utmp_wtmp()
+ *
+ */
+

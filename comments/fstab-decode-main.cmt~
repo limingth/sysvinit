@@ -1,0 +1,16 @@
+/*
+ * @brief fstab-decode 命令实现的主函数，解析用户命令中的参数，并执行用户输入命令
+ *
+ * @details fstab-decode 命令详细用法
+	   
+	fstab-decode 可以支持在运行命令时，将某些命令参数展开。
+
+	* 命令格式
+		fstab-decode COMMAND [ARGUMENT]...
+
+	* 举例
+		fstab-decode umount $(awk '$3 == vfat { print $2 }' /etc/fstab)
+
+ *
+ */
+

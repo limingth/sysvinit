@@ -1,0 +1,7 @@
+/*
+ * @brief shutdown 命令实现的主函数
+ *
+ * @details shutdown 的核心代码在 shutdown() 函数中，除了用 openlog(), syslog(), closelog() 来写关机日志外，主要是靠调用 execv(INIT, args) 来启动 init 进程完成改变运行级别的工作，从而间接完成关机操作。
+ *
+ */
+

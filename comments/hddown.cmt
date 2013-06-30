@@ -1,0 +1,3 @@
+/*
+ * @brief 找到所有 IDE/SCSI/SATA 硬盘，设为 standby 模式
+ */

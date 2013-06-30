@@ -1,0 +1,6 @@
+/*
+ * @brief 通过 /etc/initctl 管道进行请求的数据包格式
+ *
+ * @details 数据包需要遵循一定的格式，也就是需要能够转换为 init_request 结构体数据。
+ *
+ */

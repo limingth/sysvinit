@@ -81,6 +81,25 @@ static int flush_cache_ext(const char *device);
 /*
  *	Find all disks through /sys/block.
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 通过查看 /sys/block ，列出所有硬盘
+ */
 static char *list_disks(DIR* blk, unsigned int* flags)
 {
 	struct dirent *d;
@@ -257,6 +276,25 @@ static int do_standby_disk(char *device, unsigned int flags)
  *	This has the side-effect of flushing the writecache,
  *	which is exactly what we want on poweroff.
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 找到所有 IDE/SCSI/SATA 硬盘，设为 standby 模式
+ */
 int hddown(void)
 {
 	unsigned int flags;
@@ -274,6 +312,25 @@ int hddown(void)
 
 /*
  *	List all disks and cause them to flush their buffers.
+ */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 列出所有硬盘，并且促使它们flash各自的缓冲区
  */
 int hdflush(void)
 {
@@ -409,6 +466,25 @@ out:
 /*
  *	Find all IDE disks through /proc.
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 通过 /proc 文件系统，找到所有 IDE 硬盘
+ */
 static int find_idedisks(const char **dev, int maxdev, int *count)
 {
 	DIR *dd;
@@ -484,6 +560,25 @@ static int open_disks(const char **disks, int *fds, int count)
  *	Put an IDE/SCSI/SATA disk in standby mode.
  *	Code stolen from hdparm.c
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 对给定的 IDE/SCSI/SATA 硬盘，设置为 standby 模式
+ */
 static int do_standby_disk(int fd)
 {
 #ifndef WIN_STANDBYNOW1
@@ -522,6 +617,25 @@ static int do_standby_disks(const int *fds, int count)
  *	First find all IDE/SCSI/SATA disks, then put them in standby mode.
  *	This has the side-effect of flushing the writecache,
  *	which is exactly what we want on poweroff.
+ */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 找到所有 IDE/SCSI/SATA 硬盘，设为 standby 模式
  */
 int hddown(void)
 {

@@ -1,0 +1,4 @@
+/*
+ * @brief 查找一个主机的 DNS 记录，通过调用 getnameinfo() 完成。
+ *
+ */

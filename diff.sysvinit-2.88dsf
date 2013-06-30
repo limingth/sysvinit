@@ -1,89 +1,2200 @@
+diff -Nur sysvinit-2.88dsf/src/bootlogd.c sysvinit-2.88dsf-subs/src/bootlogd.c
+--- sysvinit-2.88dsf/src/bootlogd.c	2013-06-30 15:55:55.926922028 +0800
++++ sysvinit-2.88dsf-subs/src/bootlogd.c	2013-06-30 19:14:49.110668449 +0800
+@@ -425,7 +425,25 @@
+ /*
+  *	Print usage message and exit.
+  */
+-// usage.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 通过 fprintf() 函数，向标准出错 stderr 打印该条命令的用户使用帮助信息
++ */
+ void usage(void)
+ {
+ 	fprintf(stderr, "Usage: bootlogd [-v] [-r] [-d] [-s] [-c] [-p pidfile] [-l logfile]\n");
+diff -Nur sysvinit-2.88dsf/src/dowall.c sysvinit-2.88dsf-subs/src/dowall.c
+--- sysvinit-2.88dsf/src/dowall.c	2013-06-30 15:18:03.018970331 +0800
++++ sysvinit-2.88dsf-subs/src/dowall.c	2013-06-30 19:14:49.270668446 +0800
+@@ -149,7 +149,25 @@
+ /*
+  *	Wall function.
+  */
+-// wall.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 打开终端 term，写入用户传入的字符串消息
++ */
+ void wall(const char *text, int remote)
+ {
+ 	FILE			*tp;
+diff -Nur sysvinit-2.88dsf/src/fstab-decode.c sysvinit-2.88dsf-subs/src/fstab-decode.c
+--- sysvinit-2.88dsf/src/fstab-decode.c	2013-06-30 16:13:28.170899672 +0800
++++ sysvinit-2.88dsf-subs/src/fstab-decode.c	2013-06-30 19:14:49.406668443 +0800
+@@ -69,7 +69,38 @@
+ 	*dest = '\0';
+ }
+ 
+-// fstab-decode-main.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief fstab-decode 命令实现的主函数，解析用户命令中的参数，并执行用户输入命令
++ *
++ * @details fstab-decode 命令详细用法
++	   
++	fstab-decode 可以支持在运行命令时，将某些命令参数展开。
++
++	* 命令格式
++		fstab-decode COMMAND [ARGUMENT]...
++
++	* 举例
++		fstab-decode umount $(awk '$3 == vfat { print $2 }' /etc/fstab)
++
++ *
++ */
++
+ int
+ main (int argc, char *argv[])
+ {
+diff -Nur sysvinit-2.88dsf/src/halt.c sysvinit-2.88dsf-subs/src/halt.c
+--- sysvinit-2.88dsf/src/halt.c	2013-06-30 15:54:26.542923923 +0800
++++ sysvinit-2.88dsf-subs/src/halt.c	2013-06-30 19:14:49.594668439 +0800
+@@ -72,7 +72,25 @@
+ /*
+  *	Send usage message.
+  */
+-// usage.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 通过 fprintf() 函数，向标准出错 stderr 打印该条命令的用户使用帮助信息
++ */
+ void usage(void)
+ {
+ 	fprintf(stderr, "usage: %s [-n] [-w] [-d] [-f] [-h] [-i]%s\n",
+@@ -147,7 +165,25 @@
+ /*
+  *	Switch to another runlevel.
+  */
+-// do_shutdown.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 通过 execv 系统调用，执行 shutdown 命令来切换运行级别
++ */
+ void do_shutdown(char *fl, char *tm)
+ {
+ 	char *args[8];
+@@ -174,7 +210,52 @@
+  *	Main program.
+  *	Write a wtmp entry and reboot cq. halt.
+  */
+-// halt-main.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief halt 命令实现的主函数，负责写入 wtmp 日志文件和调用 shutdown 命令来关闭系统
++ *
++ * @details halt 命令详细用法
++
++   halt 用来停止系统。正常情况下等效于 shutdown 加上 -h 参数(当前系统运行级别是 0 时除外)。它将告诉内核去中止系统，并在系统正在关闭的过程中将日志记录到 /var/log/wtmp 文件里。
++
++	* 命令格式
++		/sbin/halt [-n] [-w] [-d] [-f] [-i] [-p] [-h]
++
++	* 主要选项
++	 -n  
++		reboot或者halt之前，不同步(sync)数据.
++	 -w  
++		仅仅往/var/log/wtmp里写一个记录，并不实际做reboot或者halt操作.
++	 -f  
++		强制halt或者reboot，不等其他程序退出或者服务停止就重新启动系统.这样会造成数据丢失，建议一般不要这样做.
++	 -i  
++		halt或reboot前，关闭所有网络接口.
++	 -h  
++		halt或poweroff前，使系统中所有的硬件处于等待状态.
++	 -p  
++		在系统halt同时，做poweroff操作.即停止系统同时关闭电源.
++
++ *
++ */
++
++
++
++
+ int main(int argc, char **argv)
+ {
+ 	int do_reboot = 0;
+diff -Nur sysvinit-2.88dsf/src/hddown.c sysvinit-2.88dsf-subs/src/hddown.c
+--- sysvinit-2.88dsf/src/hddown.c	2013-06-30 16:11:47.638901804 +0800
++++ sysvinit-2.88dsf-subs/src/hddown.c	2013-06-30 19:14:49.850668433 +0800
+@@ -81,7 +81,25 @@
+ /*
+  *	Find all disks through /sys/block.
+  */
+-// list_disks.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 通过查看 /sys/block ，列出所有硬盘
++ */
+ static char *list_disks(DIR* blk, unsigned int* flags)
+ {
+ 	struct dirent *d;
+@@ -258,7 +276,25 @@
+  *	This has the side-effect of flushing the writecache,
+  *	which is exactly what we want on poweroff.
+  */
+-// hddown.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 找到所有 IDE/SCSI/SATA 硬盘，设为 standby 模式
++ */
+ int hddown(void)
+ {
+ 	unsigned int flags;
+@@ -277,7 +313,25 @@
+ /*
+  *	List all disks and cause them to flush their buffers.
+  */
+-// hdflush.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 列出所有硬盘，并且促使它们flash各自的缓冲区
++ */
+ int hdflush(void)
+ {
+ 	unsigned int flags;
+@@ -412,7 +466,25 @@
+ /*
+  *	Find all IDE disks through /proc.
+  */
+-// find_idedisks.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 通过 /proc 文件系统，找到所有 IDE 硬盘
++ */
+ static int find_idedisks(const char **dev, int maxdev, int *count)
+ {
+ 	DIR *dd;
+@@ -488,7 +560,25 @@
+  *	Put an IDE/SCSI/SATA disk in standby mode.
+  *	Code stolen from hdparm.c
+  */
+-// do_standby_disk.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 对给定的 IDE/SCSI/SATA 硬盘，设置为 standby 模式
++ */
+ static int do_standby_disk(int fd)
+ {
+ #ifndef WIN_STANDBYNOW1
+@@ -528,7 +618,25 @@
+  *	This has the side-effect of flushing the writecache,
+  *	which is exactly what we want on poweroff.
+  */
+-// hddown.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 找到所有 IDE/SCSI/SATA 硬盘，设为 standby 模式
++ */
+ int hddown(void)
+ {
+ 	const char *disks[MAX_DISKS];
+diff -Nur sysvinit-2.88dsf/src/ifdown.c sysvinit-2.88dsf-subs/src/ifdown.c
+--- sysvinit-2.88dsf/src/ifdown.c	2013-06-30 16:02:18.838913892 +0800
++++ sysvinit-2.88dsf-subs/src/ifdown.c	2013-06-30 19:14:49.974668431 +0800
+@@ -43,7 +43,27 @@
+  *	shaper driver says "if you down the shaper device before the
+  *	attached inerface your computer will follow".
+  */
+-// ifdown.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 在 halt 命令关机过程中，找到所有的网络设备，并且把它们关闭。
++ * 
++ * @details 主要依靠调用 ioctl(fd, SIOCSIFFLAGS, &ifr[i]) 系统调用
++ */
+ int ifdown(void)
+ {
+ 	struct ifreq ifr[MAX_IFS];
 diff -Nur sysvinit-2.88dsf/src/init.c sysvinit-2.88dsf-subs/src/init.c
---- sysvinit-2.88dsf/src/init.c	2013-06-26 02:38:00.610452594 +0800
-+++ sysvinit-2.88dsf-subs/src/init.c	2013-06-26 02:46:38.314447664 +0800
-@@ -2526,7 +2526,62 @@
+--- sysvinit-2.88dsf/src/init.c	2013-06-30 19:12:42.494671140 +0800
++++ sysvinit-2.88dsf-subs/src/init.c	2013-06-30 19:14:52.594668375 +0800
+@@ -91,7 +91,26 @@
+ #endif
+ 
+ /* Set a signal handler. */
+-// SETSIG.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该宏定义主要完成注册一个信号处理函数，包含了一组语句，最后通过 sigaction() 函数完成注册
++ */
++
+ #define SETSIG(sa, sig, fun, flags) \
+ 		do { \
+ 			sa.sa_handler = fun; \
+@@ -109,13 +128,70 @@
+ char *bootmsg = "version " VERSION " %s";
+ #define E_VERSION "INIT_VERSION=sysvinit-" VERSION
+ 
+-// family.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该全局变量是一个链表头指针，用于保存上一次分析 inittab 文件后形成的 init 要加载子进程的列表
++ */
++
+ CHILD *family = NULL;		/* The linked list of all entries */
+ 
+-// newfamily.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该全局变量是一个链表头指针，用于保存上一次分析 inittab 文件后形成的 init 要加载子进程的列表
++ */
++
+ CHILD *newFamily = NULL;	/* The list after inittab re-read */
+ 
+-// ch_emerg.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该全局变量是用于定义应急shell Emergency shell 使用 /sbin/sulogin
++ */
++
+ CHILD ch_emerg = {		/* Emergency shell */
+ 	WAITING, 0, 0, 0, 0,
+ 	"~~",
+@@ -126,12 +202,69 @@
+ 	NULL
+ };
+ 
+-// runlevel.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该全局变量是保存当次 init 进程启动时的 runlevel 
++ */
++
+ char runlevel = 'S';		/* The current run level */
+ char thislevel = 'S';		/* The current runlevel */
+-// prevlevel.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该全局变量是保存上一次 init 进程启动时的 runlevel 
++ */
++
+ char prevlevel = 'N';		/* Previous runlevel */
+-// dfl_level.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该全局变量是保存从 inittab 文件中获得的，也可以是用户输入的，默认 runlevel 
++ */
++
+ int dfl_level = 0;		/* Default runlevel */
+ sig_atomic_t got_cont = 0;	/* Set if we received the SIGCONT signal */
+ sig_atomic_t got_signals;	/* Set if we received a signal. */
+@@ -144,28 +277,124 @@
+ char *argv0;			/* First arguments; show up in ps listing */
+ int maxproclen;			/* Maximal length of argv[0] with \0 */
+ struct utmp utproto;		/* Only used for sizeof(utproto.ut_id) */
+-// console_dev.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该全局变量是一个字符串指针，用来记录控制台设备文件名
++ */
++
+ char *console_dev;		/* Console device. */
+ int pipe_fd = -1;		/* /dev/initctl */
+ int did_boot = 0;		/* Did we already do BOOT* stuff? */
+ int main(int, char **);
+ 
+ /*	Used by re-exec part */
+-// reload.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该全局变量是一个整型数，用来表示本次 init 进程启动是否属于 reload 方式，也就是通过 re-exec 创建的二次启动
++ */
++
+ int reload = 0;			/* Should we do initialization stuff? */
+ char *myname="/sbin/init";	/* What should we exec */
+ int oops_error;			/* Used by some of the re-exec code. */
+-// Signature.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该全局变量是一个字符串用于签名验证，通过 re-exec 创建的 init 二次启动时会通过 STATE_PIPE 写入信息，其中就包括这个签名
++ */
++
+ const char *Signature = "12567362";	/* Signature for re-exec fd */
+ 
+ /* Macro to see if this is a special action */
+-// ISPOWER.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该宏定义带参数，用来判断传入的参数是否是一个特殊的动作
++ */
++
+ #define ISPOWER(i) ((i) == POWERWAIT || (i) == POWERFAIL || \
+ 		    (i) == POWEROKWAIT || (i) == POWERFAILNOW || \
+ 		    (i) == CTRLALTDEL)
+ 
+ /* ascii values for the `action' field. */
+-// struct_actions.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 这个数组保存的都是常量，包括常量字符串和宏定义，主要是一组对应关系，方便把 /etc/inittab 文件中的字符串转换为整型数。
++ *
++ */
++
+ struct actions {
+   char *name;
+   int act;
+@@ -191,7 +420,26 @@
+ /*
+  *	State parser token table (see receive_state)
+  */
+-// cmds.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该全局变量是一个结构体数组，用于在 receive_state 函数中判断的标识符表
++ */
++
+ struct {
+   char name[4];	
+   int cmd;
+@@ -239,7 +487,25 @@
+  *	This only works correctly because the linux select updates
+  *	the elapsed time in the struct timeval passed to select!
+  */
+-// sleep.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该函数使得进程睡眠 sec 秒
++ */
+ static
+ void do_sleep(int sec)
+ {
+@@ -256,7 +522,25 @@
+ /*
+  *	Non-failing allocation routines (init cannot fail).
+  */
+-// imalloc.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该函数用于给该项目范围的代码，分配内存空间，可以看成是确保一定能够分配成功的 malloc 函数
++ */
+ static
+ void *imalloc(size_t size)
+ {
+@@ -270,7 +554,26 @@
+ 	return m;
+ }
+ 
+-// istrdup.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该函数为传入的字符串 s 复制一个新的相同的字符串传出。内部需要用到 imalloc 函数为新的字符串分配空间
++ */
++
+ static
+ char *istrdup(char *s)
+ {
+@@ -288,7 +591,25 @@
+  *	Send the state info of the previous running init to
+  *	the new one, in a version-independant way.
+  */
+-// send_state.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该函数用于给之前运行的 init 进程发送一个 state 状态信息
++ */
+ static
+ void send_state(int fd)
+ {
+@@ -334,7 +655,26 @@
+  *	Read a string from a file descriptor.
+  *	FIXME: why not use fgets() ?
+  */
+-// get_string.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该函数从给定的文件指针 f 上，读取一行字符串（碰到 \n 返回）。
++ */
++
+ static int get_string(char *p, int size, FILE *f)
+ {
+ 	int	c;
+@@ -350,7 +690,26 @@
+ /*
+  *	Read trailing data from the state pipe until we see a newline.
+  */
+-// get_void.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该函数从给定的文件指针 f 上，读取一行字符串（碰到 \n 返回），读取的内容不保存也不返回，直接忽略。
++ */
++
+ static int get_void(FILE *f)
+ {
+ 	int	c;
+@@ -364,7 +723,25 @@
+ /*
+  *	Read the next "command" from the state pipe.
+  */
+-// get_cmd.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该函数用于从 state pipe 管道中读取一个 command 指令
++ */
+ static int get_cmd(FILE *f)
+ {
+ 	char	cmd[4] = "   ";
+@@ -381,7 +758,25 @@
+ /*
+  *	Read a CHILD * from the state pipe.
+  */
+-// get_record.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该函数用于从 state pipe 管道中读取一个 CHILD 结构体的数据，如果成功则返回这条记录的指针
++ */
+ static CHILD *get_record(FILE *f)
+ {
+ 	int	cmd;
+@@ -486,7 +881,25 @@
+  *	Read the complete state info from the state pipe.
+  *	Returns 0 on success
+  */
+-// receive_state.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该函数用于从 state pipe 管道中读取一条完整的记录信息，如果成功则返回0
++ */
+ static
+ int receive_state(int fd)
+ {
+@@ -509,7 +922,25 @@
+ /*
+  *	Set the process title.
+  */
+-// setproctitle.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 设置进程 process 的名称 title
++ */
+ #ifdef __GNUC__
+ __attribute__ ((format (printf, 1, 2)))
+ #endif
+@@ -536,7 +967,34 @@
+ /*
+  *	Set console_dev to a working console.
+  */
+-// console_init.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 设置 console_dev 变量为一个可以工作的 console
++ *
++ * @details 函数执行流程分析：
++
++	1. 获取 CONSOLE 环境变量的值，赋值给 console_dev 全局变量（ char * 类型 ）。
++
++	2. 以只读非阻塞方式打开 console_dev 所代表的设备文件。
++
++	3. 初始化成功，则关闭该设备文件；如果失败，则将 console_dev 置为 /dev/null 。
++ *
++ */
+ static
+ void console_init(void)
+ {
+@@ -575,7 +1033,25 @@
+ /*
+  *	Open the console with retries.
+  */
+-// console_open.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 打开控制台 console，如果不成功，则重新尝试5次。
++ */
+ static
+ int console_open(int mode)
+ {
+@@ -608,7 +1084,26 @@
+ /*
+  *	We got a signal (HUP PWR WINCH ALRM INT)
+  */
+-// signal_handler.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该函数调用了 ADDSET() 宏操作，完成添加一个要处理的信号标志位
++ */
++
+ static
+ void signal_handler(int sig)
+ {
+@@ -618,7 +1113,26 @@
+ /*
+  *	SIGCHLD: one of our children has died.
+  */
+-// chld_handler.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该函数是一个信号处理函数，负责处理 SIGCHLD 信号。
++ */
++
+ static
+ # ifdef __GNUC__
+ void chld_handler(int sig __attribute__((unused)))
+@@ -664,7 +1178,26 @@
+  *
+  *	The SIGCONT handler
+  */
+-// cont_handler.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该函数是一个信号处理函数，负责处理 SIGCOND 信号。
++ */
++
+ static
+ # ifdef __GNUC__
+ void cont_handler(int sig __attribute__((unused)))
+@@ -678,7 +1211,26 @@
+ /*
+  *	Fork and dump core in /.
+  */
+-// coredump.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该函数实现 coredump 功能， 通过 Fork 子进程，完成在根目录下 dump core 
++ */
++
+ static
+ void coredump(void)
+ {
+@@ -713,7 +1265,26 @@
+  *	If we have the info, print where it occured.
+  *	Then sleep 30 seconds and try to continue.
+  */
+-// segv_handler.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该函数是一个信号处理函数，负责处理 SIGSEG 信号。
++ */
++
+ static
+ #if defined(STACK_DEBUG) && defined(__linux__)
+ # ifdef __GNUC__
+@@ -754,7 +1325,26 @@
+ /*
+  *	The SIGSTOP & SIGTSTP handler
+  */
+-// stop_handler.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该函数是一个信号处理函数，负责处理 SIGSTOP & SIGTSTP 信号。
++ */
++
+ static
+ # ifdef __GNUC__
+ void stop_handler(int sig __attribute__((unused)))
+@@ -773,7 +1363,40 @@
+ /*
+  *	Set terminal settings to reasonable defaults
+  */
+-// console_stty.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 设置终端工作参数
++ *
++ * @details 函数执行流程分析：
++
++	1. 调用 console_open 打开 console_dev 设备，模式为读写+非阻塞方式。
++
++	2. 调用 tcgetattr() 函数获得当前终端属性 tty (struct termios 结构体)
++
++	3. 设置 tty.c_cflag 和 tty.c_cc[] 的参数配置。
++
++	4. 设置 tty.c_iflag 和 tty.c_oflag 以及 tty.c_lflag 参数配置。
++
++	5. 调用 tcsetattr() 和 tcflush() 完成设置终端属性的操作。
++
++	6. 调用 close(fd) 关闭终端设备文件。
++ *
++ */
+ static
+ void console_stty(void)
+ {
+@@ -850,7 +1473,25 @@
+ /*
+  *	Print to the system console
+  */
+-// print.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 打印调试或者运行时提示信息到当前的终端
++ */
+ void print(char *s)
+ {
+ 	int fd;
+@@ -864,7 +1505,25 @@
+ /*
+  *	Log something to a logfile and the console.
+  */
+-// initlog.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该函数用于 init 进程执行过程中，输出相关调试信息和写入运行情况到日志文件
++ */
+ #ifdef __GNUC__
+ __attribute__ ((format (printf, 2, 3)))
+ #endif
+@@ -905,7 +1564,25 @@
+ /*
+  *	Build a new environment for execve().
+  */
+-// init_buildenv.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该函数主要用于为 execve() 系统调用，初始化环境变量 RUNLEVEL, PRELEVEL, SHELL, CONSOLE 等
++ */
+ char **init_buildenv(int child)
+ {
+ 	char		i_lvl[] = "RUNLEVEL=x";
+@@ -946,7 +1623,25 @@
+ 	return e;
+ }
+ 
+-// init_freeenv.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该函数主要释放 init_buildenv() 函数创建的指针数组和内存空间
++ */
+ void init_freeenv(char **e)
+ {
+ 	int		n;
+@@ -963,7 +1658,38 @@
+  *	This function is too long and indents too deep.
+  *
+  */
+-// spawn.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 调用 fork 和 execp 来启动子进程。这个函数非常长，但基本上是属于最底层的函数了。
++ *
++ * @details 函数执行流程分析：
++
++	1. spawn 整个程序比较长，从927-1192行约有270多行。整个代码逻辑以 fork 调用为分界线，可以分为2个部分。前面部分主要完成启动前的准备工作，后面通过 fork 和 execp 来实际创建出子进程执行 CHILD 节点上规定的程序。
++
++	2. 先分析第一部分。这部分代码主要处理三种情况，1是action 为“RESPAWN”与“ONDEMAND”类型的命令；2是 /etc/initscript 初始化脚本为后继 execp 调用准备参数。
++
++	3. 第二部分进入到一个无限循环中，以便确保能够成功创建出子进程。在调用 fork 创建出 init 的子进程之后，init 的这个子进程将按照 daemon 进程的方式工作，包括需要关闭0，1，2打开文件。也就是说，真正用来创建用户子进程的，不是 pid = 1 的那个原始进程，而是原始进程的子进程再通过一个 fork 和 execp 才能够实现执行真正的用户程序。
++
++	4. 第2次执行 fork 之后，由子进程调用 execp 来完成加载用户程序，而父进程通过调用 waitpid 来等待子进程的结束。
++
++	5. 上述步骤完成之后，父进程又会创建出一个临时的子进程，来完成 setsid() 和 ioctl(f, TIOCSCTTY, 1) 这2个函数调用，来分配一个控制终端，创建一个新的会话，失去原有的控制终端的所有联系。
++ *
++ */
+ static
+ pid_t spawn(CHILD *ch, int *res)
+ {
+@@ -1240,7 +1966,34 @@
+ /*
+  *	Start a child running!
+  */
+-// startup.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 执行 CHILD 节点所代表的配置行上的命令行，通常是个脚本程序。
++ *
++ * @details 函数执行流程分析：
++
++	1. 对于 CHILD *ch 节点中的 action 字段来进行判别。如果是 SYSINIT，BOOTWAIT，WAIT，POWERWAIT，POWERFAILNOW，POWEROKWAIT，CTRLALTDEL 这些情况，则设置标志为 WAITING，然后执行 spawn 函数。这个函数是完成启动子进程的真正的函数，spawn 名字的含义是产卵的意思，顾名思义就是产生后继的子进程。后面我们再对这个函数做详细分析。
++
++	2. 如果是 KBREQUEST，BOOT，POWERFAIL，ONCE 则直接退出，不进行后继的 spawn 函数调用。
++
++	3. 如果是 ONDEMAND，RESPAWN，则将 flags 设置为 RUNNING 后，立即执行 spawn 操作。
++ *
++ */
+ static
+ void startup(CHILD *ch)
+ {
+@@ -1276,7 +2029,51 @@
+ /*
+  *	Read the inittab file.
+  */
+-// read_inittab.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 读取 /etc/inittab 文件，解析其中的约定规则，形成一个 CHILD 链表数据结构中。
++ *
++ * @details 函数执行流程分析：
++
++	该函数中用到的重要数据结构有 CHILD (struct _child_) 和 actions 数组 (struct actions)
++
++	1. 读取 /etc/inittab 文件，按行读取，到 buf 数组中。
++
++	2. 遇到开头是空格或者TAB制表符的行，忽略直到第一个字母，如果发现是第一个字母是#开头的注释，或者\n开头的空行，都直接跳过。
++
++	3. 使用 strsep 函数，以 : 冒号作为间隔符号，依次找到 id, rlevel, action, process 这4个字段，分别代表的含义可参考下面的详细说明。同时将 action 字段中的字符串关键字转换为整型数 actionNo，方便后面的判别。
++
++	4. 检查当前的 id 字段，是否是唯一的，如果之前已经出现过，则忽略掉。
++
++	5. 通过 imalloc 函数，动态分配 CHILD 结构体节点ch，结构体的定义见上面。然后将刚才分析的结果填入结构体中，并将这个节点，添加到链表 newFamily 中。其中包括 actionNo 填入 ch->action, id 填入 ch->id, process 填入 ch->process 等。
++
++	6. 关闭 /etc/inittab 文件。
++
++	7. 接下来，查看老的启动进程列表 family，看是否有进程需要被杀死的。这里有两轮检查，第一轮会给所有没有在新的运行级别中定义的进程发送一个警告信号 SIGTERM。如果在第一轮中有这样的进程，则会等待5秒，然后进入下一轮检查。在第2轮检查中，它会发送 SIGKILL 信号来强制中止所有子进程的运行。
++
++	8. 等所有子进程被杀死后，init 通过调用 write_utmp_wtmp() 来将终止信息和原因记录进这两个文件中。记录的信息包括子进程在 inittab 文件中的 id，子进程本身的 pid 等。
++
++	9. 这2个步骤7，8完成之后，init 开始清除老的 family 链表上的所有节点，释放空间。
++
++	10. 最后 init 把刚才新建成的 newFamily 链表赋值给 -> family 链表，完成重建链表的操作即结束。
++ *
++ */
++
+ static
+ void read_inittab(void)
+ {
+@@ -1658,7 +2455,39 @@
+  *	The entries that do not belong here at all are removed
+  *	from the list.
+  */
+-// start_if_needed.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 遍历 family 链表，调用 startup 启动链表上的子进程。
++ *
++ * @details 函数执行流程分析：
++
++	1. 从 family 链表的表头开始遍历该链表，根据每一个节点 ch 的 flags 标志来进行判别。
++
++	2. 如果当前节点 flags 表示 WAITING, 则说明正在等待，之前的工作未完成，立即退出该函数。
++
++	3. 如果当前节点 flags 表示 RUNNING, 则对这个正在运行的进程不做任何操作，继续下一个。
++
++	4. 如果当前节点的运行级别正好是当前 init 运行级别，则调用 startup 函数启动这个进程。
++
++	5. 如果当前节点不属于在当前运行级别中运行的程序，则将节点 flags 设置为 ~(RUNNING | WAITING) 表示不是运行中，也不是等待中。
++ *
++ */
++
+ static
+ void start_if_needed(void)
+ {
+@@ -1705,7 +2534,26 @@
+ /*
+  *	Ask the user on the console for a runlevel
+  */
+-// ask_runlevel.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该全局变量是保存当次 init 进程启动时的 runlevel 
++ */
++
+ static
+ int ask_runlevel(void)
+ {
+@@ -1735,7 +2583,39 @@
+  *	Search the INITTAB file for the 'initdefault' field, with the default
+  *	runlevel. If this fails, ask the user to supply a runlevel.
+  */
+-// get_init_default.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 查找 /etc/inittab 文件中的 initdefault 默认运行级别，如果有则返回，如果没有则请用户输入。
++ *
++ * @details 函数执行流程分析：
++
++	1. 实际上这个函数是从 family 链表中遍历，取出每一个节点 ch
++
++	2. 如果 ch->action == INITDEFAULT ，则将当前 ch 的运行级别赋值给 lvl
++
++	3. 判断如果 lvl 是小写，则转换为大写。并且对 lvl 进行判别，看它是否属于 “0123456789S“ 的其中之一。
++
++	4. 如果从文件中得到的 lvl 正确，则返回 lvl; 
++
++	5. 如果从文件中无法得到正确的 lvl，则调用 ask_runlevel() 函数返回。这个函数中会通过终端来询问用户，并要求用户输入一个默认运行级别。
++ *
++ */
++
+ static
+ int get_init_default(void)
+ {
+@@ -1900,7 +2780,38 @@
+  *	longer than 5 minutes, or inittab was read again due
+  *	to user interaction.
+  */
+-// fail_check.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 在每次信号处理完成之后，遍历 family 链表检查每个节点的状态
++ *
++ * @details 函数执行流程分析：
++
++	1. 首先调用 time(&t) 获得系统时间。
++
++	2. 从 family 链表头开始，遍历整个链表，直到结束。 
++
++	3. 检查每一个节点 ch 的 flags 是否表示 FAILING
++
++	4. 如果是，并且这个进程已经睡眠 sleep 了至少5分钟，则会清除掉  flags 中的 FAILING 标识位。
++
++	5. 如果不是，则设置下一次 alarm 的时间为这个进程 sleep 的时间加上 5 分钟。
++ *
++ */
+ static
+ void fail_check(void)
+ {
+@@ -1934,7 +2845,25 @@
+ }
+ 
+ /* Set all 'Fail' timers to 0 */
+-// fail_cancel.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 通知每一个正在运行的进程，设置 'Fail' 定时器为 0
++ */
+ static
+ void fail_cancel(void)
+ {
+@@ -1950,7 +2879,25 @@
+ /*
+  *	Start up powerfail entries.
+  */
+-// do_power_fail.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 通知每一个正在运行的进程，设置 powerwait 和 powerfail 标志位
++ */
+ static
+ void do_power_fail(int pwrstat)
+ {
+@@ -1985,7 +2932,25 @@
+ /*
+  *	Check for state-pipe presence
+  */
+-// check_pipe.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 检查 state pipe 是否存在，如果存在则从 pipe 中读取 sinature 签名，并验证签名。
++ */
+ static
+ int check_pipe(int fd)
+ {
+@@ -2007,7 +2972,25 @@
+ /*
+  *	 Make a state-pipe.
+  */
+-// make_pipe.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 创建一个用于通信的 STATE_PIPE，用传入的 fd 参数表示管道的读端，返回值是管道的写端。
++ */
+ static
+ int make_pipe(int fd)
+ {
+@@ -2026,7 +3009,34 @@
+ /*
+  *	Attempt to re-exec.
+  */
+-// re_exec.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 强制 init 程序重新执行。
++ *
++ * @details 函数执行流程分析：
++	
++	1. 该函数会创建 STATE_PIPE，并向 STATE_PIPE 写入 Signature = "12567362"
++
++	2. 接着fork()出一个子进程，通过子进程调用 send_state() 向 STATE_PIPE 写入父进程（当前init进程）的状态信息；
++
++	3. 然后父进程调用 execle() 重新执行 init 程序，并且传递参数“--init”, 也就是强制init重新执行。而这个重新执行的 init 进程，无需做初始化读取 /etc/inittab 就能调用 init_main()。
++ *
++ */
+ static
+ void re_exec(void)
+ {
+@@ -2102,7 +3112,25 @@
+  *	Redo utmp/wtmp entries if required or requested
+  *	Check for written records and size of utmp
+  */
+-// redo_utmp_wtmp.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 检查已经写入 utmp/wtmp 的记录，包括 utmp 的大小。再写入一条 reboot 或者 runlevel 的记录。
++ */
+ static
+ void redo_utmp_wtmp(void)
+ {
+@@ -2123,7 +3151,34 @@
+  *	We got a change runlevel request through the
+  *	init.fifo. Process it.
+  */
+-// fifo_new_level.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 真正完成改变 runlevel 的 request 请求，目标为传入参数 level，通过重新读取 inittab 文件来启动与新 runlevel 匹配的命令脚本。
++ *
++ * @details 函数执行流程分析：
++
++	1. 如果传入参数 level 和当前的 runlevel 运行级别一致，则无需修改直接返回。
++
++	2. 如果新的 runlevel = 'U'，则通过调用 re_exec() 来执行改变 runlevel 的操作。
++
++	3. 如果新的 runlevel ！= 'U'，则通过调用 read_inittab() 来重新生成 family 链表。
++ *
++ */
+ static
+ void fifo_new_level(int level)
+ {
+@@ -2165,7 +3220,25 @@
+  *	encoded as KEY=VAL\0KEY=VAL\0\0. With "=VAL" it means
+  *	setenv, without it means unsetenv.
+  */
+-// initcmd_setenv.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 设置或取消环境变量，类似 KEY=VAL 表示设置 如果没有 =VAL 表示取消
++ */
+ static
+ void initcmd_setenv(char *data, int size)
+ {
+@@ -2224,7 +3297,48 @@
+  *		the 2.2 kernel credential stuff to see who we're talking to.
+  *	
+  */
+-// check_init_fifo.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 主要用于 init daemon 程序中，通过 select 函数监听来自于 /dev/initctl 管道的请求 request，分析并执行该请求 request。
++ *
++ * @details 函数执行流程分析：
++
++	1. 如果 /etc/initctl 管道不存在，则创建这个管道，并设置权限 0600，只允许 root 用户读写。
++
++	2. 如果管道已经打开，则比较该管道是否是最初原始打开的管道。如果不是，则关闭后，重新打开。
++
++	3. 以读写+非阻塞方式打开管道，并且使用 dup2 将采用 PIPE_FD = 10 来使用管道，而不使用 0，1，2
++
++	4. 使用 select 调用在该管道上等待来自于 init N 的切换运行级别的请求 request
++
++	5. 一旦有来自这个管道的 request ，则检查这个 request 数据的合法性
++
++	6. 对于输入正确的 request 请求，则分析是什么请求，并判断要采取什么动作。
++	
++	7. 请求包括进行 
++		INIT_CMD_RUNLVL （runlevel 的切换） -> 调用 fifo_new_level()
++		INIT_CMD_POWERFAIL
++		INIT_CMD_POWERFAILNOW
++		INIT_CMD_POWEROK (以上三个请求都是和电源事件有关)  -> 调用 do_power_fail()
++		INIT_CMD_SETENV (设置环境变量) -> 调用 initcmd_setenv()
++ *
++ */
++
+ static
+ void check_init_fifo(void)
+ {
+@@ -2375,7 +3489,41 @@
+  *	This function is used in the transition
+  *	sysinit (-> single user) boot -> multi-user.
+  */
+-// boot_transitions.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 实现一个启动过程中所需要的状态机，完成状态的迁移。
++ *
++ * @details 函数执行流程分析：
++
++	1. 以 runlevel 代表状态，如果当前 runlevel = '#' 状态开始，系统进入 SYSINIT -> BOOT 的转变。
++
++	2. 如果在 read_inittab 时从文件中获得了 def_level,则直接用这个变量的值，否则通过 get_init_default() 得到的是默认的运行级别并赋值给 newlevel
++
++	3. 如果 newlevel 是 'S', 则下一个状态为 'S'，否则下一个状态设为 '*'
++
++	4. 如果当前 runlevel 是 '*'，则系统从 BOOT -> NORMAL。
++
++	5. 如果当前 runlevel 是 'S'，则代表着 SU 模式已经结束，重新调用 get_init_default() 得到新的运行级别 newlevel.
++
++	6. 将本次状态变迁的信息写入日志 write_utmp_wtmp()
++ *
++ */
++
+ static
+ void boot_transitions()
+ {
+@@ -2462,7 +3610,44 @@
+  *	Init got hit by a signal. See which signal it is,
+  *	and act accordingly.
+  */
+-// process_signals.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 根据全局变量 got_signals 中哪些标志位被设置了，获得信号类型，进行相应的处理。
++ *
++ * @details 函数执行流程分析：
++
++	程序执行逻辑很简单，就是依次判别 ISMEMBER(got_signals, SIGXXXX) 对于以下信号进行相应处理。
++
++	1. SIGPWR 信号 -> do_power_fail()
++
++	2. SIGINT 信号 -> 通知 ctrlaltdel 入口启动
++
++	3. SIGWINCH 信号 -> 通知 KBREQUEST 入口启动
++
++	4. SIGALRM 信号 -> 定时器到时，忽略
++
++	5. SIGCHLD 信号 -> 查看是哪个子进程结束，调用 write_utmp_wtmp() 写入日志
++
++	6. SIGHUP 信号 -> 是否在等待子进程，进行 runlevel 切换
++
++	7. SIGUSR1 信号 -> 这个信号代表要求关闭然后重新打开 /dev/initctl
++ *
++ */
+ static
+ void process_signals()
+ {
+@@ -2583,7 +3768,64 @@
  /*
   *	The main loop
   */ 
 -// init_main.cmt
-+/**                                                                
-+ * @attention 本注释得到了"核高基"科技重大专项2012年课题
-+ *             “开源操作系统内核分析和安全性评估
-+ *            （课题编号：2012ZX01039-004）”的资助。
-+ *                                                                      
-+ * @copyright 注释添加单位：清华大学——03任务
-+ *            （Linux内核相关通用基础软件包分析）
-+ *                                                                        
-+ * @author 注释添加人员： 李明
-+ *             (电子邮件 <limingth@gmail.com>)
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
 + *                                                                    
-+ * @date 注释添加日期： 2013-6-1
-+ *                                                                   
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
 + * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
 + *
 + * @brief 切换运行级别，检查出错情况，接受信号，启动相应服务例程。
 + *
-+	 1. 调用 init_reboot 宏定义（其实就是 reboot 函数）告诉内核，当 ctrl + alt + del 三个键被同时按下时，给当前进程发送 SIGINT 信号，以便 init 进程可以处理来自键盘的这一信号，进一步决定采取何种动作。
++	1. 调用 init_reboot 宏定义（其实就是 reboot 函数）告诉内核，当 ctrl + alt + del 三个键被同时按下时，给当前进程发送 SIGINT 信号，以便 init 进程可以处理来自键盘的这一信号，进一步决定采取何种动作。
 +
-+	 2. 接下来将会安装一些信号处理函数。如下：
++	2. 接下来将会安装一些信号处理函数。如下：
 +
-+	 signal_handler(),处理SIGALRM，SIGHUP，SIGINT，SIGPWR，SIGWINCH，SIGUSR1
-+	 chld_handler()，处理SIGCHLD
-+	 stop_handler()，处理SIGSTOP，SIGTSTP
-+	 cont_handler()，处理SIGCONT
-+	 segv_handler()，处理SIGSEGV
++	signal_handler(),处理SIGALRM，SIGHUP，SIGINT，SIGPWR，SIGWINCH，SIGUSR1
++	chld_handler()，处理SIGCHLD
++	stop_handler()，处理SIGSTOP，SIGTSTP
++	cont_handler()，处理SIGCONT
++	segv_handler()，处理SIGSEGV
 +
-+	 3. 然后初始化终端，调用 console_init 函数。这个函数我们在下面也会再次详细分析。
++	3. 然后初始化终端，调用 console_init 函数。这个函数我们在下面也会再次详细分析。
 +
-+	 4. 终端初始化完成后，接着对 reload 这个变量进行判别，是否属于是首次执行？ 
++	4. 终端初始化完成后，接着对 reload 这个变量进行判别，是否属于是首次执行？ 
 +
-+	 5. 如果是首次执行，则依次执行下列步骤：
-+	 5.1 关闭所有打开文件0，1，2，
-+	 5.2 然后调用 console_stty() 函数对终端进行设置，主要是通过 tcsetattr() 函数来设置一些快捷键。
-+	 5.3 以覆盖 overwrite 方式设置 PATH 环境变量，通过 PATH_DEFAULT 宏定义，默认值是  "/sbin:/usr/sbin:/bin:/usr/bin"
-+	 5.4 初始化 /var/run/utmp 文件。通过日志输出 booting 信息
-+	 5.5 如果 emerg_shell 被设置（参数中有-b或者emergency），表示需要启动 emergency shell，则通过调用 spawn()初始化 emergency shell 子进程，并等待该子进程退出。
-+	 5.6 设置当前的 runlevel = '#', 表示这是正常的 Kernel 首次启动 init 的方式 SYSINIT。
-+	 5.7 当从 emergency shell退出（或者不需要 emergency shell 的话），则调用 read_inittab() 来读入 /etc/inittab 文件。该函数主要将 /etc/inittab 文件解析的结果存入CHILD类型的链表family上，供之后的执行使用。
++	5. 如果是首次执行，则依次执行下列步骤：
++		5.1 关闭所有打开文件0，1，2，
++		5.2 然后调用 console_stty() 函数对终端进行设置，主要是通过 tcsetattr() 函数来设置一些快捷键。
++		5.3 以覆盖 overwrite 方式设置 PATH 环境变量，通过 PATH_DEFAULT 宏定义，默认值是  "/sbin:/usr/sbin:/bin:/usr/bin"
++		5.4 初始化 /var/run/utmp 文件。通过日志输出 booting 信息
++		5.5 如果 emerg_shell 被设置（参数中有-b或者emergency），表示需要启动 emergency shell，则通过调用 spawn()初始化 emergency shell 子进程，并等待该子进程退出。
++		5.6 设置当前的 runlevel = '#', 表示这是正常的 Kernel 首次启动 init 的方式 SYSINIT。
++		5.7 当从 emergency shell退出（或者不需要 emergency shell 的话），则调用 read_inittab() 来读入 /etc/inittab 文件。该函数主要将 /etc/inittab 文件解析的结果存入CHILD类型的链表family上，供之后的执行使用。
 +
-+	 6. 如果不是首次执行，也就是 reload 为真，则只执行下列步骤：
-+	 6.1 通过日志输出 reloading 信息
-+	 6.2 以非覆盖 non overwrite 方式设置 PATH 环境变量，通过 PATH_DEFAULT 宏定义，默认值是  "/sbin:/usr/sbin:/bin:/usr/bin"
++	6. 如果不是首次执行，也就是 reload 为真，则只执行下列步骤：
++		6.1 通过日志输出 reloading 信息
++		6.2 以非覆盖 non overwrite 方式设置 PATH 环境变量，通过 PATH_DEFAULT 宏定义，默认值是  "/sbin:/usr/sbin:/bin:/usr/bin"
 +
-+	 7. 5或者6执行完之后，调用 start_if_needed() 函数，启动需要在相应运行级别中运行的程序和服务。而该函数主要又是通过调用startup()函数，继而调用spawn()来启动程序或者服务的运行的。
++	7. 5或者6执行完之后，调用 start_if_needed() 函数，启动需要在相应运行级别中运行的程序和服务。而该函数主要又是通过调用startup()函数，继而调用spawn()来启动程序或者服务的运行的。
 +
-+	 8. 在此之后，init_main() 就进入一个主循环中，主要完成切换运行级别，检查出错情况，接受信号，启动相应服务例程。
-+	 在这个主循环中，需要调用如下这些重要的函数：
++	8. 在此之后，init_main() 就进入一个主循环中，主要完成切换运行级别，检查出错情况，接受信号，启动相应服务例程。
++	在这个主循环中，需要调用如下这些重要的函数：
 +
-+	 boot_transitions() -> get_init_default() -> ask_runlevel()
-+	 check_init_fifo() -> console_init()
-+	 fail_check()
-+	 process_signals() -> console_stty()
-+	 start_if_needed() -> startup() -> spawn()
-+	 *
++		boot_transitions() -> get_init_default() -> ask_runlevel()
++		check_init_fifo() -> console_init()
++		fail_check()
++		process_signals() -> console_stty()
++		start_if_needed() -> startup() -> spawn()
++
 + */
  static
  void init_main(void)
  {
-@@ -2825,7 +2880,42 @@
+@@ -2747,7 +3989,25 @@
+ /*
+  * Tell the user about the syntax we expect.
+  */
+-// usage.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 通过 fprintf() 函数，向标准出错 stderr 打印该条命令的用户使用帮助信息
++ */
+ static
+ void usage(char *s)
+ {
+@@ -2755,7 +4015,28 @@
+ 	exit(1);
+ }
+ 
+-// telinit.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 通过 /etc/initctl 管道向 init 进程发送控制命令
++ *
++ * @details 在执行 telinit 函数时，实际上是通过向INIT_FIFO（/dev/initctl）写入命令的方式，通知 init 执行相应的操作。Telinit()根据不同请求，构造如下结构体类型的变量并向INIT_FIFO（/dev/initctl）写入该请求来完成其使命
++ *
++ */
+ static
+ int telinit(char *progname, int argc, char **argv)
+ {
+@@ -2869,7 +4150,44 @@
  /*
   * Main entry for init and telinit.
   */
 -// main-init.cmt
-+/**                                                                
-+ * @attention 本注释得到了"核高基"科技重大专项2012年课题
-+ *             “开源操作系统内核分析和安全性评估
-+ *            （课题编号：2012ZX01039-004）”的资助。
-+ *                                                                      
-+ * @copyright 注释添加单位：清华大学——03任务
-+ *            （Linux内核相关通用基础软件包分析）
-+ *                                                                        
-+ * @author 注释添加人员： 李明
-+ *             (电子邮件 <limingth@gmail.com>)
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
 + *                                                                    
-+ * @date 注释添加日期： 2013-6-1
-+ *                                                                   
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
 + * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
 + *
 + * @brief init 命令的主函数执行流程分析
 + *
@@ -109,3 +2220,1661 @@ diff -Nur sysvinit-2.88dsf/src/init.c sysvinit-2.88dsf-subs/src/init.c
  int main(int argc, char **argv)
  {
  	char			*p;
+diff -Nur sysvinit-2.88dsf/src/init.h sysvinit-2.88dsf-subs/src/init.h
+--- sysvinit-2.88dsf/src/init.h	2013-06-30 17:02:01.294837765 +0800
++++ sysvinit-2.88dsf-subs/src/init.h	2013-06-30 19:14:52.918668368 +0800
+@@ -26,20 +26,74 @@
+ #define CHANGE_WAIT 0			/* Change runlevel while
+ 					   waiting for a process to exit? */
+ /* Debug and test modes */
+-// DEBUG.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该宏定义主要用来对代码中的调试输出打印语句，进行条件编译控制，如果需要打印调试信息，则将此项置为 1
++ */
+ #define DEBUG	   1			/* Debug code off */
+ #define INITDEBUG  0			/* Fork at startup to debug init. */
+ 
+ /* Some constants */
+ #define INITPID	   1			/* pid of first process */
+ #define PIPE_FD    10			/* Fileno of initfifo. */
+-// STATE_PIPE.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该宏定义主要用来给 init 进程通过 re-exec 方式的父子进程之间用 state pipe 管道通信时的 fd 号
++ */
+ #define STATE_PIPE 11			/* used to pass state through exec */
+ 
+ /* Failsafe configuration */
+ #define MAXSPAWN   10			/* Max times respawned in.. */
+ #define TESTTIME   120			/* this much seconds */
+-// SLEEPTIME.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 睡眠时间超过300秒=5分钟的进程，将会被清除标志位
++ */
+ #define SLEEPTIME  300			/* Disable time */
+ 
+ /* Default path inherited by every child. */
+@@ -59,7 +113,25 @@
+ /* from dowall.c */
+ void wall(const char *text, int remote);
+ 
+-// INITDBG.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该宏定义主要用来打印 init 进程运行过程中的调试信息，是否打印取决于 DEBUG 宏开关
++ */
+ #if DEBUG
+ #  define INITDBG(level, fmt, args...) initlog(level, fmt, ##args)
+ #else
+@@ -69,7 +141,25 @@
+ #define INITDBG(level, fmt, args...) printf(fmt "\n", ##args)
+ 
+ /* Actions to be taken by init */
+-// Actions.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该宏定义主要用来标识在解析 /etc/inittab 文件时，不同 runlevel 对应要采取的不同动作
++ */
+ #define RESPAWN			1
+ #define WAIT			2
+ #define ONCE			3
+@@ -87,7 +177,28 @@
+ #define KBREQUEST               15
+ 
+ /* Information about a process in the in-core inittab */
+-// struct_child.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 这个链表数据结构在 init.h 头文件中，是实现根据 init 运行级别加载不同用户程序的最重要的数据结构。
++ *
++ */
++
++	
+ typedef struct _child_ {
+   int flags;			/* Status of this entry */
+   int exstat;			/* Exit status of process */
+@@ -112,7 +223,25 @@
+ #define XECUTED		128	/* Set if spawned once or more times */
+ 
+ /* Log levels. */
+-// log-level.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该宏定义主要用来标识输出打印信息时候的级别。包括输出到控制台和输出到系统日志两种。
++ */
+ #define L_CO	1		/* Log on the console. */
+ #define L_SY	2		/* Log with syslog() */
+ #define L_VB	(L_CO|L_SY)	/* Log with both. */
+diff -Nur sysvinit-2.88dsf/src/initreq.h sysvinit-2.88dsf-subs/src/initreq.h
+--- sysvinit-2.88dsf/src/initreq.h	2013-06-30 17:05:21.206833519 +0800
++++ sysvinit-2.88dsf-subs/src/initreq.h	2013-06-30 19:14:53.170668363 +0800
+@@ -31,13 +31,69 @@
+ #  define INIT_FIFO  "/dev/initctl"
+ #endif
+ /* add by limingth */
+-// INIT_FIFO.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该宏定义主要用来指定系统 Deamon init 进程 和 通过 telinit 命令启动时，两者通信用的 FIFO 文件
++ */
+ #undef INIT_FIFO
+ #define INIT_FIFO  "/tmp/.initctl"
+ 
+-// INIT_MAGIC.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 通过 INIT_FIFO 传送的请求 request 包，都需要有一个 magic number 开头，作为后面数据正确的说明凭证
++ */
++
+ #define INIT_MAGIC 0x03091969
+-// cmd.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 所有正确的请求，都有一个唯一的标识，这些标识定义在 initreq.h 头文件中。
++ */
++
+ #define INIT_CMD_START		0
+ #define INIT_CMD_RUNLVL		1
+ #define INIT_CMD_POWERFAIL	2
+@@ -76,7 +132,28 @@
+  *	The weird sizes are because init expects the whole
+  *	struct to be 384 bytes.
+  */
+-// struct_init_request.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 通过 /etc/initctl 管道进行请求的数据包格式
++ *
++ * @details 数据包需要遵循一定的格式，也就是需要能够转换为 init_request 结构体数据。
++ *
++ */
+ struct init_request {
+ 	int	magic;			/* Magic number                 */
+ 	int	cmd;			/* What kind of request         */
+diff -Nur sysvinit-2.88dsf/src/killall5.c sysvinit-2.88dsf-subs/src/killall5.c
+--- sysvinit-2.88dsf/src/killall5.c	2013-06-30 18:16:33.046742741 +0800
++++ sysvinit-2.88dsf-subs/src/killall5.c	2013-06-30 19:14:53.778668350 +0800
+@@ -65,7 +65,26 @@
+ #define NO_STAT 0
+ 
+ /* Info about a process. */
+-// struct_proc.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 这个结构体用于记录一个正在执行进程的相关信息，包括进程号pid，进程session号sid，程序的inode号等。
++ */
++
+ typedef struct proc {
+ 	char *argv0;		/* Name as found out from argv[0] */
+ 	char *argv0base;	/* `basename argv[1]`		  */
+@@ -82,7 +101,26 @@
+ } PROC;
+ 
+ /* pid queue */
+-// struct_pidq.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 这个结构体用于构建一个以 PROC 结构体为节点的链表，用于后面的遍历查找操作。
++ */
++
+ typedef struct pidq {
+ 	PROC		*proc;
+ 	struct pidq	*next;
+@@ -118,11 +156,49 @@
+ } NFS;
+ 
+ /* List of processes. */
+-// plist.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 这个全局变量是一个指针变量，主要用于指向所有正在运行进程 PROC 的链表头指针
++ */
++
+ PROC *plist;
+ 
+ /* List of processes to omit. */
+-// omit.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 这个全局变量是一个指针变量，主要用于指向通过用户命令传入参数 -o omitpid,... 中所构建可以忽略进程号的链表表头
++ */
++
+ OMIT *omit;
+ 
+ /* List of NFS mountes partitions. */
+@@ -133,7 +209,26 @@
+ 
+ int scripts_too = 0;
+ 
+-// progname.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 这个全局变量是一个字符串指针变量，主要用于指向当前执行命令的文件名
++ */
++
+ char *progname;	/* the name of the running program */
+ #ifdef __GNUC__
+ __attribute__ ((format (printf, 2, 3)))
+@@ -183,7 +278,33 @@
+ /*
+  *	See if the proc filesystem is there. Mount if needed.
+  */
+-// mount_proc.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 实现通过 mount 命令实现挂载 /proc 文件系统
++ *
++ * @details 函数执行流程分析：
++
++	 首先查看  /proc/version 文件是否存在，以此判断 /proc 是否已经加载 
++	 如果没有加载，则通过 fork() 创建子进程，然后执行 execv 来执行 mount 命令完成加载
++	 判断是否加载成功，并将结果写入日志文件中。
++ *
++ */
++
+ int mount_proc(void)
+ {
+ 	struct stat	st;
+@@ -452,7 +573,38 @@
+  *	Read the proc filesystem.
+  *	CWD must be /proc to avoid problems if / is affected by the killing (ie depend on fuse).
+  */
+-// readproc.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 实现从 /proc 文件系统中获得当前正在运行的进程 id和其他参数，并创建一个链表用于后继使用
++ *
++ * @details 函数执行流程分析：
++
++	 改变目录到 /proc ，调用 opendir 打开当前目录文件 . 
++	 释放已经存在的 plist 链表，为重新生成做好准备
++	 开始遍历 /proc 目录，找出是进程号（大于0的数字）的文件名
++	 以 bash 文件为例,查看进程的 stat 文件信息，找出进程名
++	 得到进程 session id，判断其是否 kernel thread
++	 获得其他参数
++	 添加进入链表，并完成收尾工作
++
++ *
++ */
++
+ int readproc(int do_stat)
+ {
+ 	DIR		*dir;
+@@ -637,20 +789,77 @@
+ 	return 0;
+ }
+ 
+-// init_pid_q.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该函数主要完成初始化队列 q，该队列保存了当前所有运行进程的 pid 号
++ */
++
+ PIDQ_HEAD *init_pid_q(PIDQ_HEAD *q)
+ {
+ 	q->head =  q->next = q->tail = NULL;
+ 	return q;
+ }
+ 
+-// empty_q.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该函数主要判断队列 q 是否为空队列
++ */
++
+ int empty_q(PIDQ_HEAD *q)
+ {
+ 	return (q->head == NULL);
+ }
+ 
+-// add_pid_to_q.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该函数主要将一个节点 PROC *p 添加进入队列 q
++ */
++
+ int add_pid_to_q(PIDQ_HEAD *q, PROC *p)
+ {
+ 	PIDQ *tmp;
+@@ -670,7 +879,26 @@
+ 	return 0;
+ }
+ 
+-// get_next_from_pid_q.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 该函数主要从队列 q 的头部返回一个节点，并将该节点从队列中删除
++ */
++
+ PROC *get_next_from_pid_q(PIDQ_HEAD *q)
+ {
+ 	PROC		*p;
+@@ -687,7 +915,41 @@
+ }
+ 
+ /* Try to get the process ID of a given process. */
+-// pidof.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 从用户输入的程序名 prog 字符串，得到一个和这个名称相同的进程号链表 PIDQ_HEAD 指针返回
++ *
++ * @details 函数执行流程分析：
++
++	1. 调用 stat 获取可执行文件文件信息到 st 结构体中，包含 st_dev 和 st_ino 两个信息
++
++	2. 获得程序名 prog 中的文件名，不包含路径
++
++	3. 遍历 plist 链表，寻找 st_dev 和 st_ino 两个参数都匹配上的进程 p ，把 p 添加进入 q 链表中
++
++	4. 如果通过这种方式没有找到，则会尝试基于完整路径名在 nfs 上找
++
++	5. 如果这样还是没有找到，则会基于 name 来扩大匹配可能
++
++	匹配算法见 killall5.c 文件的 757行
++ *
++ */
++
+ PIDQ_HEAD *pidof(char *prog)
+ {
+ 	PROC		*p;
+@@ -825,7 +1087,25 @@
+ }
+ 
+ /* Give usage message and exit. */
+-// usage.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 通过 fprintf() 函数，向标准出错 stderr 打印该条命令的用户使用帮助信息
++ */
+ void usage(void)
+ {
+ 	nsyslog(LOG_ERR, "only one argument, a signal number, allowed");
+@@ -861,7 +1141,41 @@
+ /*
+  *	Pidof functionality.
+  */
+-// main_pidof.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 从用户输入的程序名 prog 字符串，得到一个和这个名称相同的进程号链表 PIDQ_HEAD 指针返回
++ *
++ * @details 函数执行流程分析：
++
++	1. 调用 stat 获取可执行文件文件信息到 st 结构体中，包含 st_dev 和 st_ino 两个信息
++
++	2. 获得程序名 prog 中的文件名，不包含路径
++
++	3. 遍历 plist 链表，寻找 st_dev 和 st_ino 两个参数都匹配上的进程 p ，把 p 添加进入 q 链表中
++
++	4. 如果通过这种方式没有找到，则会尝试基于完整路径名在 nfs 上找
++
++	5. 如果这样还是没有找到，则会基于 name 来扩大匹配可能
++
++	匹配算法见 killall5.c 文件的 757行
++ *
++ */
++
+ int main_pidof(int argc, char **argv)
+ {
+ 	PIDQ_HEAD	*q;
+@@ -997,7 +1311,39 @@
+ }
+ 
+ /* Main for either killall or pidof. */
+-// killall5-main.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief killall5 命令实现的主函数，杀死除当前进程之外的其他所有进程
++ *
++ * @details 函数执行流程分析：
++ 
++	 打开系统日志
++	 处理 pidof 命令的情况
++	 分析 -o omitpid 参数创建双向链表 omit
++	 挂载 /proc 文件系统
++	 暂时忽略 SIGTERM/SIGSTOP/SIGKILL 信号
++	 禁止内存换出，暂停所有进程
++	 读 /proc 文件系统，建立进程链表 plist 
++	 根据 plist 链表开始依次 kill 进程
++	 恢复所有进程运行 （从 STOP 又回到 CONT）
++	 关闭日志
++ *
++ */
+ int main(int argc, char **argv)
+ {
+ 	PROC		*p;
+diff -Nur sysvinit-2.88dsf/src/last.c sysvinit-2.88dsf-subs/src/last.c
+--- sysvinit-2.88dsf/src/last.c	2013-06-30 15:56:54.374920786 +0800
++++ sysvinit-2.88dsf-subs/src/last.c	2013-06-30 19:14:54.010668345 +0800
+@@ -298,7 +298,25 @@
+ /*
+  *	Get the basename of a filename
+  */
+-// mybasename.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 获得一个长文件名（包含路径）的文件名（不包含路径信息）
++ */
+ char *mybasename(char *s)
+ {
+ 	char *p;
+@@ -313,7 +331,26 @@
+ /*
+  *	Lookup a host with DNS.
+  */
+-// dns_lookup.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 查找一个主机的 DNS 记录，通过调用 getnameinfo() 完成。
++ *
++ */
+ int dns_lookup(char *result, int size, int useip, int32_t *a)
+ {
+ 	struct sockaddr_in	sin;
+@@ -366,7 +403,26 @@
+ /*
+  *	Show one line of information on screen
+  */
+-// list.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 显示一行的登录信息，包括是否 login/logout ，登入/登出时间，是否正常退出等信息。
++ *
++ */
+ int list(struct utmp *p, time_t t, int what)
+ {
+ 	time_t		secs, tmp;
+@@ -533,7 +589,25 @@
+ /*
+  *	show usage
+  */
+-// usage.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 通过 fprintf() 函数，向标准出错 stderr 打印该条命令的用户使用帮助信息
++ */
+ void usage(char *s)
+ {
+ 	fprintf(stderr, "Usage: %s [-num | -n num] [-f file] "
+@@ -581,7 +655,53 @@
+ 	return tm;
+ }
+ 
+-// last-main.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief last 命令实现的主函数，打印出最近的用户登录记录
++ *
++ * @details last 命令详细用法
++
++    last 命令给出哪一个用户最后一次登录(或退出登录)，它回溯/var/log/wtmp文件(或者-f选项指定的文件)，显示自从这个文件建立以来，所有用户的登录情况。
++
++    lastb 显示所有失败登录企图，并记录在 /var/log/btmp.
++
++	* 命令格式
++		last  [-R] [-num] [ -n num ] [-adFiowx] [ -f file ] [ -t YYYYMMDDHHMMSS] [name...]  [tty...]
++
++	* 主要选项
++		 -num（-n num）
++			指定 last 要显示多少行。
++		 -R 
++			不显示主机名列。 
++		 -a 
++			在最后一列显示主机名（和下一个选项合用时很有用） 
++		 -d 
++			对于非本地的登录，Linux 不仅保存远程主机名而且保存IP地址。这个选项可以将IP地址转换为主机名。 
++		 -i 
++			这个选项类似于显示远程主机 IP 地址的 -d 选项，只不过它用数字和点符号显示IP地址。
++		 -o 
++			读取一个旧格式的 wtmp 文件（用linux-libc5应用程序写入的）。 
++		 -x 
++			显示系统关机记录和运行级别改变的日志。
++
++ *
++ */
++
+ int main(int argc, char **argv)
+ {
+   FILE *fp;		/* Filepointer of wtmp file */
+diff -Nur sysvinit-2.88dsf/src/mesg.c sysvinit-2.88dsf-subs/src/mesg.c
+--- sysvinit-2.88dsf/src/mesg.c	2013-06-30 15:38:24.814944366 +0800
++++ sysvinit-2.88dsf-subs/src/mesg.c	2013-06-30 19:14:54.130668342 +0800
+@@ -65,7 +65,42 @@
+ 	return 1;
+ }
+ 
+-// mesg-main.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief mesg 命令实现的主函数，打印当前终端是否允许接收消息
++ *
++ * @details mesg 命令详细用法
++
++   该命令的作用是，控制是否允许在当前终端上显示出其它用户对当前用户终端发送的消息。
++
++	* 命令格式
++		mesg [y|n]
++
++	* 主要选项
++		- y 
++			允许消息传到当前终端
++
++		- n
++			不允许消息传到当前终端
++ *
++ */
++
++
+ int main(int argc, char **argv)
+ {
+ 	struct stat	st;
+diff -Nur sysvinit-2.88dsf/src/mountpoint.c sysvinit-2.88dsf-subs/src/mountpoint.c
+--- sysvinit-2.88dsf/src/mountpoint.c	2013-06-30 15:57:04.294920576 +0800
++++ sysvinit-2.88dsf-subs/src/mountpoint.c	2013-06-30 19:14:54.302668339 +0800
+@@ -32,7 +32,43 @@
+ #include <getopt.h>
+ #include <stdio.h>
+ 
+-// dostat.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 给定一个目录路径 path，通过调用 stat 获得目录的相关属性，返回 struct stat 结构体
++ *
++ * 
++           struct stat {
++               dev_t     st_dev;     
++               ino_t     st_ino;    
++               mode_t    st_mode;   
++               nlink_t   st_nlink;  
++               uid_t     st_uid;    
++               gid_t     st_gid;   
++               dev_t     st_rdev;  
++               off_t     st_size;  
++               blksize_t st_blksize;
++               blkcnt_t  st_blocks; 
++               time_t    st_atime; 
++               time_t    st_mtime; 
++               time_t    st_ctime;
++           };
++ *
++ */
+ int dostat(char *path, struct stat *st, int do_lstat, int quiet)
+ {
+ 	int		n;
+@@ -51,13 +87,66 @@
+ 	return 0;
+ }
+ 
+-// usage.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 通过 fprintf() 函数，向标准出错 stderr 打印该条命令的用户使用帮助信息
++ */
+ void usage(void) {
+ 	fprintf(stderr, "Usage: mountpoint [-q] [-d] [-x] path\n");
+ 	exit(1);
+ }
+ 
+-// mountpoint-main.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief mountpoint 命令实现的主函数，通过比较当前目录和上一级目录的设备属性来进行判断
++ *
++ * @details mountpoint 命令详细用法
++
++   mountpoint 检查给定的目录是否是一个挂载点。
++
++	* 命令格式
++		/bin/mountpoint [-q] [-d] /path/to/directory
++	       /bin/mountpoint -x /dev/device
++
++	* 主要选项
++	       -q     Be quiet - don't print anything.
++
++	       -d     Print major/minor device number of the filesystem on stdout.
++
++	       -x     Print major/minor device number of the blockdevice on stdout.
++
++ *
++ */
+ int main(int argc, char **argv)
+ {
+ 	struct stat	st, st2;
+diff -Nur sysvinit-2.88dsf/src/paths.h sysvinit-2.88dsf-subs/src/paths.h
+--- sysvinit-2.88dsf/src/paths.h	2013-06-30 17:15:03.190821153 +0800
++++ sysvinit-2.88dsf-subs/src/paths.h	2013-06-30 19:14:54.486668335 +0800
+@@ -26,7 +26,26 @@
+ #define CONSOLE		"/dev/console"		/* Logical system console */
+ #define SECURETTY	"/etc/securetty"	/* List of root terminals */
+ #define SDALLOW		"/etc/shutdown.allow"	/* Users allowed to shutdown */
+-// INITTAB.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 这个宏定义指定了系统 init 进程要从 /etc/inittab 文件中读取启动文件脚本，并从中启动后继进程
++ */
++
+ #define INITTAB		"/etc/inittab"		/* Location of inittab */
+ #define INIT		"/sbin/init"		/* Location of init itself. */
+ #define NOLOGIN		"/etc/nologin"		/* Stop user logging in. */
+diff -Nur sysvinit-2.88dsf/src/reboot.h sysvinit-2.88dsf-subs/src/reboot.h
+--- sysvinit-2.88dsf/src/reboot.h	2013-06-30 17:11:44.546825373 +0800
++++ sysvinit-2.88dsf-subs/src/reboot.h	2013-06-30 19:14:54.610668331 +0800
+@@ -50,6 +50,25 @@
+ /* #define init_reboot(magic)	reboot(magic) */
+ /* add by limingth */
+ //#undef init_reboot(magic)
+-// init_reboot.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 这个宏定义用于通过 reboot() 系统调用来进行重启系统
++ */
++
+ #define init_reboot(magic)      printf("init_reboot: %d\n", magic)
+ 
+diff -Nur sysvinit-2.88dsf/src/runlevel.c sysvinit-2.88dsf-subs/src/runlevel.c
+--- sysvinit-2.88dsf/src/runlevel.c	2013-06-30 15:20:34.926967100 +0800
++++ sysvinit-2.88dsf-subs/src/runlevel.c	2013-06-30 19:14:55.118668321 +0800
+@@ -26,7 +26,39 @@
+ #include <time.h>
+ #include <stdlib.h>
+ 
+-// runlevel-main.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief runlevel 命令实现的主函数，调用 getutent() 获取当前运行级别，并打印出来
++ *
++ * @details runlevel 命令详细用法
++
++   runlevel 命令读取系统的登录记录文件(一般是/var/run/utmp)把以前和当前的系统运行级输出到标准输出设备。
++如果之前的系统运行级别没有找到，则会返回一个 N 字母来代替。
++
++	* 命令格式
++		runlevel [utmp]
++
++	* 主要选项
++		utmp   指定要读取的 utmp 文件名，默认是读取 /var/run/utmp
++
++
++ *
++ */
+ int main(argc, argv)
+ int argc;
+ char **argv;
+diff -Nur sysvinit-2.88dsf/src/set.h sysvinit-2.88dsf-subs/src/set.h
+--- sysvinit-2.88dsf/src/set.h	2013-06-30 17:19:38.874815292 +0800
++++ sysvinit-2.88dsf-subs/src/set.h	2013-06-30 19:14:55.210668319 +0800
+@@ -21,7 +21,26 @@
+  *
+  */
+ 
+-// SIGNALS-OP.cmt 
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 这一组宏定义用于在 process_signals 函数中判断有哪些信号到来了，并依次进行相应处理。
++ */
++
+ #define ISMEMBER(set, val) ((set) & (1 << (val)))
+ #define DELSET(set, val)   ((set) &= ~(1 << (val)))
+ #define ADDSET(set, val)   ((set) |=  (1 << (val)))
+diff -Nur sysvinit-2.88dsf/src/shutdown.c sysvinit-2.88dsf-subs/src/shutdown.c
+--- sysvinit-2.88dsf/src/shutdown.c	2013-06-30 15:57:13.998920369 +0800
++++ sysvinit-2.88dsf-subs/src/shutdown.c	2013-06-30 19:14:55.362668316 +0800
+@@ -120,7 +120,25 @@
+ /*
+  *	Show usage message.
+  */
+-// usage.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 通过 fprintf() 函数，向标准出错 stderr 打印该条命令的用户使用帮助信息
++ */
+ void usage(void)
+ {
+ 	fprintf(stderr,
+@@ -473,7 +491,29 @@
+  *	Main program.
+  *	Process the options and do the final countdown.
+  */
+-// main-shutdown.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief shutdown 命令实现的主函数
++ *
++ * @details shutdown 的核心代码在 shutdown() 函数中，除了用 openlog(), syslog(), closelog() 来写关机日志外，主要是靠调用 execv(INIT, args) 来启动 init 进程完成改变运行级别的工作，从而间接完成关机操作。
++ *
++ */
++
+ int main(int argc, char **argv)
+ {
+ 	FILE			*fp;
+diff -Nur sysvinit-2.88dsf/src/sulogin.c sysvinit-2.88dsf-subs/src/sulogin.c
+--- sysvinit-2.88dsf/src/sulogin.c	2013-06-30 15:57:24.546920145 +0800
++++ sysvinit-2.88dsf-subs/src/sulogin.c	2013-06-30 19:14:55.566668312 +0800
+@@ -236,7 +236,38 @@
+ /*
+  *	Get the root password entry.
+  */
+-// getrootpwent.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 获得根用户 root 的密码
++ *
++ * @details 函数执行流程分析：
++
++	1. 首先通过标准的方法，使用普通库函数 getpwnam() 和 getspnam() 来获得密码，如果能找到则返回 pw
++
++	2. 如果找不到，则接下来尝试通过读取 passwd 和 shadow 文件手工来分析。
++
++	3. 读取 /etc/passwd 找到 root: 字符串开头的那行,如果没有这一行，则返回 root 密码为空
++
++	4. 如果有则调用 valid() 函数进行验证，验证成功，则返回 &pwd
++
++	5. 验证不成功，再检查 /etc/shadow 文件，如果有则返回 &pwd，如果没有则返回 空串。
++ *
++ */
+ static
+ struct passwd *getrootpwent(int try_manually)
+ {
+@@ -340,7 +371,38 @@
+  *	Ask for the password. Note that there is no
+  *	default timeout as we normally skip this during boot.
+  */
+-// getpasswd.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 从标准输入获得用户输入的密码
++ *
++ * @details 函数执行流程分析：
++
++	1. 打印提示信息，要求用户输入密码
++
++	2. 修改终端属性，不进行回显 NO echo
++
++	3. 注册信号 SIGALRM 的处理函数，以便能够超时处理
++
++	4. 从标准输入读取用户输入的密码字符串，存放在静态变量 static char pass[128] 数组中
++
++	5. 修改终端属性，恢复回显功能 echo，返回数组首地址
++ *
++ */
+ static
+ char *getpasswd(char *crypted)
+ {
+@@ -395,7 +457,38 @@
+ /*
+  *	Password was OK, execute a shell.
+  */
+-// sushell.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 当用户的密码验证通过后，启动一个shell （由环境变量SUSHELL指定）
++ *
++ * @details 函数执行流程分析：
++	
++	1. 调用 chdir 改变根目录
++
++	2. 调用 getenv 获取环境变量 SUSHELL 的值，并赋值给 sushell 指针
++
++	3. 设置一些环境变量 HOME，LOGNAME，USER 的值
++
++	4. 安装一些信号处理函数 SIGINT，SIGTSTP，SIGQUIT
++
++	5. 调用 execl 来执行 sushell 命令，如果失败，则依次执行 /bin/sh,/bin/sash
++ *
++ */
+ static
+ void sushell(struct passwd *pwd)
+ {
+@@ -470,7 +563,25 @@
+ 	perror(STATICSH);
+ }
+ 
+-// usage.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 通过 fprintf() 函数，向标准出错 stderr 打印该条命令的用户使用帮助信息
++ */
+ static
+ void usage(void)
+ {
+diff -Nur sysvinit-2.88dsf/src/utmp.c sysvinit-2.88dsf-subs/src/utmp.c
+--- sysvinit-2.88dsf/src/utmp.c	2013-06-30 15:25:42.862960557 +0800
++++ sysvinit-2.88dsf-subs/src/utmp.c	2013-06-30 19:14:55.726668308 +0800
+@@ -53,7 +53,25 @@
+ /*
+  *	Log an event in the wtmp file (reboot, runlevel)
+  */
+-// write_wtmp.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 以追加写的方式，在 wtmp 文件中写入一条日志记录
++ */
+ void write_wtmp(
+ char *user,			/* name of user */
+ char *id,			/* inittab ID */
+@@ -145,7 +163,25 @@
+  *	Write an entry to the UTMP file. For DEAD_PROCESS, put
+  *	the previous ut_line into oldline if oldline != NULL.
+  */
+-// write_utmp.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 以追加写的方式，在 utmp 文件中写入一条日志记录
++ */
+ static void write_utmp(
+ char *user,			/* name of user */
+ char *id,			/* inittab ID */
+@@ -243,7 +279,25 @@
+ /*
+  *	Write a record to both utmp and wtmp.
+  */
+-// write_utmp_wtmp.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 写入一条记录到 utmp 文件 和 wtmp 文件
++ */
+ void write_utmp_wtmp(
+ char *user,			/* name of user */
+ char *id,			/* inittab ID */
+diff -Nur sysvinit-2.88dsf/src/utmpdump.c sysvinit-2.88dsf-subs/src/utmpdump.c
+--- sysvinit-2.88dsf/src/utmpdump.c	2013-06-30 15:28:10.250957425 +0800
++++ sysvinit-2.88dsf-subs/src/utmpdump.c	2013-06-30 19:14:55.862668306 +0800
+@@ -146,7 +146,25 @@
+                addr_string, time_string);
+ }
+ 
+-// dump.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 从文件中读取一条 utmp 记录，并以用户易于理解的方式打印出来
++ */
+ void
+ dump(FILE *fp, int forever, int oldfmt)
+ {
+@@ -251,7 +269,44 @@
+ 	exit(result);
+ }
+ 
+-// utmpdump-main.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief 实现 utmpdump 命令的主函数，主要调用 dump 函数来完成输出
++ *
++ * @details utmpdump 命令详细用法
++
++   utmpdump 命令以一种用户友好的格式向标准输出设备显示 /var/run/utmp 文件的内容。
++
++	* 命令格式
++		utmpdump [-froh] filename
++
++	* 主要选项
++	       -f     output appended data as the file grows.
++
++	       -r     reverse. Write back edited login information into utmp  or  wtmp
++		      files.
++
++	       -o     use old libc5 format.
++
++	       -h     usage information.
++
++ *
++ */
+ int main(int argc, char **argv)
+ {
+ 	int c;
+diff -Nur sysvinit-2.88dsf/src/wall.c sysvinit-2.88dsf-subs/src/wall.c
+--- sysvinit-2.88dsf/src/wall.c	2013-06-30 15:15:59.618972950 +0800
++++ sysvinit-2.88dsf-subs/src/wall.c	2013-06-30 19:14:55.978668303 +0800
+@@ -36,7 +36,39 @@
+ #define MAXLEN 4096
+ #define MAXLINES 20
+ 
+-// wall-main.cmt
++/**                                                                  
++ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
++ *             “开源操作系统内核分析和安全性评估                     
++ *            （课题编号：2012ZX01039-004）”的资助。                 
++ *                                                                    
++ * @copyright 注释添加单位：清华大学——03任务                         
++ *            （Linux内核相关通用基础软件包分析）                     
++ *                                                                    
++ * @author 注释添加人员： 李明                                       
++ *             (电子邮件 <limingth@gmail.com>)                       
++ *                                                                    
++ * @date 注释添加日期：                                              
++ *                      2013-6-1                                      
++ *                                                                    
++ * @note 注释详细内容:                                                
++ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
++ *
++ * @brief wall 命令实现的主函数，调用 wall() 函数完成消息发送
++ *
++ * @details wall 命令详细用法
++
++   wall命令用来向所有用户的终端发送一条信息。发送的信息可以作为参数在命令行给出，也可在执行wall命令后，从终端中输入。使用终端输入信息时，按Ctrl-D结束输入。wall的信息长度的限制是20行。只有超级用户有权限，给所有用户的终端发送消息。
++
++	* 命令格式
++		wall [-n] [ message ]
++
++	* 用法  
++		usage: wall [message]
++
++	* 举例  
++		wall "hello msg"
++ *
++ */
+ int main(int argc, char **argv)
+ {
+   char buf[MAXLEN];

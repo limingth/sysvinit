@@ -48,7 +48,7 @@ subs_dir()
 			# echo "   " \* checking file $i
 			cfile=`echo $i | awk -F. '{print $NF}'`
 			# echo $cfile
-			if [ "$cfile" = "c" ]
+			if [ "$cfile" = "c" -o "$cfile" = "h" ]
 			then 
 				subs_files $i
 			fi 
@@ -106,7 +106,7 @@ echo Total `wc -l $LOG` files need to comment
 echo Total `find $1 -name "*.c" | wc -l` \*.c files
 diff -Nur $SRC $DST > diff.$SRC
 ls -l diff.$SRC
-du -bs comments bytes
-ls -l comments/ | wc -l
+echo `du -bs comments` bytes
+echo Total cmt fils `ls -l comments/*.cmt | wc -l`
 
 exit

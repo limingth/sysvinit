@@ -53,6 +53,7 @@
 /*
  *	Log an event in the wtmp file (reboot, runlevel)
  */
+// write_wtmp.cmt
 void write_wtmp(
 char *user,			/* name of user */
 char *id,			/* inittab ID */
@@ -144,6 +145,7 @@ char *line)			/* Which line is this */
  *	Write an entry to the UTMP file. For DEAD_PROCESS, put
  *	the previous ut_line into oldline if oldline != NULL.
  */
+// write_utmp.cmt
 static void write_utmp(
 char *user,			/* name of user */
 char *id,			/* inittab ID */
@@ -241,6 +243,7 @@ char *oldline)			/* Line of old utmp entry. */
 /*
  *	Write a record to both utmp and wtmp.
  */
+// write_utmp_wtmp.cmt
 void write_utmp_wtmp(
 char *user,			/* name of user */
 char *id,			/* inittab ID */

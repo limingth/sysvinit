@@ -9,10 +9,10 @@
 #
 
 CC=gcc
-CPPFLAGS = -g -DDEBUG
-CFLAGS	?= -O2 -fomit-frame-pointer
-#override CFLAGS += -W -Wall -D_GNU_SOURCE
-override CFLAGS += -D_GNU_SOURCE
+CPPFLAGS =
+#CFLAGS	?= -ansi -O2 -fomit-frame-pointer
+#override CFLAGS += -W -Wall -D_GNU_SOURCE -DDEBUG
+override CFLAGS += -D_GNU_SOURCE -DDEBUG
 STATIC	=
 
 # For some known distributions we do not build all programs, otherwise we do.
@@ -79,11 +79,11 @@ else
   SULOGINLIBS	=
 endif
 
-SULOGINLIBS	+= -lcrypt
 # Additional libs for GNU libc.
 ifneq ($(wildcard /usr/lib*/libcrypt.a),)
   SULOGINLIBS	+= -lcrypt
 endif
+  SULOGINLIBS	+= -lcrypt
 
 all:		$(BIN) $(SBIN) $(USRBIN)
 

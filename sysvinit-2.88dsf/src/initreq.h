@@ -31,10 +31,13 @@
 #  define INIT_FIFO  "/dev/initctl"
 #endif
 /* add by limingth */
+// INIT_FIFO.cmt
 #undef INIT_FIFO
 #define INIT_FIFO  "/tmp/.initctl"
 
+// INIT_MAGIC.cmt
 #define INIT_MAGIC 0x03091969
+// cmd.cmt
 #define INIT_CMD_START		0
 #define INIT_CMD_RUNLVL		1
 #define INIT_CMD_POWERFAIL	2
@@ -73,6 +76,7 @@ struct init_request_bsd {
  *	The weird sizes are because init expects the whole
  *	struct to be 384 bytes.
  */
+// struct_init_request.cmt
 struct init_request {
 	int	magic;			/* Magic number                 */
 	int	cmd;			/* What kind of request         */

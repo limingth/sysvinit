@@ -1,0 +1,3 @@
+/*
+ * @brief 通知每一个正在运行的进程，设置 powerwait 和 powerfail 标志位
+ */

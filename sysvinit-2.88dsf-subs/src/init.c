@@ -91,6 +91,26 @@
 #endif
 
 /* Set a signal handler. */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该宏定义主要完成注册一个信号处理函数，包含了一组语句，最后通过 sigaction() 函数完成注册
+ */
+
 #define SETSIG(sa, sig, fun, flags) \
 		do { \
 			sa.sa_handler = fun; \
@@ -98,14 +118,79 @@
 			sigemptyset(&sa.sa_mask); \
 			sigaction(sig, &sa, NULL); \
 		} while(0)
+/* add by limingth */		
+#undef SETSIG
+#define SETSIG(sa, sig, fun, flags)     INITDBG(L_VB, "setsig %s : %s\t", #sig, #fun)
+
 
 /* Version information */
 char *Version = "@(#) init " VERSION "  " DATE "  miquels@cistron.nl";
 char *bootmsg = "version " VERSION " %s";
 #define E_VERSION "INIT_VERSION=sysvinit-" VERSION
 
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该全局变量是一个链表头指针，用于保存上一次分析 inittab 文件后形成的 init 要加载子进程的列表
+ */
+
 CHILD *family = NULL;		/* The linked list of all entries */
+
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该全局变量是一个链表头指针，用于保存上一次分析 inittab 文件后形成的 init 要加载子进程的列表
+ */
+
 CHILD *newFamily = NULL;	/* The list after inittab re-read */
+
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该全局变量是用于定义应急shell Emergency shell 使用 /sbin/sulogin
+ */
 
 CHILD ch_emerg = {		/* Emergency shell */
 	WAITING, 0, 0, 0, 0,
@@ -117,9 +202,69 @@ CHILD ch_emerg = {		/* Emergency shell */
 	NULL
 };
 
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该全局变量是保存当次 init 进程启动时的 runlevel 
+ */
+
 char runlevel = 'S';		/* The current run level */
 char thislevel = 'S';		/* The current runlevel */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该全局变量是保存上一次 init 进程启动时的 runlevel 
+ */
+
 char prevlevel = 'N';		/* Previous runlevel */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该全局变量是保存从 inittab 文件中获得的，也可以是用户输入的，默认 runlevel 
+ */
+
 int dfl_level = 0;		/* Default runlevel */
 sig_atomic_t got_cont = 0;	/* Set if we received the SIGCONT signal */
 sig_atomic_t got_signals;	/* Set if we received a signal. */
@@ -132,23 +277,124 @@ int sltime = 5;			/* Sleep time between TERM and KILL */
 char *argv0;			/* First arguments; show up in ps listing */
 int maxproclen;			/* Maximal length of argv[0] with \0 */
 struct utmp utproto;		/* Only used for sizeof(utproto.ut_id) */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该全局变量是一个字符串指针，用来记录控制台设备文件名
+ */
+
 char *console_dev;		/* Console device. */
 int pipe_fd = -1;		/* /dev/initctl */
 int did_boot = 0;		/* Did we already do BOOT* stuff? */
 int main(int, char **);
 
 /*	Used by re-exec part */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该全局变量是一个整型数，用来表示本次 init 进程启动是否属于 reload 方式，也就是通过 re-exec 创建的二次启动
+ */
+
 int reload = 0;			/* Should we do initialization stuff? */
 char *myname="/sbin/init";	/* What should we exec */
 int oops_error;			/* Used by some of the re-exec code. */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该全局变量是一个字符串用于签名验证，通过 re-exec 创建的 init 二次启动时会通过 STATE_PIPE 写入信息，其中就包括这个签名
+ */
+
 const char *Signature = "12567362";	/* Signature for re-exec fd */
 
 /* Macro to see if this is a special action */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该宏定义带参数，用来判断传入的参数是否是一个特殊的动作
+ */
+
 #define ISPOWER(i) ((i) == POWERWAIT || (i) == POWERFAIL || \
 		    (i) == POWEROKWAIT || (i) == POWERFAILNOW || \
 		    (i) == CTRLALTDEL)
 
 /* ascii values for the `action' field. */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 这个数组保存的都是常量，包括常量字符串和宏定义，主要是一组对应关系，方便把 /etc/inittab 文件中的字符串转换为整型数。
+ *
+ */
+
 struct actions {
   char *name;
   int act;
@@ -174,6 +420,26 @@ struct actions {
 /*
  *	State parser token table (see receive_state)
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该全局变量是一个结构体数组，用于在 receive_state 函数中判断的标识符表
+ */
+
 struct {
   char name[4];	
   int cmd;
@@ -221,6 +487,25 @@ char *extra_env[NR_EXTRA_ENV];
  *	This only works correctly because the linux select updates
  *	the elapsed time in the struct timeval passed to select!
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该函数使得进程睡眠 sec 秒
+ */
 static
 void do_sleep(int sec)
 {
@@ -237,6 +522,25 @@ void do_sleep(int sec)
 /*
  *	Non-failing allocation routines (init cannot fail).
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该函数用于给该项目范围的代码，分配内存空间，可以看成是确保一定能够分配成功的 malloc 函数
+ */
 static
 void *imalloc(size_t size)
 {
@@ -249,6 +553,26 @@ void *imalloc(size_t size)
 	memset(m, 0, size);
 	return m;
 }
+
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该函数为传入的字符串 s 复制一个新的相同的字符串传出。内部需要用到 imalloc 函数为新的字符串分配空间
+ */
 
 static
 char *istrdup(char *s)
@@ -266,6 +590,25 @@ char *istrdup(char *s)
 /*
  *	Send the state info of the previous running init to
  *	the new one, in a version-independant way.
+ */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该函数用于给之前运行的 init 进程发送一个 state 状态信息
  */
 static
 void send_state(int fd)
@@ -312,6 +655,26 @@ void send_state(int fd)
  *	Read a string from a file descriptor.
  *	FIXME: why not use fgets() ?
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该函数从给定的文件指针 f 上，读取一行字符串（碰到 \n 返回）。
+ */
+
 static int get_string(char *p, int size, FILE *f)
 {
 	int	c;
@@ -327,6 +690,26 @@ static int get_string(char *p, int size, FILE *f)
 /*
  *	Read trailing data from the state pipe until we see a newline.
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该函数从给定的文件指针 f 上，读取一行字符串（碰到 \n 返回），读取的内容不保存也不返回，直接忽略。
+ */
+
 static int get_void(FILE *f)
 {
 	int	c;
@@ -339,6 +722,25 @@ static int get_void(FILE *f)
 
 /*
  *	Read the next "command" from the state pipe.
+ */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该函数用于从 state pipe 管道中读取一个 command 指令
  */
 static int get_cmd(FILE *f)
 {
@@ -355,6 +757,25 @@ static int get_cmd(FILE *f)
 
 /*
  *	Read a CHILD * from the state pipe.
+ */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该函数用于从 state pipe 管道中读取一个 CHILD 结构体的数据，如果成功则返回这条记录的指针
  */
 static CHILD *get_record(FILE *f)
 {
@@ -460,6 +881,25 @@ static CHILD *get_record(FILE *f)
  *	Read the complete state info from the state pipe.
  *	Returns 0 on success
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该函数用于从 state pipe 管道中读取一条完整的记录信息，如果成功则返回0
+ */
 static
 int receive_state(int fd)
 {
@@ -481,6 +921,25 @@ int receive_state(int fd)
 
 /*
  *	Set the process title.
+ */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 设置进程 process 的名称 title
  */
 #ifdef __GNUC__
 __attribute__ ((format (printf, 1, 2)))
@@ -507,6 +966,34 @@ static int setproctitle(char *fmt, ...)
 
 /*
  *	Set console_dev to a working console.
+ */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 设置 console_dev 变量为一个可以工作的 console
+ *
+ * @details 函数执行流程分析：
+
+	1. 获取 CONSOLE 环境变量的值，赋值给 console_dev 全局变量（ char * 类型 ）。
+
+	2. 以只读非阻塞方式打开 console_dev 所代表的设备文件。
+
+	3. 初始化成功，则关闭该设备文件；如果失败，则将 console_dev 置为 /dev/null 。
+ *
  */
 static
 void console_init(void)
@@ -546,6 +1033,25 @@ void console_init(void)
 /*
  *	Open the console with retries.
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 打开控制台 console，如果不成功，则重新尝试5次。
+ */
 static
 int console_open(int mode)
 {
@@ -578,6 +1084,26 @@ int console_open(int mode)
 /*
  *	We got a signal (HUP PWR WINCH ALRM INT)
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该函数调用了 ADDSET() 宏操作，完成添加一个要处理的信号标志位
+ */
+
 static
 void signal_handler(int sig)
 {
@@ -587,6 +1113,26 @@ void signal_handler(int sig)
 /*
  *	SIGCHLD: one of our children has died.
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该函数是一个信号处理函数，负责处理 SIGCHLD 信号。
+ */
+
 static
 # ifdef __GNUC__
 void chld_handler(int sig __attribute__((unused)))
@@ -632,6 +1178,26 @@ void chld_handler(int sig)
  *
  *	The SIGCONT handler
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该函数是一个信号处理函数，负责处理 SIGCOND 信号。
+ */
+
 static
 # ifdef __GNUC__
 void cont_handler(int sig __attribute__((unused)))
@@ -645,6 +1211,26 @@ void cont_handler(int sig)
 /*
  *	Fork and dump core in /.
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该函数实现 coredump 功能， 通过 Fork 子进程，完成在根目录下 dump core 
+ */
+
 static
 void coredump(void)
 {
@@ -679,6 +1265,26 @@ void coredump(void)
  *	If we have the info, print where it occured.
  *	Then sleep 30 seconds and try to continue.
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该函数是一个信号处理函数，负责处理 SIGSEG 信号。
+ */
+
 static
 #if defined(STACK_DEBUG) && defined(__linux__)
 # ifdef __GNUC__
@@ -719,6 +1325,26 @@ void segv_handler(int sig)
 /*
  *	The SIGSTOP & SIGTSTP handler
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该函数是一个信号处理函数，负责处理 SIGSTOP & SIGTSTP 信号。
+ */
+
 static
 # ifdef __GNUC__
 void stop_handler(int sig __attribute__((unused)))
@@ -736,6 +1362,40 @@ void stop_handler(int sig)
 
 /*
  *	Set terminal settings to reasonable defaults
+ */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 设置终端工作参数
+ *
+ * @details 函数执行流程分析：
+
+	1. 调用 console_open 打开 console_dev 设备，模式为读写+非阻塞方式。
+
+	2. 调用 tcgetattr() 函数获得当前终端属性 tty (struct termios 结构体)
+
+	3. 设置 tty.c_cflag 和 tty.c_cc[] 的参数配置。
+
+	4. 设置 tty.c_iflag 和 tty.c_oflag 以及 tty.c_lflag 参数配置。
+
+	5. 调用 tcsetattr() 和 tcflush() 完成设置终端属性的操作。
+
+	6. 调用 close(fd) 关闭终端设备文件。
+ *
  */
 static
 void console_stty(void)
@@ -813,6 +1473,25 @@ void console_stty(void)
 /*
  *	Print to the system console
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 打印调试或者运行时提示信息到当前的终端
+ */
 void print(char *s)
 {
 	int fd;
@@ -825,6 +1504,25 @@ void print(char *s)
 
 /*
  *	Log something to a logfile and the console.
+ */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该函数用于 init 进程执行过程中，输出相关调试信息和写入运行情况到日志文件
  */
 #ifdef __GNUC__
 __attribute__ ((format (printf, 2, 3)))
@@ -839,7 +1537,6 @@ void initlog(int loglevel, char *s, ...)
 	vsnprintf(buf, sizeof(buf), s, va_alist);
 	va_end(va_alist);
 
-	printf("<mydbug> log buf = %s\n", buf);
 	if (loglevel & L_SY) {
 		/*
 		 *	Re-establish connection with syslogd every time.
@@ -856,8 +1553,7 @@ void initlog(int loglevel, char *s, ...)
 	/*
 	 *	And log to the console.
 	 */
-//	if (loglevel & L_CO) 
-	{
+	if (loglevel & L_CO) {
 		print("\rINIT: ");
 		print(buf);
 		print("\r\n");
@@ -867,6 +1563,25 @@ void initlog(int loglevel, char *s, ...)
 
 /*
  *	Build a new environment for execve().
+ */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该函数主要用于为 execve() 系统调用，初始化环境变量 RUNLEVEL, PRELEVEL, SHELL, CONSOLE 等
  */
 char **init_buildenv(int child)
 {
@@ -908,7 +1623,25 @@ char **init_buildenv(int child)
 	return e;
 }
 
-
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该函数主要释放 init_buildenv() 函数创建的指针数组和内存空间
+ */
 void init_freeenv(char **e)
 {
 	int		n;
@@ -925,6 +1658,38 @@ void init_freeenv(char **e)
  *	This function is too long and indents too deep.
  *
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 调用 fork 和 execp 来启动子进程。这个函数非常长，但基本上是属于最底层的函数了。
+ *
+ * @details 函数执行流程分析：
+
+	1. spawn 整个程序比较长，从927-1192行约有270多行。整个代码逻辑以 fork 调用为分界线，可以分为2个部分。前面部分主要完成启动前的准备工作，后面通过 fork 和 execp 来实际创建出子进程执行 CHILD 节点上规定的程序。
+
+	2. 先分析第一部分。这部分代码主要处理三种情况，1是action 为“RESPAWN”与“ONDEMAND”类型的命令；2是 /etc/initscript 初始化脚本为后继 execp 调用准备参数。
+
+	3. 第二部分进入到一个无限循环中，以便确保能够成功创建出子进程。在调用 fork 创建出 init 的子进程之后，init 的这个子进程将按照 daemon 进程的方式工作，包括需要关闭0，1，2打开文件。也就是说，真正用来创建用户子进程的，不是 pid = 1 的那个原始进程，而是原始进程的子进程再通过一个 fork 和 execp 才能够实现执行真正的用户程序。
+
+	4. 第2次执行 fork 之后，由子进程调用 execp 来完成加载用户程序，而父进程通过调用 waitpid 来等待子进程的结束。
+
+	5. 上述步骤完成之后，父进程又会创建出一个临时的子进程，来完成 setsid() 和 ioctl(f, TIOCSCTTY, 1) 这2个函数调用，来分配一个控制终端，创建一个新的会话，失去原有的控制终端的所有联系。
+ *
+ */
 static
 pid_t spawn(CHILD *ch, int *res)
 {
@@ -938,6 +1703,9 @@ pid_t spawn(CHILD *ch, int *res)
   pid_t pid, pgrp;		/* child, console process group. */
   sigset_t nmask, omask;	/* For blocking SIGCHLD */
   struct sigaction sa;
+
+  INITDBG(L_VB, "spawn: %s (pid=%d)\n", ch->process, ch->pid);
+  return 0;
 
   *res = -1;
   buf[sizeof(buf) - 1] = 0;
@@ -1041,9 +1809,11 @@ pid_t spawn(CHILD *ch, int *res)
 
 	if ((pid = fork()) == 0) {
 
+#if 0
 		close(0);
 		close(1);
 		close(2);
+#endif
 		if (pipe_fd >= 0) close(pipe_fd);
 
   		sigprocmask(SIG_SETMASK, &omask, NULL);
@@ -1196,6 +1966,34 @@ pid_t spawn(CHILD *ch, int *res)
 /*
  *	Start a child running!
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 执行 CHILD 节点所代表的配置行上的命令行，通常是个脚本程序。
+ *
+ * @details 函数执行流程分析：
+
+	1. 对于 CHILD *ch 节点中的 action 字段来进行判别。如果是 SYSINIT，BOOTWAIT，WAIT，POWERWAIT，POWERFAILNOW，POWEROKWAIT，CTRLALTDEL 这些情况，则设置标志为 WAITING，然后执行 spawn 函数。这个函数是完成启动子进程的真正的函数，spawn 名字的含义是产卵的意思，顾名思义就是产生后继的子进程。后面我们再对这个函数做详细分析。
+
+	2. 如果是 KBREQUEST，BOOT，POWERFAIL，ONCE 则直接退出，不进行后继的 spawn 函数调用。
+
+	3. 如果是 ONDEMAND，RESPAWN，则将 flags 设置为 RUNNING 后，立即执行 spawn 操作。
+ *
+ */
 static
 void startup(CHILD *ch)
 {
@@ -1231,6 +2029,51 @@ void startup(CHILD *ch)
 /*
  *	Read the inittab file.
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 读取 /etc/inittab 文件，解析其中的约定规则，形成一个 CHILD 链表数据结构中。
+ *
+ * @details 函数执行流程分析：
+
+	该函数中用到的重要数据结构有 CHILD (struct _child_) 和 actions 数组 (struct actions)
+
+	1. 读取 /etc/inittab 文件，按行读取，到 buf 数组中。
+
+	2. 遇到开头是空格或者TAB制表符的行，忽略直到第一个字母，如果发现是第一个字母是#开头的注释，或者\n开头的空行，都直接跳过。
+
+	3. 使用 strsep 函数，以 : 冒号作为间隔符号，依次找到 id, rlevel, action, process 这4个字段，分别代表的含义可参考下面的详细说明。同时将 action 字段中的字符串关键字转换为整型数 actionNo，方便后面的判别。
+
+	4. 检查当前的 id 字段，是否是唯一的，如果之前已经出现过，则忽略掉。
+
+	5. 通过 imalloc 函数，动态分配 CHILD 结构体节点ch，结构体的定义见上面。然后将刚才分析的结果填入结构体中，并将这个节点，添加到链表 newFamily 中。其中包括 actionNo 填入 ch->action, id 填入 ch->id, process 填入 ch->process 等。
+
+	6. 关闭 /etc/inittab 文件。
+
+	7. 接下来，查看老的启动进程列表 family，看是否有进程需要被杀死的。这里有两轮检查，第一轮会给所有没有在新的运行级别中定义的进程发送一个警告信号 SIGTERM。如果在第一轮中有这样的进程，则会等待5秒，然后进入下一轮检查。在第2轮检查中，它会发送 SIGKILL 信号来强制中止所有子进程的运行。
+
+	8. 等所有子进程被杀死后，init 通过调用 write_utmp_wtmp() 来将终止信息和原因记录进这两个文件中。记录的信息包括子进程在 inittab 文件中的 id，子进程本身的 pid 等。
+
+	9. 这2个步骤7，8完成之后，init 开始清除老的 family 链表上的所有节点，释放空间。
+
+	10. 最后 init 把刚才新建成的 newFamily 链表赋值给 -> family 链表，完成重建链表的操作即结束。
+ *
+ */
+
 static
 void read_inittab(void)
 {
@@ -1265,8 +2108,7 @@ void read_inittab(void)
   /*
    *	Open INITTAB and real line by line.
    */
-  //if ((fp = fopen(INITTAB, "r")) == NULL)
-  if ((fp = fopen("./root/etc/inittab", "r")) == NULL)
+  if ((fp = fopen(INITTAB, "r")) == NULL)
 	initlog(L_VB, "No inittab file found");
 
   while(!done) {
@@ -1286,9 +2128,6 @@ void read_inittab(void)
 			continue;
 	}
 	lineNo++;
-
-#define debug(x)	printf("<mydebug> " #x " = %s\n", x);
-	debug(buf);
 	/*
 	 *	Skip comments and empty lines
 	 */
@@ -1304,10 +2143,6 @@ void read_inittab(void)
 	action =  strsep(&p, ":");
 	process = strsep(&p, "\n");
 
-	debug(id);
-	debug(rlevel);
-	debug(action);
-	debug(process);
 	/*
 	 *	Check if syntax is OK. Be very verbose here, to
 	 *	avoid newbie postings on comp.os.linux.setup :)
@@ -1382,8 +2217,6 @@ void read_inittab(void)
 		if (ISPOWER(ch->action))
 			strcpy(ch->rlevel, "S0123456789");
 	}
-	debug(ch->id);
-	debug(ch->process);
 	/*
 	 *	We have the fake runlevel '#' for SYSINIT  and
 	 *	'*' for BOOT and BOOTWAIT.
@@ -1622,13 +2455,45 @@ void read_inittab(void)
  *	The entries that do not belong here at all are removed
  *	from the list.
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 遍历 family 链表，调用 startup 启动链表上的子进程。
+ *
+ * @details 函数执行流程分析：
+
+	1. 从 family 链表的表头开始遍历该链表，根据每一个节点 ch 的 flags 标志来进行判别。
+
+	2. 如果当前节点 flags 表示 WAITING, 则说明正在等待，之前的工作未完成，立即退出该函数。
+
+	3. 如果当前节点 flags 表示 RUNNING, 则对这个正在运行的进程不做任何操作，继续下一个。
+
+	4. 如果当前节点的运行级别正好是当前 init 运行级别，则调用 startup 函数启动这个进程。
+
+	5. 如果当前节点不属于在当前运行级别中运行的程序，则将节点 flags 设置为 ~(RUNNING | WAITING) 表示不是运行中，也不是等待中。
+ *
+ */
+
 static
 void start_if_needed(void)
 {
 	CHILD *ch;		/* Pointer to child */
 	int delete;		/* Delete this entry from list? */
 
-	printf("enter start if needed\n");
 	INITDBG(L_VB, "Checking for children to start");
 
 	for(ch = family; ch; ch = ch->next) {
@@ -1669,6 +2534,26 @@ void start_if_needed(void)
 /*
  *	Ask the user on the console for a runlevel
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该全局变量是保存当次 init 进程启动时的 runlevel 
+ */
+
 static
 int ask_runlevel(void)
 {
@@ -1698,6 +2583,39 @@ int ask_runlevel(void)
  *	Search the INITTAB file for the 'initdefault' field, with the default
  *	runlevel. If this fails, ask the user to supply a runlevel.
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 查找 /etc/inittab 文件中的 initdefault 默认运行级别，如果有则返回，如果没有则请用户输入。
+ *
+ * @details 函数执行流程分析：
+
+	1. 实际上这个函数是从 family 链表中遍历，取出每一个节点 ch
+
+	2. 如果 ch->action == INITDEFAULT ，则将当前 ch 的运行级别赋值给 lvl
+
+	3. 判断如果 lvl 是小写，则转换为大写。并且对 lvl 进行判别，看它是否属于 “0123456789S“ 的其中之一。
+
+	4. 如果从文件中得到的 lvl 正确，则返回 lvl; 
+
+	5. 如果从文件中无法得到正确的 lvl，则调用 ask_runlevel() 函数返回。这个函数中会通过终端来询问用户，并要求用户输入一个默认运行级别。
+ *
+ */
+
 static
 int get_init_default(void)
 {
@@ -1862,6 +2780,38 @@ int read_level(int arg)
  *	longer than 5 minutes, or inittab was read again due
  *	to user interaction.
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 在每次信号处理完成之后，遍历 family 链表检查每个节点的状态
+ *
+ * @details 函数执行流程分析：
+
+	1. 首先调用 time(&t) 获得系统时间。
+
+	2. 从 family 链表头开始，遍历整个链表，直到结束。 
+
+	3. 检查每一个节点 ch 的 flags 是否表示 FAILING
+
+	4. 如果是，并且这个进程已经睡眠 sleep 了至少5分钟，则会清除掉  flags 中的 FAILING 标识位。
+
+	5. 如果不是，则设置下一次 alarm 的时间为这个进程 sleep 的时间加上 5 分钟。
+ *
+ */
 static
 void fail_check(void)
 {
@@ -1895,6 +2845,25 @@ void fail_check(void)
 }
 
 /* Set all 'Fail' timers to 0 */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 通知每一个正在运行的进程，设置 'Fail' 定时器为 0
+ */
 static
 void fail_cancel(void)
 {
@@ -1909,6 +2878,25 @@ void fail_cancel(void)
 
 /*
  *	Start up powerfail entries.
+ */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 通知每一个正在运行的进程，设置 powerwait 和 powerfail 标志位
  */
 static
 void do_power_fail(int pwrstat)
@@ -1944,6 +2932,25 @@ void do_power_fail(int pwrstat)
 /*
  *	Check for state-pipe presence
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 检查 state pipe 是否存在，如果存在则从 pipe 中读取 sinature 签名，并验证签名。
+ */
 static
 int check_pipe(int fd)
 {
@@ -1965,6 +2972,25 @@ int check_pipe(int fd)
 /*
  *	 Make a state-pipe.
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 创建一个用于通信的 STATE_PIPE，用传入的 fd 参数表示管道的读端，返回值是管道的写端。
+ */
 static
 int make_pipe(int fd)
 {
@@ -1982,6 +3008,34 @@ int make_pipe(int fd)
 
 /*
  *	Attempt to re-exec.
+ */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 强制 init 程序重新执行。
+ *
+ * @details 函数执行流程分析：
+	
+	1. 该函数会创建 STATE_PIPE，并向 STATE_PIPE 写入 Signature = "12567362"
+
+	2. 接着fork()出一个子进程，通过子进程调用 send_state() 向 STATE_PIPE 写入父进程（当前init进程）的状态信息；
+
+	3. 然后父进程调用 execle() 重新执行 init 程序，并且传递参数“--init”, 也就是强制init重新执行。而这个重新执行的 init 进程，无需做初始化读取 /etc/inittab 就能调用 init_main()。
+ *
  */
 static
 void re_exec(void)
@@ -2058,6 +3112,25 @@ void re_exec(void)
  *	Redo utmp/wtmp entries if required or requested
  *	Check for written records and size of utmp
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 检查已经写入 utmp/wtmp 的记录，包括 utmp 的大小。再写入一条 reboot 或者 runlevel 的记录。
+ */
 static
 void redo_utmp_wtmp(void)
 {
@@ -2077,6 +3150,34 @@ void redo_utmp_wtmp(void)
 /*
  *	We got a change runlevel request through the
  *	init.fifo. Process it.
+ */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 真正完成改变 runlevel 的 request 请求，目标为传入参数 level，通过重新读取 inittab 文件来启动与新 runlevel 匹配的命令脚本。
+ *
+ * @details 函数执行流程分析：
+
+	1. 如果传入参数 level 和当前的 runlevel 运行级别一致，则无需修改直接返回。
+
+	2. 如果新的 runlevel = 'U'，则通过调用 re_exec() 来执行改变 runlevel 的操作。
+
+	3. 如果新的 runlevel ！= 'U'，则通过调用 read_inittab() 来重新生成 family 链表。
+ *
  */
 static
 void fifo_new_level(int level)
@@ -2118,6 +3219,25 @@ void fifo_new_level(int level)
  *	Set/unset environment variables. The variables are
  *	encoded as KEY=VAL\0KEY=VAL\0\0. With "=VAL" it means
  *	setenv, without it means unsetenv.
+ */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 设置或取消环境变量，类似 KEY=VAL 表示设置 如果没有 =VAL 表示取消
  */
 static
 void initcmd_setenv(char *data, int size)
@@ -2177,6 +3297,48 @@ void initcmd_setenv(char *data, int size)
  *		the 2.2 kernel credential stuff to see who we're talking to.
  *	
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 主要用于 init daemon 程序中，通过 select 函数监听来自于 /dev/initctl 管道的请求 request，分析并执行该请求 request。
+ *
+ * @details 函数执行流程分析：
+
+	1. 如果 /etc/initctl 管道不存在，则创建这个管道，并设置权限 0600，只允许 root 用户读写。
+
+	2. 如果管道已经打开，则比较该管道是否是最初原始打开的管道。如果不是，则关闭后，重新打开。
+
+	3. 以读写+非阻塞方式打开管道，并且使用 dup2 将采用 PIPE_FD = 10 来使用管道，而不使用 0，1，2
+
+	4. 使用 select 调用在该管道上等待来自于 init N 的切换运行级别的请求 request
+
+	5. 一旦有来自这个管道的 request ，则检查这个 request 数据的合法性
+
+	6. 对于输入正确的 request 请求，则分析是什么请求，并判断要采取什么动作。
+	
+	7. 请求包括进行 
+		INIT_CMD_RUNLVL （runlevel 的切换） -> 调用 fifo_new_level()
+		INIT_CMD_POWERFAIL
+		INIT_CMD_POWERFAILNOW
+		INIT_CMD_POWEROK (以上三个请求都是和电源事件有关)  -> 调用 do_power_fail()
+		INIT_CMD_SETENV (设置环境变量) -> 调用 initcmd_setenv()
+ *
+ */
+
 static
 void check_init_fifo(void)
 {
@@ -2249,6 +3411,7 @@ void check_init_fifo(void)
 
 	/* Read the data, return on EINTR. */
 	n = read(pipe_fd, &request, sizeof(request));
+	printf("read fifo %d bytes\n", n);
 	if (n == 0) {
 		/*
 		 *	End of file. This can't happen under Linux (because
@@ -2274,10 +3437,16 @@ void check_init_fifo(void)
 	/*
 	 *	Process request.
 	 */
+	printf("request size need to be = %d\n", sizeof(request));
+	printf("request.magic = %x, should be %x\n", request.magic, INIT_MAGIC);
 	if (request.magic != INIT_MAGIC || n != sizeof(request)) {
 		initlog(L_VB, "got bogus initrequest");
+		printf("request to be = %d\n", sizeof(request));
 		continue;
 	}
+	
+	initlog(L_VB, "request: %d, runlevel: %c\n", request.cmd, request.runlevel);
+	printf("request: %d, runlevel: %c\n", request.cmd, request.runlevel);
 	switch(request.cmd) {
 		case INIT_CMD_RUNLVL:
 			sltime = request.sleeptime;
@@ -2320,6 +3489,41 @@ void check_init_fifo(void)
  *	This function is used in the transition
  *	sysinit (-> single user) boot -> multi-user.
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 实现一个启动过程中所需要的状态机，完成状态的迁移。
+ *
+ * @details 函数执行流程分析：
+
+	1. 以 runlevel 代表状态，如果当前 runlevel = '#' 状态开始，系统进入 SYSINIT -> BOOT 的转变。
+
+	2. 如果在 read_inittab 时从文件中获得了 def_level,则直接用这个变量的值，否则通过 get_init_default() 得到的是默认的运行级别并赋值给 newlevel
+
+	3. 如果 newlevel 是 'S', 则下一个状态为 'S'，否则下一个状态设为 '*'
+
+	4. 如果当前 runlevel 是 '*'，则系统从 BOOT -> NORMAL。
+
+	5. 如果当前 runlevel 是 'S'，则代表着 SU 模式已经结束，重新调用 get_init_default() 得到新的运行级别 newlevel.
+
+	6. 将本次状态变迁的信息写入日志 write_utmp_wtmp()
+ *
+ */
+
 static
 void boot_transitions()
 {
@@ -2405,6 +3609,44 @@ void boot_transitions()
 /*
  *	Init got hit by a signal. See which signal it is,
  *	and act accordingly.
+ */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 根据全局变量 got_signals 中哪些标志位被设置了，获得信号类型，进行相应的处理。
+ *
+ * @details 函数执行流程分析：
+
+	程序执行逻辑很简单，就是依次判别 ISMEMBER(got_signals, SIGXXXX) 对于以下信号进行相应处理。
+
+	1. SIGPWR 信号 -> do_power_fail()
+
+	2. SIGINT 信号 -> 通知 ctrlaltdel 入口启动
+
+	3. SIGWINCH 信号 -> 通知 KBREQUEST 入口启动
+
+	4. SIGALRM 信号 -> 定时器到时，忽略
+
+	5. SIGCHLD 信号 -> 查看是哪个子进程结束，调用 write_utmp_wtmp() 写入日志
+
+	6. SIGHUP 信号 -> 是否在等待子进程，进行 runlevel 切换
+
+	7. SIGUSR1 信号 -> 这个信号代表要求关闭然后重新打开 /dev/initctl
+ *
  */
 static
 void process_signals()
@@ -2526,61 +3768,63 @@ void process_signals()
 /*
  *	The main loop
  */ 
-/**                                                                
- * @attention 本注释得到了"核高基"科技重大专项2012年课题
- *             “开源操作系统内核分析和安全性评估
- *            （课题编号：2012ZX01039-004）”的资助。
- *                                                                      
- * @copyright 注释添加单位：清华大学——03任务
- *            （Linux内核相关通用基础软件包分析）
- *                                                                        
- * @author 注释添加人员： 李明
- *             (电子邮件 <limingth@gmail.com>)
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
  *                                                                    
- * @date 注释添加日期： 2013-6-1
- *                                                                   
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
  * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
  *
  * @brief 切换运行级别，检查出错情况，接受信号，启动相应服务例程。
  *
-	 1. 调用 init_reboot 宏定义（其实就是 reboot 函数）告诉内核，当 ctrl + alt + del 三个键被同时按下时，给当前进程发送 SIGINT 信号，以便 init 进程可以处理来自键盘的这一信号，进一步决定采取何种动作。
+	1. 调用 init_reboot 宏定义（其实就是 reboot 函数）告诉内核，当 ctrl + alt + del 三个键被同时按下时，给当前进程发送 SIGINT 信号，以便 init 进程可以处理来自键盘的这一信号，进一步决定采取何种动作。
 
-	 2. 接下来将会安装一些信号处理函数。如下：
+	2. 接下来将会安装一些信号处理函数。如下：
 
-	 signal_handler(),处理SIGALRM，SIGHUP，SIGINT，SIGPWR，SIGWINCH，SIGUSR1
-	 chld_handler()，处理SIGCHLD
-	 stop_handler()，处理SIGSTOP，SIGTSTP
-	 cont_handler()，处理SIGCONT
-	 segv_handler()，处理SIGSEGV
+	signal_handler(),处理SIGALRM，SIGHUP，SIGINT，SIGPWR，SIGWINCH，SIGUSR1
+	chld_handler()，处理SIGCHLD
+	stop_handler()，处理SIGSTOP，SIGTSTP
+	cont_handler()，处理SIGCONT
+	segv_handler()，处理SIGSEGV
 
-	 3. 然后初始化终端，调用 console_init 函数。这个函数我们在下面也会再次详细分析。
+	3. 然后初始化终端，调用 console_init 函数。这个函数我们在下面也会再次详细分析。
 
-	 4. 终端初始化完成后，接着对 reload 这个变量进行判别，是否属于是首次执行？ 
+	4. 终端初始化完成后，接着对 reload 这个变量进行判别，是否属于是首次执行？ 
 
-	 5. 如果是首次执行，则依次执行下列步骤：
-	 5.1 关闭所有打开文件0，1，2，
-	 5.2 然后调用 console_stty() 函数对终端进行设置，主要是通过 tcsetattr() 函数来设置一些快捷键。
-	 5.3 以覆盖 overwrite 方式设置 PATH 环境变量，通过 PATH_DEFAULT 宏定义，默认值是  "/sbin:/usr/sbin:/bin:/usr/bin"
-	 5.4 初始化 /var/run/utmp 文件。通过日志输出 booting 信息
-	 5.5 如果 emerg_shell 被设置（参数中有-b或者emergency），表示需要启动 emergency shell，则通过调用 spawn()初始化 emergency shell 子进程，并等待该子进程退出。
-	 5.6 设置当前的 runlevel = '#', 表示这是正常的 Kernel 首次启动 init 的方式 SYSINIT。
-	 5.7 当从 emergency shell退出（或者不需要 emergency shell 的话），则调用 read_inittab() 来读入 /etc/inittab 文件。该函数主要将 /etc/inittab 文件解析的结果存入CHILD类型的链表family上，供之后的执行使用。
+	5. 如果是首次执行，则依次执行下列步骤：
+		5.1 关闭所有打开文件0，1，2，
+		5.2 然后调用 console_stty() 函数对终端进行设置，主要是通过 tcsetattr() 函数来设置一些快捷键。
+		5.3 以覆盖 overwrite 方式设置 PATH 环境变量，通过 PATH_DEFAULT 宏定义，默认值是  "/sbin:/usr/sbin:/bin:/usr/bin"
+		5.4 初始化 /var/run/utmp 文件。通过日志输出 booting 信息
+		5.5 如果 emerg_shell 被设置（参数中有-b或者emergency），表示需要启动 emergency shell，则通过调用 spawn()初始化 emergency shell 子进程，并等待该子进程退出。
+		5.6 设置当前的 runlevel = '#', 表示这是正常的 Kernel 首次启动 init 的方式 SYSINIT。
+		5.7 当从 emergency shell退出（或者不需要 emergency shell 的话），则调用 read_inittab() 来读入 /etc/inittab 文件。该函数主要将 /etc/inittab 文件解析的结果存入CHILD类型的链表family上，供之后的执行使用。
 
-	 6. 如果不是首次执行，也就是 reload 为真，则只执行下列步骤：
-	 6.1 通过日志输出 reloading 信息
-	 6.2 以非覆盖 non overwrite 方式设置 PATH 环境变量，通过 PATH_DEFAULT 宏定义，默认值是  "/sbin:/usr/sbin:/bin:/usr/bin"
+	6. 如果不是首次执行，也就是 reload 为真，则只执行下列步骤：
+		6.1 通过日志输出 reloading 信息
+		6.2 以非覆盖 non overwrite 方式设置 PATH 环境变量，通过 PATH_DEFAULT 宏定义，默认值是  "/sbin:/usr/sbin:/bin:/usr/bin"
 
-	 7. 5或者6执行完之后，调用 start_if_needed() 函数，启动需要在相应运行级别中运行的程序和服务。而该函数主要又是通过调用startup()函数，继而调用spawn()来启动程序或者服务的运行的。
+	7. 5或者6执行完之后，调用 start_if_needed() 函数，启动需要在相应运行级别中运行的程序和服务。而该函数主要又是通过调用startup()函数，继而调用spawn()来启动程序或者服务的运行的。
 
-	 8. 在此之后，init_main() 就进入一个主循环中，主要完成切换运行级别，检查出错情况，接受信号，启动相应服务例程。
-	 在这个主循环中，需要调用如下这些重要的函数：
+	8. 在此之后，init_main() 就进入一个主循环中，主要完成切换运行级别，检查出错情况，接受信号，启动相应服务例程。
+	在这个主循环中，需要调用如下这些重要的函数：
 
-	 boot_transitions() -> get_init_default() -> ask_runlevel()
-	 check_init_fifo() -> console_init()
-	 fail_check()
-	 process_signals() -> console_stty()
-	 start_if_needed() -> startup() -> spawn()
-	 *
+		boot_transitions() -> get_init_default() -> ask_runlevel()
+		check_init_fifo() -> console_init()
+		fail_check()
+		process_signals() -> console_stty()
+		start_if_needed() -> startup() -> spawn()
+
  */
 static
 void init_main(void)
@@ -2590,13 +3834,9 @@ void init_main(void)
   sigset_t		sgt;
   int			f, st;
 
-  printf("<mydebug> init_main()\n");
-
   if (!reload) {
   
 #if INITDEBUG
-#error 1
-/* #error err1 */
 	/*
 	 * Fork so we can debug the init process.
 	 */
@@ -2645,23 +3885,18 @@ void init_main(void)
   SETSIG(sa, SIGSEGV,  (void (*)(int))segv_handler, SA_RESTART);
 
   console_init();
-  printf("<mydebug> console init ok\n");
 
   if (!reload) {
 	int fd;
-	  printf("<mydebug> reload = %d \n", reload);
 
   	/* Close whatever files are open, and reset the console. */
+#if 0
 	close(0);
-	  printf("<mydebug> 0 \n");
-//	close(1);
-	  printf("<mydebug> 1 \n");
-//	close(2);
-	  printf("<mydebug> 2 \n");
+	close(1);
+	close(2);
+#endif
   	console_stty();
-	  printf("<mydebug> reload = %d \n", reload);
   	setsid();
-	  printf("<mydebug> reload = %d \n", reload);
 
   	/*
 	 *	Set default PATH variable.
@@ -2698,12 +3933,9 @@ void init_main(void)
 	 *	Start normal boot procedure.
 	 */
   	runlevel = '#';
-	printf("<mydbug> begin to read_inittab()\n");
   	read_inittab();
   
   } else {
-	  printf("<mydebug> reload = %d \n", reload);
-	  exit(0);
 	/*
 	 *	Restart: unblock signals and let the show go on
 	 */
@@ -2716,13 +3948,10 @@ void init_main(void)
 	 */
   	setenv("PATH", PATH_DEFAULT, 0 /* Don't overwrite */);
   }
-
-	printf("<mydbug> begin to start_if_needed ()\n");
   start_if_needed();
 
   while(1) {
 
-	printf("<mydbug> while () boot_transistions()\n");
      /* See if we need to make the boot transitions. */
      boot_transitions();
      INITDBG(L_VB, "init_main: waiting..");
@@ -2753,13 +3982,31 @@ void init_main(void)
 
      /* See what we need to start up (again) */
      start_if_needed();
-	printf("<mydbug> while () start_if_needed ()\n");
   }
   /*NOTREACHED*/
 }
 
 /*
  * Tell the user about the syntax we expect.
+ */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 通过 fprintf() 函数，向标准出错 stderr 打印该条命令的用户使用帮助信息
  */
 static
 void usage(char *s)
@@ -2768,6 +4015,28 @@ void usage(char *s)
 	exit(1);
 }
 
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 通过 /etc/initctl 管道向 init 进程发送控制命令
+ *
+ * @details 在执行 telinit 函数时，实际上是通过向INIT_FIFO（/dev/initctl）写入命令的方式，通知 init 执行相应的操作。Telinit()根据不同请求，构造如下结构体类型的变量并向INIT_FIFO（/dev/initctl）写入该请求来完成其使命
+ *
+ */
 static
 int telinit(char *progname, int argc, char **argv)
 {
@@ -2833,6 +4102,7 @@ int telinit(char *progname, int argc, char **argv)
 		void *ptr = &request;
 
 		while (s > 0) {
+			INITDBG(L_VB, "write to INIT_FIFO\n");
 			p = write(fd, ptr, s);
 			if (p < 0) {
 				if (errno == EINTR || errno == EAGAIN)
@@ -2880,20 +4150,22 @@ int telinit(char *progname, int argc, char **argv)
 /*
  * Main entry for init and telinit.
  */
-/**                                                                
- * @attention 本注释得到了"核高基"科技重大专项2012年课题
- *             “开源操作系统内核分析和安全性评估
- *            （课题编号：2012ZX01039-004）”的资助。
- *                                                                      
- * @copyright 注释添加单位：清华大学——03任务
- *            （Linux内核相关通用基础软件包分析）
- *                                                                        
- * @author 注释添加人员： 李明
- *             (电子邮件 <limingth@gmail.com>)
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
  *                                                                    
- * @date 注释添加日期： 2013-6-1
- *                                                                   
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
  * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
  *
  * @brief init 命令的主函数执行流程分析
  *
@@ -2934,7 +4206,6 @@ int main(int argc, char **argv)
 	/* Common umask */
 	umask(022);
 
-#if 0
 	/* Quick check */
 	if (geteuid() != 0) {
 		fprintf(stderr, "%s: must be superuser.\n", p);
@@ -2952,7 +4223,7 @@ int main(int argc, char **argv)
 		}
 	}
 	if (!isinit) exit(telinit(p, argc, argv));
-#endif
+
 	/*
 	 *	Check for re-exec
 	 */ 	
@@ -3015,9 +4286,6 @@ int main(int argc, char **argv)
 	argv0 = argv[0];
 	argv[1] = NULL;
 	setproctitle("init boot");
-
-	printf("<mydbug> begin to call init_main\n");
-	//exit(0);
 	init_main();
 
 	/*NOTREACHED*/

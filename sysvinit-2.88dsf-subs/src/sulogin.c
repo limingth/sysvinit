@@ -236,6 +236,38 @@ void set(char **var, char *val)
 /*
  *	Get the root password entry.
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 获得根用户 root 的密码
+ *
+ * @details 函数执行流程分析：
+
+	1. 首先通过标准的方法，使用普通库函数 getpwnam() 和 getspnam() 来获得密码，如果能找到则返回 pw
+
+	2. 如果找不到，则接下来尝试通过读取 passwd 和 shadow 文件手工来分析。
+
+	3. 读取 /etc/passwd 找到 root: 字符串开头的那行,如果没有这一行，则返回 root 密码为空
+
+	4. 如果有则调用 valid() 函数进行验证，验证成功，则返回 &pwd
+
+	5. 验证不成功，再检查 /etc/shadow 文件，如果有则返回 &pwd，如果没有则返回 空串。
+ *
+ */
 static
 struct passwd *getrootpwent(int try_manually)
 {
@@ -339,6 +371,38 @@ struct passwd *getrootpwent(int try_manually)
  *	Ask for the password. Note that there is no
  *	default timeout as we normally skip this during boot.
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 从标准输入获得用户输入的密码
+ *
+ * @details 函数执行流程分析：
+
+	1. 打印提示信息，要求用户输入密码
+
+	2. 修改终端属性，不进行回显 NO echo
+
+	3. 注册信号 SIGALRM 的处理函数，以便能够超时处理
+
+	4. 从标准输入读取用户输入的密码字符串，存放在静态变量 static char pass[128] 数组中
+
+	5. 修改终端属性，恢复回显功能 echo，返回数组首地址
+ *
+ */
 static
 char *getpasswd(char *crypted)
 {
@@ -392,6 +456,38 @@ char *getpasswd(char *crypted)
 
 /*
  *	Password was OK, execute a shell.
+ */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 当用户的密码验证通过后，启动一个shell （由环境变量SUSHELL指定）
+ *
+ * @details 函数执行流程分析：
+	
+	1. 调用 chdir 改变根目录
+
+	2. 调用 getenv 获取环境变量 SUSHELL 的值，并赋值给 sushell 指针
+
+	3. 设置一些环境变量 HOME，LOGNAME，USER 的值
+
+	4. 安装一些信号处理函数 SIGINT，SIGTSTP，SIGQUIT
+
+	5. 调用 execl 来执行 sushell 命令，如果失败，则依次执行 /bin/sh,/bin/sash
+ *
  */
 static
 void sushell(struct passwd *pwd)
@@ -467,6 +563,25 @@ void sushell(struct passwd *pwd)
 	perror(STATICSH);
 }
 
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 通过 fprintf() 函数，向标准出错 stderr 打印该条命令的用户使用帮助信息
+ */
 static
 void usage(void)
 {
@@ -501,11 +616,12 @@ int main(int argc, char **argv)
 			/* Do not exit! */
 			break;
 	}
-
+#if 0
 	if (geteuid() != 0) {
 		fprintf(stderr, "sulogin: only root can run sulogin.\n");
 		exit(1);
 	}
+#endif
 
 	/*
 	 *	See if we need to open an other tty device.
@@ -586,6 +702,7 @@ int main(int argc, char **argv)
 		sleep(2);
 	}
 
+	sushell(pwd);
 	/*
 	 *	Ask for the password.
 	 */

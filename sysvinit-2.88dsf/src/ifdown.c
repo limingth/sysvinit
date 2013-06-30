@@ -43,6 +43,7 @@ char *v_ifdown = "@(#)ifdown.c  1.11  02-Jun-1998  miquels@cistron.nl";
  *	shaper driver says "if you down the shaper device before the
  *	attached inerface your computer will follow".
  */
+// ifdown.cmt
 int ifdown(void)
 {
 	struct ifreq ifr[MAX_IFS];

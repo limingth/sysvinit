@@ -65,6 +65,7 @@ int tty_in_ttygrp(struct stat *st)
 	return 1;
 }
 
+// mesg-main.cmt
 int main(int argc, char **argv)
 {
 	struct stat	st;

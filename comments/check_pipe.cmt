@@ -1,0 +1,3 @@
+/*
+ * @brief 检查 state pipe 是否存在，如果存在则从 pipe 中读取 sinature 签名，并验证签名。
+ */

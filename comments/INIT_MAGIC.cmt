@@ -1,0 +1,4 @@
+/*
+ * @brief 通过 INIT_FIFO 传送的请求 request 包，都需要有一个 magic number 开头，作为后面数据正确的说明凭证
+ */
+

@@ -1,0 +1,12 @@
+/*
+ * @brief 强制 init 程序重新执行。
+ *
+ * @details 函数执行流程分析：
+	
+	1. 该函数会创建 STATE_PIPE，并向 STATE_PIPE 写入 Signature = "12567362"
+
+	2. 接着fork()出一个子进程，通过子进程调用 send_state() 向 STATE_PIPE 写入父进程（当前init进程）的状态信息；
+
+	3. 然后父进程调用 execle() 重新执行 init 程序，并且传递参数“--init”, 也就是强制init重新执行。而这个重新执行的 init 进程，无需做初始化读取 /etc/inittab 就能调用 init_main()。
+ *
+ */

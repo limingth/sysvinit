@@ -1,0 +1,3 @@
+/*
+ * @brief 对给定的 IDE/SCSI/SATA 硬盘，设置为 standby 模式
+ */

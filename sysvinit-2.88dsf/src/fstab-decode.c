@@ -69,6 +69,7 @@ decode(char *s)
 	*dest = '\0';
 }
 
+// fstab-decode-main.cmt
 int
 main (int argc, char *argv[])
 {

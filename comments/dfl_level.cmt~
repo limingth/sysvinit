@@ -1,0 +1,4 @@
+/*
+ * @brief 该全局变量是保存从 inittab 文件中获得的默认 runlevel 
+ */
+

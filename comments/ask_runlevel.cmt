@@ -1,0 +1,3 @@
+/*
+ * @brief 询问用户需要进入的新的 runlevel 是多少，并将该新的 runlevel 返回
+ */

@@ -1,42 +1,42 @@
 /*
  * @brief 切换运行级别，检查出错情况，接受信号，启动相应服务例程。
  *
-	 1. 调用 init_reboot 宏定义（其实就是 reboot 函数）告诉内核，当 ctrl + alt + del 三个键被同时按下时，给当前进程发送 SIGINT 信号，以便 init 进程可以处理来自键盘的这一信号，进一步决定采取何种动作。
+	1. 调用 init_reboot 宏定义（其实就是 reboot 函数）告诉内核，当 ctrl + alt + del 三个键被同时按下时，给当前进程发送 SIGINT 信号，以便 init 进程可以处理来自键盘的这一信号，进一步决定采取何种动作。
 
-	 2. 接下来将会安装一些信号处理函数。如下：
+	2. 接下来将会安装一些信号处理函数。如下：
 
-	 signal_handler(),处理SIGALRM，SIGHUP，SIGINT，SIGPWR，SIGWINCH，SIGUSR1
-	 chld_handler()，处理SIGCHLD
-	 stop_handler()，处理SIGSTOP，SIGTSTP
-	 cont_handler()，处理SIGCONT
-	 segv_handler()，处理SIGSEGV
+	signal_handler(),处理SIGALRM，SIGHUP，SIGINT，SIGPWR，SIGWINCH，SIGUSR1
+	chld_handler()，处理SIGCHLD
+	stop_handler()，处理SIGSTOP，SIGTSTP
+	cont_handler()，处理SIGCONT
+	segv_handler()，处理SIGSEGV
 
-	 3. 然后初始化终端，调用 console_init 函数。这个函数我们在下面也会再次详细分析。
+	3. 然后初始化终端，调用 console_init 函数。这个函数我们在下面也会再次详细分析。
 
-	 4. 终端初始化完成后，接着对 reload 这个变量进行判别，是否属于是首次执行？ 
+	4. 终端初始化完成后，接着对 reload 这个变量进行判别，是否属于是首次执行？ 
 
-	 5. 如果是首次执行，则依次执行下列步骤：
-	 5.1 关闭所有打开文件0，1，2，
-	 5.2 然后调用 console_stty() 函数对终端进行设置，主要是通过 tcsetattr() 函数来设置一些快捷键。
-	 5.3 以覆盖 overwrite 方式设置 PATH 环境变量，通过 PATH_DEFAULT 宏定义，默认值是  "/sbin:/usr/sbin:/bin:/usr/bin"
-	 5.4 初始化 /var/run/utmp 文件。通过日志输出 booting 信息
-	 5.5 如果 emerg_shell 被设置（参数中有-b或者emergency），表示需要启动 emergency shell，则通过调用 spawn()初始化 emergency shell 子进程，并等待该子进程退出。
-	 5.6 设置当前的 runlevel = '#', 表示这是正常的 Kernel 首次启动 init 的方式 SYSINIT。
-	 5.7 当从 emergency shell退出（或者不需要 emergency shell 的话），则调用 read_inittab() 来读入 /etc/inittab 文件。该函数主要将 /etc/inittab 文件解析的结果存入CHILD类型的链表family上，供之后的执行使用。
+	5. 如果是首次执行，则依次执行下列步骤：
+		5.1 关闭所有打开文件0，1，2，
+		5.2 然后调用 console_stty() 函数对终端进行设置，主要是通过 tcsetattr() 函数来设置一些快捷键。
+		5.3 以覆盖 overwrite 方式设置 PATH 环境变量，通过 PATH_DEFAULT 宏定义，默认值是  "/sbin:/usr/sbin:/bin:/usr/bin"
+		5.4 初始化 /var/run/utmp 文件。通过日志输出 booting 信息
+		5.5 如果 emerg_shell 被设置（参数中有-b或者emergency），表示需要启动 emergency shell，则通过调用 spawn()初始化 emergency shell 子进程，并等待该子进程退出。
+		5.6 设置当前的 runlevel = '#', 表示这是正常的 Kernel 首次启动 init 的方式 SYSINIT。
+		5.7 当从 emergency shell退出（或者不需要 emergency shell 的话），则调用 read_inittab() 来读入 /etc/inittab 文件。该函数主要将 /etc/inittab 文件解析的结果存入CHILD类型的链表family上，供之后的执行使用。
 
-	 6. 如果不是首次执行，也就是 reload 为真，则只执行下列步骤：
-	 6.1 通过日志输出 reloading 信息
-	 6.2 以非覆盖 non overwrite 方式设置 PATH 环境变量，通过 PATH_DEFAULT 宏定义，默认值是  "/sbin:/usr/sbin:/bin:/usr/bin"
+	6. 如果不是首次执行，也就是 reload 为真，则只执行下列步骤：
+		6.1 通过日志输出 reloading 信息
+		6.2 以非覆盖 non overwrite 方式设置 PATH 环境变量，通过 PATH_DEFAULT 宏定义，默认值是  "/sbin:/usr/sbin:/bin:/usr/bin"
 
-	 7. 5或者6执行完之后，调用 start_if_needed() 函数，启动需要在相应运行级别中运行的程序和服务。而该函数主要又是通过调用startup()函数，继而调用spawn()来启动程序或者服务的运行的。
+	7. 5或者6执行完之后，调用 start_if_needed() 函数，启动需要在相应运行级别中运行的程序和服务。而该函数主要又是通过调用startup()函数，继而调用spawn()来启动程序或者服务的运行的。
 
-	 8. 在此之后，init_main() 就进入一个主循环中，主要完成切换运行级别，检查出错情况，接受信号，启动相应服务例程。
-	 在这个主循环中，需要调用如下这些重要的函数：
+	8. 在此之后，init_main() 就进入一个主循环中，主要完成切换运行级别，检查出错情况，接受信号，启动相应服务例程。
+	在这个主循环中，需要调用如下这些重要的函数：
 
-	 boot_transitions() -> get_init_default() -> ask_runlevel()
-	 check_init_fifo() -> console_init()
-	 fail_check()
-	 process_signals() -> console_stty()
-	 start_if_needed() -> startup() -> spawn()
-	 *
+		boot_transitions() -> get_init_default() -> ask_runlevel()
+		check_init_fifo() -> console_init()
+		fail_check()
+		process_signals() -> console_stty()
+		start_if_needed() -> startup() -> spawn()
+
  */

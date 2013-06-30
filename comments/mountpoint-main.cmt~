@@ -1,0 +1,21 @@
+/*
+ * @brief mountpoint 命令实现的主函数，通过比较当前目录和上一级目录的设备属性来进行判断
+ *
+ * @details mountpoint 命令详细用法
+
+   mountpoint 检查给定的目录是否是一个挂载点。
+
+	* 命令格式
+		/bin/mountpoint [-q] [-d] /path/to/directory
+	       /bin/mountpoint -x /dev/device
+
+	* 主要选项
+	       -q     Be quiet - don't print anything.
+
+	       -d     Print major/minor device number of the filesystem on stdout.
+
+	       -x     Print major/minor device number of the blockdevice on stdout.
+
+
+ *
+ */

@@ -50,5 +50,6 @@
 /* #define init_reboot(magic)	reboot(magic) */
 /* add by limingth */
 //#undef init_reboot(magic)
+// init_reboot.cmt
 #define init_reboot(magic)      printf("init_reboot: %d\n", magic)
 

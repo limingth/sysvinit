@@ -1,0 +1,12 @@
+/*
+ * @brief 设置 console_dev 变量为一个可以工作的 console
+ *
+ * @details 函数执行流程分析：
+
+	1. 获取 CONSOLE 环境变量的值，赋值给 console_dev 全局变量（ char * 类型 ）。
+
+	2. 以只读非阻塞方式打开 console_dev 所代表的设备文件。
+
+	3. 初始化成功，则关闭该设备文件；如果失败，则将 console_dev 置为 /dev/null 。
+ *
+ */

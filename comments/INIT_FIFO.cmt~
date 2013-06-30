@@ -1,0 +1,3 @@
+/*
+ * @brief 该宏定义主要用来定义系统 Deamon init 进程 和 通过 telinit 命令启动时，两者通信用的 FIFO 文件
+ */

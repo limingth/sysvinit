@@ -72,6 +72,7 @@ extern void write_wtmp(char *user, char *id, int pid, int type, char *line);
 /*
  *	Send usage message.
  */
+// usage.cmt
 void usage(void)
 {
 	fprintf(stderr, "usage: %s [-n] [-w] [-d] [-f] [-h] [-i]%s\n",
@@ -146,6 +147,7 @@ int get_runlevel(void)
 /*
  *	Switch to another runlevel.
  */
+// do_shutdown.cmt
 void do_shutdown(char *fl, char *tm)
 {
 	char *args[8];
@@ -172,6 +174,7 @@ void do_shutdown(char *fl, char *tm)
  *	Main program.
  *	Write a wtmp entry and reboot cq. halt.
  */
+// halt-main.cmt
 int main(int argc, char **argv)
 {
 	int do_reboot = 0;

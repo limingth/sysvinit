@@ -1,0 +1,3 @@
+/*
+ * @brief 该宏定义主要用来给 init 进程通过 re-exec 方式的父子进程之间用 state pipe 管道通信时的 fd 号
+ */

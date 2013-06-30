@@ -26,6 +26,7 @@
 #define CONSOLE		"/dev/console"		/* Logical system console */
 #define SECURETTY	"/etc/securetty"	/* List of root terminals */
 #define SDALLOW		"/etc/shutdown.allow"	/* Users allowed to shutdown */
+// INITTAB.cmt
 #define INITTAB		"/etc/inittab"		/* Location of inittab */
 #define INIT		"/sbin/init"		/* Location of init itself. */
 #define NOLOGIN		"/etc/nologin"		/* Stop user logging in. */

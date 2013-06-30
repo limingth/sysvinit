@@ -91,6 +91,7 @@
 #endif
 
 /* Set a signal handler. */
+// SETSIG.cmt
 #define SETSIG(sa, sig, fun, flags) \
 		do { \
 			sa.sa_handler = fun; \
@@ -108,9 +109,13 @@ char *Version = "@(#) init " VERSION "  " DATE "  miquels@cistron.nl";
 char *bootmsg = "version " VERSION " %s";
 #define E_VERSION "INIT_VERSION=sysvinit-" VERSION
 
+// family.cmt
 CHILD *family = NULL;		/* The linked list of all entries */
+
+// newfamily.cmt
 CHILD *newFamily = NULL;	/* The list after inittab re-read */
 
+// ch_emerg.cmt
 CHILD ch_emerg = {		/* Emergency shell */
 	WAITING, 0, 0, 0, 0,
 	"~~",
@@ -121,9 +126,12 @@ CHILD ch_emerg = {		/* Emergency shell */
 	NULL
 };
 
+// runlevel.cmt
 char runlevel = 'S';		/* The current run level */
 char thislevel = 'S';		/* The current runlevel */
+// prevlevel.cmt
 char prevlevel = 'N';		/* Previous runlevel */
+// dfl_level.cmt
 int dfl_level = 0;		/* Default runlevel */
 sig_atomic_t got_cont = 0;	/* Set if we received the SIGCONT signal */
 sig_atomic_t got_signals;	/* Set if we received a signal. */
@@ -136,23 +144,28 @@ int sltime = 5;			/* Sleep time between TERM and KILL */
 char *argv0;			/* First arguments; show up in ps listing */
 int maxproclen;			/* Maximal length of argv[0] with \0 */
 struct utmp utproto;		/* Only used for sizeof(utproto.ut_id) */
+// console_dev.cmt
 char *console_dev;		/* Console device. */
 int pipe_fd = -1;		/* /dev/initctl */
 int did_boot = 0;		/* Did we already do BOOT* stuff? */
 int main(int, char **);
 
 /*	Used by re-exec part */
+// reload.cmt
 int reload = 0;			/* Should we do initialization stuff? */
 char *myname="/sbin/init";	/* What should we exec */
 int oops_error;			/* Used by some of the re-exec code. */
+// Signature.cmt
 const char *Signature = "12567362";	/* Signature for re-exec fd */
 
 /* Macro to see if this is a special action */
+// ISPOWER.cmt
 #define ISPOWER(i) ((i) == POWERWAIT || (i) == POWERFAIL || \
 		    (i) == POWEROKWAIT || (i) == POWERFAILNOW || \
 		    (i) == CTRLALTDEL)
 
 /* ascii values for the `action' field. */
+// struct_actions.cmt
 struct actions {
   char *name;
   int act;
@@ -178,6 +191,7 @@ struct actions {
 /*
  *	State parser token table (see receive_state)
  */
+// cmds.cmt
 struct {
   char name[4];	
   int cmd;
@@ -225,6 +239,7 @@ char *extra_env[NR_EXTRA_ENV];
  *	This only works correctly because the linux select updates
  *	the elapsed time in the struct timeval passed to select!
  */
+// sleep.cmt
 static
 void do_sleep(int sec)
 {
@@ -241,6 +256,7 @@ void do_sleep(int sec)
 /*
  *	Non-failing allocation routines (init cannot fail).
  */
+// imalloc.cmt
 static
 void *imalloc(size_t size)
 {
@@ -254,6 +270,7 @@ void *imalloc(size_t size)
 	return m;
 }
 
+// istrdup.cmt
 static
 char *istrdup(char *s)
 {
@@ -271,6 +288,7 @@ char *istrdup(char *s)
  *	Send the state info of the previous running init to
  *	the new one, in a version-independant way.
  */
+// send_state.cmt
 static
 void send_state(int fd)
 {
@@ -316,6 +334,7 @@ void send_state(int fd)
  *	Read a string from a file descriptor.
  *	FIXME: why not use fgets() ?
  */
+// get_string.cmt
 static int get_string(char *p, int size, FILE *f)
 {
 	int	c;
@@ -331,6 +350,7 @@ static int get_string(char *p, int size, FILE *f)
 /*
  *	Read trailing data from the state pipe until we see a newline.
  */
+// get_void.cmt
 static int get_void(FILE *f)
 {
 	int	c;
@@ -344,6 +364,7 @@ static int get_void(FILE *f)
 /*
  *	Read the next "command" from the state pipe.
  */
+// get_cmd.cmt
 static int get_cmd(FILE *f)
 {
 	char	cmd[4] = "   ";
@@ -360,6 +381,7 @@ static int get_cmd(FILE *f)
 /*
  *	Read a CHILD * from the state pipe.
  */
+// get_record.cmt
 static CHILD *get_record(FILE *f)
 {
 	int	cmd;
@@ -464,6 +486,7 @@ static CHILD *get_record(FILE *f)
  *	Read the complete state info from the state pipe.
  *	Returns 0 on success
  */
+// receive_state.cmt
 static
 int receive_state(int fd)
 {
@@ -486,6 +509,7 @@ int receive_state(int fd)
 /*
  *	Set the process title.
  */
+// setproctitle.cmt
 #ifdef __GNUC__
 __attribute__ ((format (printf, 1, 2)))
 #endif
@@ -512,6 +536,7 @@ static int setproctitle(char *fmt, ...)
 /*
  *	Set console_dev to a working console.
  */
+// console_init.cmt
 static
 void console_init(void)
 {
@@ -550,6 +575,7 @@ void console_init(void)
 /*
  *	Open the console with retries.
  */
+// console_open.cmt
 static
 int console_open(int mode)
 {
@@ -582,6 +608,7 @@ int console_open(int mode)
 /*
  *	We got a signal (HUP PWR WINCH ALRM INT)
  */
+// signal_handler.cmt
 static
 void signal_handler(int sig)
 {
@@ -591,6 +618,7 @@ void signal_handler(int sig)
 /*
  *	SIGCHLD: one of our children has died.
  */
+// chld_handler.cmt
 static
 # ifdef __GNUC__
 void chld_handler(int sig __attribute__((unused)))
@@ -636,6 +664,7 @@ void chld_handler(int sig)
  *
  *	The SIGCONT handler
  */
+// cont_handler.cmt
 static
 # ifdef __GNUC__
 void cont_handler(int sig __attribute__((unused)))
@@ -649,6 +678,7 @@ void cont_handler(int sig)
 /*
  *	Fork and dump core in /.
  */
+// coredump.cmt
 static
 void coredump(void)
 {
@@ -683,6 +713,7 @@ void coredump(void)
  *	If we have the info, print where it occured.
  *	Then sleep 30 seconds and try to continue.
  */
+// segv_handler.cmt
 static
 #if defined(STACK_DEBUG) && defined(__linux__)
 # ifdef __GNUC__
@@ -723,6 +754,7 @@ void segv_handler(int sig)
 /*
  *	The SIGSTOP & SIGTSTP handler
  */
+// stop_handler.cmt
 static
 # ifdef __GNUC__
 void stop_handler(int sig __attribute__((unused)))
@@ -741,6 +773,7 @@ void stop_handler(int sig)
 /*
  *	Set terminal settings to reasonable defaults
  */
+// console_stty.cmt
 static
 void console_stty(void)
 {
@@ -817,6 +850,7 @@ void console_stty(void)
 /*
  *	Print to the system console
  */
+// print.cmt
 void print(char *s)
 {
 	int fd;
@@ -830,6 +864,7 @@ void print(char *s)
 /*
  *	Log something to a logfile and the console.
  */
+// initlog.cmt
 #ifdef __GNUC__
 __attribute__ ((format (printf, 2, 3)))
 #endif
@@ -870,6 +905,7 @@ void initlog(int loglevel, char *s, ...)
 /*
  *	Build a new environment for execve().
  */
+// init_buildenv.cmt
 char **init_buildenv(int child)
 {
 	char		i_lvl[] = "RUNLEVEL=x";
@@ -910,7 +946,7 @@ char **init_buildenv(int child)
 	return e;
 }
 
-
+// init_freeenv.cmt
 void init_freeenv(char **e)
 {
 	int		n;
@@ -927,6 +963,7 @@ void init_freeenv(char **e)
  *	This function is too long and indents too deep.
  *
  */
+// spawn.cmt
 static
 pid_t spawn(CHILD *ch, int *res)
 {
@@ -1203,6 +1240,7 @@ pid_t spawn(CHILD *ch, int *res)
 /*
  *	Start a child running!
  */
+// startup.cmt
 static
 void startup(CHILD *ch)
 {
@@ -1238,6 +1276,7 @@ void startup(CHILD *ch)
 /*
  *	Read the inittab file.
  */
+// read_inittab.cmt
 static
 void read_inittab(void)
 {
@@ -1619,6 +1658,7 @@ void read_inittab(void)
  *	The entries that do not belong here at all are removed
  *	from the list.
  */
+// start_if_needed.cmt
 static
 void start_if_needed(void)
 {
@@ -1665,6 +1705,7 @@ void start_if_needed(void)
 /*
  *	Ask the user on the console for a runlevel
  */
+// ask_runlevel.cmt
 static
 int ask_runlevel(void)
 {
@@ -1694,6 +1735,7 @@ int ask_runlevel(void)
  *	Search the INITTAB file for the 'initdefault' field, with the default
  *	runlevel. If this fails, ask the user to supply a runlevel.
  */
+// get_init_default.cmt
 static
 int get_init_default(void)
 {
@@ -1858,6 +1900,7 @@ int read_level(int arg)
  *	longer than 5 minutes, or inittab was read again due
  *	to user interaction.
  */
+// fail_check.cmt
 static
 void fail_check(void)
 {
@@ -1891,6 +1934,7 @@ void fail_check(void)
 }
 
 /* Set all 'Fail' timers to 0 */
+// fail_cancel.cmt
 static
 void fail_cancel(void)
 {
@@ -1906,6 +1950,7 @@ void fail_cancel(void)
 /*
  *	Start up powerfail entries.
  */
+// do_power_fail.cmt
 static
 void do_power_fail(int pwrstat)
 {
@@ -1940,6 +1985,7 @@ void do_power_fail(int pwrstat)
 /*
  *	Check for state-pipe presence
  */
+// check_pipe.cmt
 static
 int check_pipe(int fd)
 {
@@ -1961,6 +2007,7 @@ int check_pipe(int fd)
 /*
  *	 Make a state-pipe.
  */
+// make_pipe.cmt
 static
 int make_pipe(int fd)
 {
@@ -1979,6 +2026,7 @@ int make_pipe(int fd)
 /*
  *	Attempt to re-exec.
  */
+// re_exec.cmt
 static
 void re_exec(void)
 {
@@ -2054,6 +2102,7 @@ void re_exec(void)
  *	Redo utmp/wtmp entries if required or requested
  *	Check for written records and size of utmp
  */
+// redo_utmp_wtmp.cmt
 static
 void redo_utmp_wtmp(void)
 {
@@ -2074,6 +2123,7 @@ void redo_utmp_wtmp(void)
  *	We got a change runlevel request through the
  *	init.fifo. Process it.
  */
+// fifo_new_level.cmt
 static
 void fifo_new_level(int level)
 {
@@ -2115,6 +2165,7 @@ void fifo_new_level(int level)
  *	encoded as KEY=VAL\0KEY=VAL\0\0. With "=VAL" it means
  *	setenv, without it means unsetenv.
  */
+// initcmd_setenv.cmt
 static
 void initcmd_setenv(char *data, int size)
 {
@@ -2173,6 +2224,7 @@ void initcmd_setenv(char *data, int size)
  *		the 2.2 kernel credential stuff to see who we're talking to.
  *	
  */
+// check_init_fifo.cmt
 static
 void check_init_fifo(void)
 {
@@ -2323,6 +2375,7 @@ void check_init_fifo(void)
  *	This function is used in the transition
  *	sysinit (-> single user) boot -> multi-user.
  */
+// boot_transitions.cmt
 static
 void boot_transitions()
 {
@@ -2409,6 +2462,7 @@ void boot_transitions()
  *	Init got hit by a signal. See which signal it is,
  *	and act accordingly.
  */
+// process_signals.cmt
 static
 void process_signals()
 {
@@ -2529,6 +2583,7 @@ void process_signals()
 /*
  *	The main loop
  */ 
+// init_main.cmt
 static
 void init_main(void)
 {
@@ -2692,6 +2747,7 @@ void init_main(void)
 /*
  * Tell the user about the syntax we expect.
  */
+// usage.cmt
 static
 void usage(char *s)
 {
@@ -2699,6 +2755,7 @@ void usage(char *s)
 	exit(1);
 }
 
+// telinit.cmt
 static
 int telinit(char *progname, int argc, char **argv)
 {
@@ -2812,6 +2869,7 @@ int telinit(char *progname, int argc, char **argv)
 /*
  * Main entry for init and telinit.
  */
+// main-init.cmt
 int main(int argc, char **argv)
 {
 	char			*p;

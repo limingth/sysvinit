@@ -36,6 +36,7 @@ char *Version = "@(#) wall 2.79 12-Sep-2000 miquels@cistron.nl";
 #define MAXLEN 4096
 #define MAXLINES 20
 
+// wall-main.cmt
 int main(int argc, char **argv)
 {
   char buf[MAXLEN];

@@ -120,6 +120,25 @@ void stopit(int sig)
 /*
  *	Show usage message.
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 通过 fprintf() 函数，向标准出错 stderr 打印该条命令的用户使用帮助信息
+ */
 void usage(void)
 {
 	fprintf(stderr,
@@ -472,6 +491,29 @@ static int needwarning(int wt)
  *	Main program.
  *	Process the options and do the final countdown.
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief shutdown 命令实现的主函数
+ *
+ * @details shutdown 的核心代码在 shutdown() 函数中，除了用 openlog(), syslog(), closelog() 来写关机日志外，主要是靠调用 execv(INIT, args) 来启动 init 进程完成改变运行级别的工作，从而间接完成关机操作。
+ *
+ */
+
 int main(int argc, char **argv)
 {
 	FILE			*fp;

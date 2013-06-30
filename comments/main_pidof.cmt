@@ -1,0 +1,15 @@
+/*
+ * @brief 实现 pidof 命令的主函数
+ *
+ * @details 函数执行流程分析：
+
+	 初始化和数据结构定义
+	 参数处理并完成 omit 进程号链表
+	 检查对于 /proc/pid/root 的访问权限
+	 检查 fs 是否基于 nfs 的网络文件系统
+	 读 /proc 文件系统，建立进程链表 plist 
+	 调用 pidof 函数，返回进程名为 argv[f] 进程 PIDQ_HEAD 链表 
+	 退出前的清理工作
+ *
+ */
+

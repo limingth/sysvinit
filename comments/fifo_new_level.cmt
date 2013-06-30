@@ -1,0 +1,12 @@
+/*
+ * @brief 真正完成改变 runlevel 的 request 请求，目标为传入参数 level，通过重新读取 inittab 文件来启动与新 runlevel 匹配的命令脚本。
+ *
+ * @details 函数执行流程分析：
+
+	1. 如果传入参数 level 和当前的 runlevel 运行级别一致，则无需修改直接返回。
+
+	2. 如果新的 runlevel = 'U'，则通过调用 re_exec() 来执行改变 runlevel 的操作。
+
+	3. 如果新的 runlevel ！= 'U'，则通过调用 read_inittab() 来重新生成 family 链表。
+ *
+ */

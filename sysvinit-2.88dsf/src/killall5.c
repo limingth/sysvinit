@@ -65,6 +65,7 @@ char *Version = "@(#)killall5 2.86 31-Jul-2004 miquels@cistron.nl";
 #define NO_STAT 0
 
 /* Info about a process. */
+// struct_proc.cmt
 typedef struct proc {
 	char *argv0;		/* Name as found out from argv[0] */
 	char *argv0base;	/* `basename argv[1]`		  */
@@ -81,7 +82,7 @@ typedef struct proc {
 } PROC;
 
 /* pid queue */
-
+// struct_pidq.cmt
 typedef struct pidq {
 	PROC		*proc;
 	struct pidq	*next;
@@ -117,9 +118,11 @@ typedef struct _s_nfs
 } NFS;
 
 /* List of processes. */
+// plist.cmt
 PROC *plist;
 
 /* List of processes to omit. */
+// omit.cmt
 OMIT *omit;
 
 /* List of NFS mountes partitions. */
@@ -130,6 +133,7 @@ int sent_sigstop;
 
 int scripts_too = 0;
 
+// progname.cmt
 char *progname;	/* the name of the running program */
 #ifdef __GNUC__
 __attribute__ ((format (printf, 2, 3)))
@@ -179,6 +183,7 @@ static inline void xmemalign(void **memptr, size_t alignment, size_t size)
 /*
  *	See if the proc filesystem is there. Mount if needed.
  */
+// mount_proc.cmt
 int mount_proc(void)
 {
 	struct stat	st;
@@ -447,6 +452,7 @@ int readarg(FILE *fp, char *buf, int sz)
  *	Read the proc filesystem.
  *	CWD must be /proc to avoid problems if / is affected by the killing (ie depend on fuse).
  */
+// readproc.cmt
 int readproc(int do_stat)
 {
 	DIR		*dir;
@@ -631,17 +637,20 @@ int readproc(int do_stat)
 	return 0;
 }
 
+// init_pid_q.cmt
 PIDQ_HEAD *init_pid_q(PIDQ_HEAD *q)
 {
 	q->head =  q->next = q->tail = NULL;
 	return q;
 }
 
+// empty_q.cmt
 int empty_q(PIDQ_HEAD *q)
 {
 	return (q->head == NULL);
 }
 
+// add_pid_to_q.cmt
 int add_pid_to_q(PIDQ_HEAD *q, PROC *p)
 {
 	PIDQ *tmp;
@@ -661,6 +670,7 @@ int add_pid_to_q(PIDQ_HEAD *q, PROC *p)
 	return 0;
 }
 
+// get_next_from_pid_q.cmt
 PROC *get_next_from_pid_q(PIDQ_HEAD *q)
 {
 	PROC		*p;
@@ -677,6 +687,7 @@ PROC *get_next_from_pid_q(PIDQ_HEAD *q)
 }
 
 /* Try to get the process ID of a given process. */
+// pidof.cmt
 PIDQ_HEAD *pidof(char *prog)
 {
 	PROC		*p;
@@ -814,6 +825,7 @@ PIDQ_HEAD *pidof(char *prog)
 }
 
 /* Give usage message and exit. */
+// usage.cmt
 void usage(void)
 {
 	nsyslog(LOG_ERR, "only one argument, a signal number, allowed");
@@ -849,6 +861,7 @@ void nsyslog(int pri, char *fmt, ...)
 /*
  *	Pidof functionality.
  */
+// main_pidof.cmt
 int main_pidof(int argc, char **argv)
 {
 	PIDQ_HEAD	*q;
@@ -984,6 +997,7 @@ int main_pidof(int argc, char **argv)
 }
 
 /* Main for either killall or pidof. */
+// killall5-main.cmt
 int main(int argc, char **argv)
 {
 	PROC		*p;

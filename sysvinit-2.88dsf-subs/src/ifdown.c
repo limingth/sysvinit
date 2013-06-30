@@ -43,6 +43,27 @@ char *v_ifdown = "@(#)ifdown.c  1.11  02-Jun-1998  miquels@cistron.nl";
  *	shaper driver says "if you down the shaper device before the
  *	attached inerface your computer will follow".
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 在 halt 命令关机过程中，找到所有的网络设备，并且把它们关闭。
+ * 
+ * @details 主要依靠调用 ioctl(fd, SIOCSIFFLAGS, &ifr[i]) 系统调用
+ */
 int ifdown(void)
 {
 	struct ifreq ifr[MAX_IFS];

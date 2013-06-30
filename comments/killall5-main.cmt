@@ -1,0 +1,17 @@
+/*
+ * @brief killall5 命令实现的主函数，杀死除当前进程之外的其他所有进程
+ *
+ * @details 函数执行流程分析：
+ 
+	 打开系统日志
+	 处理 pidof 命令的情况
+	 分析 -o omitpid 参数创建双向链表 omit
+	 挂载 /proc 文件系统
+	 暂时忽略 SIGTERM/SIGSTOP/SIGKILL 信号
+	 禁止内存换出，暂停所有进程
+	 读 /proc 文件系统，建立进程链表 plist 
+	 根据 plist 链表开始依次 kill 进程
+	 恢复所有进程运行 （从 STOP 又回到 CONT）
+	 关闭日志
+ *
+ */

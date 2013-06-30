@@ -32,6 +32,7 @@
 #include <getopt.h>
 #include <stdio.h>
 
+// dostat.cmt
 int dostat(char *path, struct stat *st, int do_lstat, int quiet)
 {
 	int		n;
@@ -50,11 +51,13 @@ int dostat(char *path, struct stat *st, int do_lstat, int quiet)
 	return 0;
 }
 
+// usage.cmt
 void usage(void) {
 	fprintf(stderr, "Usage: mountpoint [-q] [-d] [-x] path\n");
 	exit(1);
 }
 
+// mountpoint-main.cmt
 int main(int argc, char **argv)
 {
 	struct stat	st, st2;

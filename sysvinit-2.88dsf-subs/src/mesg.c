@@ -65,6 +65,42 @@ int tty_in_ttygrp(struct stat *st)
 	return 1;
 }
 
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief mesg 命令实现的主函数，打印当前终端是否允许接收消息
+ *
+ * @details mesg 命令详细用法
+
+   该命令的作用是，控制是否允许在当前终端上显示出其它用户对当前用户终端发送的消息。
+
+	* 命令格式
+		mesg [y|n]
+
+	* 主要选项
+		- y 
+			允许消息传到当前终端
+
+		- n
+			不允许消息传到当前终端
+ *
+ */
+
+
 int main(int argc, char **argv)
 {
 	struct stat	st;

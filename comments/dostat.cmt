@@ -1,0 +1,21 @@
+/*
+ * @brief 给定一个目录路径 path，通过调用 stat 获得目录的相关属性，返回 struct stat 结构体
+ *
+ * 
+           struct stat {
+               dev_t     st_dev;     
+               ino_t     st_ino;    
+               mode_t    st_mode;   
+               nlink_t   st_nlink;  
+               uid_t     st_uid;    
+               gid_t     st_gid;   
+               dev_t     st_rdev;  
+               off_t     st_size;  
+               blksize_t st_blksize;
+               blkcnt_t  st_blocks; 
+               time_t    st_atime; 
+               time_t    st_mtime; 
+               time_t    st_ctime;
+           };
+ *
+ */

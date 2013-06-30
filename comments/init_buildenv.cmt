@@ -1,0 +1,3 @@
+/*
+ * @brief 该函数主要用于为 execve() 系统调用，初始化环境变量 RUNLEVEL, PRELEVEL, SHELL, CONSOLE 等
+ */

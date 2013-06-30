@@ -65,6 +65,26 @@ char *Version = "@(#)killall5 2.86 31-Jul-2004 miquels@cistron.nl";
 #define NO_STAT 0
 
 /* Info about a process. */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 这个结构体用于记录一个正在执行进程的相关信息，包括进程号pid，进程session号sid，程序的inode号等。
+ */
+
 typedef struct proc {
 	char *argv0;		/* Name as found out from argv[0] */
 	char *argv0base;	/* `basename argv[1]`		  */
@@ -81,6 +101,25 @@ typedef struct proc {
 } PROC;
 
 /* pid queue */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 这个结构体用于构建一个以 PROC 结构体为节点的链表，用于后面的遍历查找操作。
+ */
 
 typedef struct pidq {
 	PROC		*proc;
@@ -117,9 +156,49 @@ typedef struct _s_nfs
 } NFS;
 
 /* List of processes. */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 这个全局变量是一个指针变量，主要用于指向所有正在运行进程 PROC 的链表头指针
+ */
+
 PROC *plist;
 
 /* List of processes to omit. */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 这个全局变量是一个指针变量，主要用于指向通过用户命令传入参数 -o omitpid,... 中所构建可以忽略进程号的链表表头
+ */
+
 OMIT *omit;
 
 /* List of NFS mountes partitions. */
@@ -129,6 +208,26 @@ NFS *nlist;
 int sent_sigstop;
 
 int scripts_too = 0;
+
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 这个全局变量是一个字符串指针变量，主要用于指向当前执行命令的文件名
+ */
 
 char *progname;	/* the name of the running program */
 #ifdef __GNUC__
@@ -179,6 +278,33 @@ static inline void xmemalign(void **memptr, size_t alignment, size_t size)
 /*
  *	See if the proc filesystem is there. Mount if needed.
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 实现通过 mount 命令实现挂载 /proc 文件系统
+ *
+ * @details 函数执行流程分析：
+
+	 首先查看  /proc/version 文件是否存在，以此判断 /proc 是否已经加载 
+	 如果没有加载，则通过 fork() 创建子进程，然后执行 execv 来执行 mount 命令完成加载
+	 判断是否加载成功，并将结果写入日志文件中。
+ *
+ */
+
 int mount_proc(void)
 {
 	struct stat	st;
@@ -447,6 +573,38 @@ int readarg(FILE *fp, char *buf, int sz)
  *	Read the proc filesystem.
  *	CWD must be /proc to avoid problems if / is affected by the killing (ie depend on fuse).
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 实现从 /proc 文件系统中获得当前正在运行的进程 id和其他参数，并创建一个链表用于后继使用
+ *
+ * @details 函数执行流程分析：
+
+	 改变目录到 /proc ，调用 opendir 打开当前目录文件 . 
+	 释放已经存在的 plist 链表，为重新生成做好准备
+	 开始遍历 /proc 目录，找出是进程号（大于0的数字）的文件名
+	 以 bash 文件为例,查看进程的 stat 文件信息，找出进程名
+	 得到进程 session id，判断其是否 kernel thread
+	 获得其他参数
+	 添加进入链表，并完成收尾工作
+
+ *
+ */
+
 int readproc(int do_stat)
 {
 	DIR		*dir;
@@ -631,16 +789,76 @@ int readproc(int do_stat)
 	return 0;
 }
 
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该函数主要完成初始化队列 q，该队列保存了当前所有运行进程的 pid 号
+ */
+
 PIDQ_HEAD *init_pid_q(PIDQ_HEAD *q)
 {
 	q->head =  q->next = q->tail = NULL;
 	return q;
 }
 
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该函数主要判断队列 q 是否为空队列
+ */
+
 int empty_q(PIDQ_HEAD *q)
 {
 	return (q->head == NULL);
 }
+
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该函数主要将一个节点 PROC *p 添加进入队列 q
+ */
 
 int add_pid_to_q(PIDQ_HEAD *q, PROC *p)
 {
@@ -661,6 +879,26 @@ int add_pid_to_q(PIDQ_HEAD *q, PROC *p)
 	return 0;
 }
 
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该函数主要从队列 q 的头部返回一个节点，并将该节点从队列中删除
+ */
+
 PROC *get_next_from_pid_q(PIDQ_HEAD *q)
 {
 	PROC		*p;
@@ -677,6 +915,41 @@ PROC *get_next_from_pid_q(PIDQ_HEAD *q)
 }
 
 /* Try to get the process ID of a given process. */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 从用户输入的程序名 prog 字符串，得到一个和这个名称相同的进程号链表 PIDQ_HEAD 指针返回
+ *
+ * @details 函数执行流程分析：
+
+	1. 调用 stat 获取可执行文件文件信息到 st 结构体中，包含 st_dev 和 st_ino 两个信息
+
+	2. 获得程序名 prog 中的文件名，不包含路径
+
+	3. 遍历 plist 链表，寻找 st_dev 和 st_ino 两个参数都匹配上的进程 p ，把 p 添加进入 q 链表中
+
+	4. 如果通过这种方式没有找到，则会尝试基于完整路径名在 nfs 上找
+
+	5. 如果这样还是没有找到，则会基于 name 来扩大匹配可能
+
+	匹配算法见 killall5.c 文件的 757行
+ *
+ */
+
 PIDQ_HEAD *pidof(char *prog)
 {
 	PROC		*p;
@@ -814,6 +1087,25 @@ PIDQ_HEAD *pidof(char *prog)
 }
 
 /* Give usage message and exit. */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 通过 fprintf() 函数，向标准出错 stderr 打印该条命令的用户使用帮助信息
+ */
 void usage(void)
 {
 	nsyslog(LOG_ERR, "only one argument, a signal number, allowed");
@@ -849,6 +1141,41 @@ void nsyslog(int pri, char *fmt, ...)
 /*
  *	Pidof functionality.
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 从用户输入的程序名 prog 字符串，得到一个和这个名称相同的进程号链表 PIDQ_HEAD 指针返回
+ *
+ * @details 函数执行流程分析：
+
+	1. 调用 stat 获取可执行文件文件信息到 st 结构体中，包含 st_dev 和 st_ino 两个信息
+
+	2. 获得程序名 prog 中的文件名，不包含路径
+
+	3. 遍历 plist 链表，寻找 st_dev 和 st_ino 两个参数都匹配上的进程 p ，把 p 添加进入 q 链表中
+
+	4. 如果通过这种方式没有找到，则会尝试基于完整路径名在 nfs 上找
+
+	5. 如果这样还是没有找到，则会基于 name 来扩大匹配可能
+
+	匹配算法见 killall5.c 文件的 757行
+ *
+ */
+
 int main_pidof(int argc, char **argv)
 {
 	PIDQ_HEAD	*q;
@@ -984,6 +1311,39 @@ int main_pidof(int argc, char **argv)
 }
 
 /* Main for either killall or pidof. */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief killall5 命令实现的主函数，杀死除当前进程之外的其他所有进程
+ *
+ * @details 函数执行流程分析：
+ 
+	 打开系统日志
+	 处理 pidof 命令的情况
+	 分析 -o omitpid 参数创建双向链表 omit
+	 挂载 /proc 文件系统
+	 暂时忽略 SIGTERM/SIGSTOP/SIGKILL 信号
+	 禁止内存换出，暂停所有进程
+	 读 /proc 文件系统，建立进程链表 plist 
+	 根据 plist 链表开始依次 kill 进程
+	 恢复所有进程运行 （从 STOP 又回到 CONT）
+	 关闭日志
+ *
+ */
 int main(int argc, char **argv)
 {
 	PROC		*p;

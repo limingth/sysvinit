@@ -26,17 +26,74 @@
 #define CHANGE_WAIT 0			/* Change runlevel while
 					   waiting for a process to exit? */
 /* Debug and test modes */
-#define DEBUG	   0			/* Debug code off */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该宏定义主要用来对代码中的调试输出打印语句，进行条件编译控制，如果需要打印调试信息，则将此项置为 1
+ */
+#define DEBUG	   1			/* Debug code off */
 #define INITDEBUG  0			/* Fork at startup to debug init. */
 
 /* Some constants */
 #define INITPID	   1			/* pid of first process */
 #define PIPE_FD    10			/* Fileno of initfifo. */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该宏定义主要用来给 init 进程通过 re-exec 方式的父子进程之间用 state pipe 管道通信时的 fd 号
+ */
 #define STATE_PIPE 11			/* used to pass state through exec */
 
 /* Failsafe configuration */
 #define MAXSPAWN   10			/* Max times respawned in.. */
 #define TESTTIME   120			/* this much seconds */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 睡眠时间超过300秒=5分钟的进程，将会被清除标志位
+ */
 #define SLEEPTIME  300			/* Disable time */
 
 /* Default path inherited by every child. */
@@ -56,13 +113,53 @@ void print(char *fmt);
 /* from dowall.c */
 void wall(const char *text, int remote);
 
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该宏定义主要用来打印 init 进程运行过程中的调试信息，是否打印取决于 DEBUG 宏开关
+ */
 #if DEBUG
 #  define INITDBG(level, fmt, args...) initlog(level, fmt, ##args)
 #else
 #  define INITDBG(level, fmt, args...)
 #endif
+#undef INITDBG
+#define INITDBG(level, fmt, args...) printf(fmt "\n", ##args)
 
 /* Actions to be taken by init */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该宏定义主要用来标识在解析 /etc/inittab 文件时，不同 runlevel 对应要采取的不同动作
+ */
 #define RESPAWN			1
 #define WAIT			2
 #define ONCE			3
@@ -80,6 +177,28 @@ void wall(const char *text, int remote);
 #define KBREQUEST               15
 
 /* Information about a process in the in-core inittab */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 这个链表数据结构在 init.h 头文件中，是实现根据 init 运行级别加载不同用户程序的最重要的数据结构。
+ *
+ */
+
+	
 typedef struct _child_ {
   int flags;			/* Status of this entry */
   int exstat;			/* Exit status of process */
@@ -104,6 +223,25 @@ typedef struct _child_ {
 #define XECUTED		128	/* Set if spawned once or more times */
 
 /* Log levels. */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 该宏定义主要用来标识输出打印信息时候的级别。包括输出到控制台和输出到系统日志两种。
+ */
 #define L_CO	1		/* Log on the console. */
 #define L_SY	2		/* Log with syslog() */
 #define L_VB	(L_CO|L_SY)	/* Log with both. */

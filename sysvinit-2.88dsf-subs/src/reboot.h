@@ -47,5 +47,28 @@
 #  define BMAGIC_POWEROFF	BMAGIC_HALT
 #endif
 
-#define init_reboot(magic)	reboot(magic)
+/* #define init_reboot(magic)	reboot(magic) */
+/* add by limingth */
+//#undef init_reboot(magic)
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 这个宏定义用于通过 reboot() 系统调用来进行重启系统
+ */
+
+#define init_reboot(magic)      printf("init_reboot: %d\n", magic)
 

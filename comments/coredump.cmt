@@ -1,0 +1,4 @@
+/*
+ * @brief 该函数实现 coredump 功能， 通过 Fork 子进程，完成在根目录下 dump core 
+ */
+

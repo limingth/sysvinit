@@ -19,36 +19,35 @@ BMAGIC_POWEROFF	reboot.h	45;"	d
 BMAGIC_POWEROFF	reboot.h	47;"	d
 BMAGIC_REBOOT	reboot.h	40;"	d
 BMAGIC_SOFT	reboot.h	31;"	d
-BOOT	init.h	69;"	d
-BOOTWAIT	init.h	70;"	d
+BOOT	init.h	72;"	d
+BOOTWAIT	init.h	73;"	d
 BTMP_FILE	last.c	253;"	d	file:
 CBAUD	init.c	87;"	d	file:
 CBAUDEX	init.c	90;"	d	file:
 CC	Makefile	/^CC=gcc$/;"	m
-CFLAGS	Makefile	/^CFLAGS	?= -O2 -fomit-frame-pointer$/;"	m
 CHANGE_WAIT	init.h	26;"	d
 CHECK_DES	sulogin.c	54;"	d	file:
 CHECK_MD5	sulogin.c	55;"	d	file:
 CHILD	init.h	/^} CHILD;$/;"	t	typeref:struct:_child_
 CHOP_DOMAIN	last.c	54;"	d	file:
 CONSOLE	paths.h	26;"	d
-CPPFLAGS	Makefile	/^CPPFLAGS = -g -DDEBUG$/;"	m
-CTRLALTDEL	init.h	74;"	d
-C_ACTION	init.h	133;"	d
-C_END	init.h	128;"	d
-C_EOF	init.h	137;"	d
-C_EOR	init.h	130;"	d
-C_EXS	init.h	136;"	d
-C_FLAG	init.h	132;"	d
-C_LEV	init.h	131;"	d
-C_PID	init.h	135;"	d
-C_PROCESS	init.h	134;"	d
-C_REC	init.h	129;"	d
-C_VER	init.h	127;"	d
+CPPFLAGS	Makefile	/^CPPFLAGS =$/;"	m
+CTRLALTDEL	init.h	77;"	d
+C_ACTION	init.h	137;"	d
+C_END	init.h	132;"	d
+C_EOF	init.h	141;"	d
+C_EOR	init.h	134;"	d
+C_EXS	init.h	140;"	d
+C_FLAG	init.h	136;"	d
+C_LEV	init.h	135;"	d
+C_PID	init.h	139;"	d
+C_PROCESS	init.h	138;"	d
+C_REC	init.h	133;"	d
+C_VER	init.h	131;"	d
 DATE	init.c	11;"	d	file:
 DEBUG	init.h	29;"	d
 DELSET	set.h	25;"	d
-DEMAND	init.h	100;"	d
+DEMAND	init.h	104;"	d
 DEV_BASE	hddown.c	407;"	d	file:
 DEV_BASE	hddown.c	61;"	d	file:
 DISK_EXTFLUSH	hddown.c	72;"	d	file:
@@ -59,20 +58,20 @@ DISK_MANAGED	hddown.c	74;"	d	file:
 DISK_REMOVABLE	hddown.c	73;"	d	file:
 DO_NETFS	killall5.c	63;"	d	file:
 DO_STAT	killall5.c	64;"	d	file:
-D_DIDBOOT	init.h	145;"	d
-D_GOTSIGN	init.h	141;"	d
-D_PREVLEVEL	init.h	140;"	d
-D_RUNLEVEL	init.h	138;"	d
-D_SLTIME	init.h	144;"	d
-D_THISLEVEL	init.h	139;"	d
-D_WROTE_UTMP_REBOOT	init.h	143;"	d
-D_WROTE_UTMP_RLEVEL	init.h	147;"	d
-D_WROTE_WTMP_REBOOT	init.h	142;"	d
-D_WROTE_WTMP_RLEVEL	init.h	146;"	d
+D_DIDBOOT	init.h	149;"	d
+D_GOTSIGN	init.h	145;"	d
+D_PREVLEVEL	init.h	144;"	d
+D_RUNLEVEL	init.h	142;"	d
+D_SLTIME	init.h	148;"	d
+D_THISLEVEL	init.h	143;"	d
+D_WROTE_UTMP_REBOOT	init.h	147;"	d
+D_WROTE_UTMP_RLEVEL	init.h	151;"	d
+D_WROTE_WTMP_REBOOT	init.h	146;"	d
+D_WROTE_WTMP_RLEVEL	init.h	150;"	d
 EMPTYSET	set.h	27;"	d
 ENOIOCTLCMD	bootlogd.c	267;"	d	file:
-E_VERSION	init.c	105;"	d	file:
-FAILING	init.h	101;"	d
+E_VERSION	init.c	109;"	d	file:
+FAILING	init.h	105;"	d
 FASTBOOT	paths.h	32;"	d
 FORCEFSCK	paths.h	33;"	d
 F_PASSWD	sulogin.c	57;"	d	file:
@@ -84,40 +83,46 @@ HOST_NAME_MAX	dowall.c	45;"	d	file:
 ID	Makefile	/^ID		= $(shell id -u)$/;"	m
 IDBYTES	hddown.c	65;"	d	file:
 INIT	paths.h	30;"	d
-INITDBG	init.h	60;"	d
-INITDBG	init.h	62;"	d
+INITDBG	init.h	61;"	d
+INITDBG	init.h	63;"	d
+INITDBG	init.h	65;"	d
+INITDBG	init.h	66;"	d
 INITDEBUG	init.h	30;"	d
-INITDEFAULT	init.h	77;"	d
+INITDEFAULT	init.h	80;"	d
 INITLIBS	Makefile	/^  INITLIBS	=$/;"	m
 INITPID	init.h	33;"	d
-INITRQ_HLEN	initreq.h	45;"	d
-INITRQ_HLEN	initreq.h	47;"	d
-INITRQ_HLEN	root/usr/include/initreq.h	45;"	d
-INITRQ_HLEN	root/usr/include/initreq.h	47;"	d
+INITRQ_HLEN	initreq.h	49;"	d
+INITRQ_HLEN	initreq.h	51;"	d
+INITRQ_HLEN	root/usr/include/initreq.h	48;"	d
+INITRQ_HLEN	root/usr/include/initreq.h	50;"	d
 INITSCRIPT	paths.h	37;"	d
 INITTAB	paths.h	29;"	d
-INIT_CMD_BSD	initreq.h	40;"	d
-INIT_CMD_BSD	root/usr/include/initreq.h	40;"	d
-INIT_CMD_POWERFAIL	initreq.h	37;"	d
-INIT_CMD_POWERFAIL	root/usr/include/initreq.h	37;"	d
-INIT_CMD_POWERFAILNOW	initreq.h	38;"	d
-INIT_CMD_POWERFAILNOW	root/usr/include/initreq.h	38;"	d
-INIT_CMD_POWEROK	initreq.h	39;"	d
-INIT_CMD_POWEROK	root/usr/include/initreq.h	39;"	d
-INIT_CMD_RUNLVL	initreq.h	36;"	d
-INIT_CMD_RUNLVL	root/usr/include/initreq.h	36;"	d
-INIT_CMD_SETENV	initreq.h	41;"	d
-INIT_CMD_SETENV	root/usr/include/initreq.h	41;"	d
-INIT_CMD_START	initreq.h	35;"	d
-INIT_CMD_START	root/usr/include/initreq.h	35;"	d
-INIT_CMD_UNSETENV	initreq.h	42;"	d
-INIT_CMD_UNSETENV	root/usr/include/initreq.h	42;"	d
+INIT_CMD_BSD	initreq.h	44;"	d
+INIT_CMD_BSD	root/usr/include/initreq.h	43;"	d
+INIT_CMD_POWERFAIL	initreq.h	41;"	d
+INIT_CMD_POWERFAIL	root/usr/include/initreq.h	40;"	d
+INIT_CMD_POWERFAILNOW	initreq.h	42;"	d
+INIT_CMD_POWERFAILNOW	root/usr/include/initreq.h	41;"	d
+INIT_CMD_POWEROK	initreq.h	43;"	d
+INIT_CMD_POWEROK	root/usr/include/initreq.h	42;"	d
+INIT_CMD_RUNLVL	initreq.h	40;"	d
+INIT_CMD_RUNLVL	root/usr/include/initreq.h	39;"	d
+INIT_CMD_SETENV	initreq.h	45;"	d
+INIT_CMD_SETENV	root/usr/include/initreq.h	44;"	d
+INIT_CMD_START	initreq.h	39;"	d
+INIT_CMD_START	root/usr/include/initreq.h	38;"	d
+INIT_CMD_UNSETENV	initreq.h	46;"	d
+INIT_CMD_UNSETENV	root/usr/include/initreq.h	45;"	d
 INIT_FIFO	initreq.h	29;"	d
 INIT_FIFO	initreq.h	31;"	d
+INIT_FIFO	initreq.h	34;"	d
+INIT_FIFO	initreq.h	35;"	d
 INIT_FIFO	root/usr/include/initreq.h	29;"	d
 INIT_FIFO	root/usr/include/initreq.h	31;"	d
-INIT_MAGIC	initreq.h	34;"	d
-INIT_MAGIC	root/usr/include/initreq.h	34;"	d
+INIT_FIFO	root/usr/include/initreq.h	34;"	d
+INIT_FIFO	root/usr/include/initreq.h	35;"	d
+INIT_MAGIC	initreq.h	38;"	d
+INIT_MAGIC	root/usr/include/initreq.h	37;"	d
 INSTALL_DATA	Makefile	/^  INSTALL_DATA	= install -m 644$/;"	m
 INSTALL_DATA	Makefile	/^  INSTALL_DATA	= install -o $(BIN_OWNER) -g $(BIN_GROUP) -m 644$/;"	m
 INSTALL_DIR	Makefile	/^INSTALL_DIR	= install -m 755 -d$/;"	m
@@ -126,16 +131,16 @@ INSTALL_EXEC	Makefile	/^  INSTALL_EXEC	= install -o $(BIN_OWNER) -g $(BIN_GROUP)
 IRFFLAGS	ifdown.c	103;"	d	file:
 IRFFLAGS	ifdown.c	92;"	d	file:
 ISMEMBER	set.h	24;"	d
-ISPOWER	init.c	147;"	d	file:
+ISPOWER	init.c	151;"	d	file:
 ISSPACE	hddown.c	62;"	d	file:
 IUCLC	sulogin.c	72;"	d	file:
-KBREQUEST	init.h	80;"	d
+KBREQUEST	init.h	83;"	d
 KERNEL_MONITOR	halt.c	64;"	d	file:
-KILLME	init.h	99;"	d
+KILLME	init.h	103;"	d
 LOGFILE	bootlogd.c	59;"	d	file:
-L_CO	init.h	107;"	d
-L_SY	init.h	108;"	d
-L_VB	init.h	109;"	d
+L_CO	init.h	111;"	d
+L_SY	init.h	112;"	d
+L_VB	init.h	113;"	d
 MAN1	Makefile	/^MAN1	= last.1 lastb.1 mesg.1$/;"	m
 MAN5	Makefile	/^MAN5	= initscript.5 inittab.5$/;"	m
 MAN8	Makefile	/^MAN8	= halt.8 init.8 killall5.8 pidof.8 poweroff.8 reboot.8 runlevel.8$/;"	m
@@ -151,37 +156,37 @@ MNT_DETACH	init.c	59;"	d	file:
 NEW_UTMP	last.c	55;"	d	file:
 NFS	killall5.c	/^} NFS;$/;"	t	typeref:struct:_s_nfs	file:
 NOLOGIN	paths.h	31;"	d
-NO_PROCESS	init.h	112;"	d
+NO_PROCESS	init.h	116;"	d
 NO_STAT	killall5.c	65;"	d	file:
-NR_EXTRA_ENV	init.c	214;"	d	file:
-OFF	init.h	75;"	d
+NR_EXTRA_ENV	init.c	219;"	d	file:
+OFF	init.h	78;"	d
 OLD_HOSTSIZE	oldutmp.h	28;"	d
 OLD_LINESIZE	oldutmp.h	26;"	d
 OLD_NAMESIZE	oldutmp.h	27;"	d
 OLD_UTMP_H	oldutmp.h	24;"	d
 OMIT	killall5.c	/^} OMIT;$/;"	t	typeref:struct:_s_omit	file:
-ONCE	init.h	68;"	d
-ONDEMAND	init.h	76;"	d
-PATH_DEFAULT	init.h	43;"	d
+ONCE	init.h	71;"	d
+ONDEMAND	init.h	79;"	d
+PATH_DEFAULT	init.h	44;"	d
 PIDOF_NETFS	killall5.c	847;"	d	file:
 PIDOF_OMIT	killall5.c	846;"	d	file:
 PIDOF_SINGLE	killall5.c	845;"	d	file:
 PIDQ	killall5.c	/^} PIDQ;$/;"	t	typeref:struct:pidq	file:
 PIDQ_HEAD	killall5.c	/^} PIDQ_HEAD;$/;"	t	typeref:struct:__anon1	file:
 PIPE_FD	init.h	34;"	d
-POWERFAIL	init.h	71;"	d
-POWERFAILNOW	init.h	79;"	d
-POWEROKWAIT	init.h	73;"	d
-POWERWAIT	init.h	72;"	d
+POWERFAIL	init.h	74;"	d
+POWERFAILNOW	init.h	82;"	d
+POWEROKWAIT	init.h	76;"	d
+POWERWAIT	init.h	75;"	d
 PROC	killall5.c	/^} PROC;$/;"	t	typeref:struct:proc	file:
 PROC_IDE	hddown.c	406;"	d	file:
 PWRSTAT	paths.h	39;"	d
 PWRSTAT_OLD	paths.h	38;"	d
 R	fstab-decode.c	43;"	d	file:
 R	fstab-decode.c	49;"	d	file:
-RESPAWN	init.h	66;"	d
+RESPAWN	init.h	69;"	d
 RUNLVL_PICKY	halt.c	65;"	d	file:
-RUNNING	init.h	98;"	d
+RUNNING	init.h	102;"	d
 R_CRASH	last.c	67;"	d	file:
 R_DOWN	last.c	68;"	d	file:
 R_NORMAL	last.c	69;"	d	file:
@@ -195,12 +200,14 @@ SDPID	paths.h	34;"	d
 SECURETTY	paths.h	27;"	d
 SELINUX_DEF	Makefile	/^  SELINUX_DEF	=  -DWITH_SELINUX$/;"	m
 SELINUX_DEF	Makefile	/^  SELINUX_DEF	=$/;"	m
+SETSIG	init.c	102;"	d	file:
+SETSIG	init.c	103;"	d	file:
 SETSIG	init.c	94;"	d	file:
 SHADOW	killall5.c	/^} SHADOW;$/;"	t	typeref:struct:_s_shadow	file:
 SHELL	paths.h	35;"	d
 SHUTDOWN_TIME	last.c	49;"	d	file:
 SIGPWR	init.c	83;"	d	file:
-SLEEPTIME	init.h	40;"	d
+SLEEPTIME	init.h	41;"	d
 STACK_DEBUG	init.c	66;"	d	file:
 STATE_PIPE	init.h	35;"	d
 STATIC	Makefile	/^STATIC	=$/;"	m
@@ -209,7 +216,7 @@ STATNAMELEN	killall5.c	62;"	d	file:
 SULOGIN	paths.h	36;"	d
 SULOGINLIBS	Makefile	/^  SULOGINLIBS	= -lselinux	$/;"	m
 SULOGINLIBS	Makefile	/^  SULOGINLIBS	=$/;"	m
-SYSINIT	init.h	78;"	d
+SYSINIT	init.h	81;"	d
 SYS_BLK	hddown.c	59;"	d	file:
 SYS_CLASS	hddown.c	60;"	d	file:
 Signature	init.c	/^const char *Signature = "12567362";	\/* Signature for re-exec fd *\/$/;"	v
@@ -230,8 +237,8 @@ Version	mesg.c	/^char *Version = "@(#) mesg 2.81 31-Jul-2001 miquels@cistron.nl"
 Version	shutdown.c	/^char *Version = "@(#) shutdown 2.86-1 31-Jul-2004 miquels@cistron.nl";$/;"	v
 Version	sulogin.c	/^char *Version = "@(#)sulogin 2.85-3 23-Apr-2003 miquels@cistron.nl";$/;"	v
 Version	wall.c	/^char *Version = "@(#) wall 2.79 12-Sep-2000 miquels@cistron.nl";$/;"	v
-WAIT	init.h	67;"	d
-WAITING	init.h	102;"	d
+WAIT	init.h	70;"	d
+WAITING	init.h	106;"	d
 WIN_FLUSH_CACHE	hddown.c	216;"	d	file:
 WIN_FLUSH_CACHE_EXT	hddown.c	213;"	d	file:
 WIN_IDENTIFY	hddown.c	344;"	d	file:
@@ -239,8 +246,8 @@ WIN_STANDBYNOW1	hddown.c	207;"	d	file:
 WIN_STANDBYNOW1	hddown.c	490;"	d	file:
 WIN_STANDBYNOW2	hddown.c	210;"	d	file:
 WIN_STANDBYNOW2	hddown.c	493;"	d	file:
-XECUTED	init.h	104;"	d
-ZOMBIE	init.h	103;"	d
+XECUTED	init.h	108;"	d
+ZOMBIE	init.h	107;"	d
 _GNU_SOURCE	hddown.c	25;"	d	file:
 _GNU_SOURCE	shutdown.c	36;"	d	file:
 _INITREQ_H	initreq.h	24;"	d
@@ -297,7 +304,6 @@ count	init.h	/^  int count;			\/* Times respawned in the last 2 minutes *\/$/;"	
 createlogfile	bootlogd.c	/^int createlogfile = 0;$/;"	v
 data	initreq.h	/^		char			data[368];$/;"	m	union:init_request::__anon4
 data	root/usr/include/initreq.h	/^		char			data[368];$/;"	m	union:init_request::__anon5
-debug	init.c	1288;"	d	file:
 decode	fstab-decode.c	/^decode(char *s)$/;"	f	file:
 defcons	bootlogd.c	/^char *defcons[] = { "tty0", "hvc0", "ttyS0", "ttySC0", "ttyB0", NULL };$/;"	v
 dev	killall5.c	/^	dev_t dev;		\/* Device it is on		  *\/$/;"	m	struct:proc	file:
@@ -386,7 +392,7 @@ init_freeenv	init.c	/^void init_freeenv(char **e)$/;"	f
 init_main	init.c	/^void init_main(void)$/;"	f	file:
 init_nfs	killall5.c	/^void init_nfs(void)$/;"	f
 init_pid_q	killall5.c	/^PIDQ_HEAD *init_pid_q(PIDQ_HEAD *q)$/;"	f
-init_reboot	reboot.h	50;"	d
+init_reboot	reboot.h	53;"	d
 init_request	initreq.h	/^struct init_request {$/;"	s
 init_request	root/usr/include/initreq.h	/^struct init_request {$/;"	s
 init_request_bsd	initreq.h	/^struct init_request_bsd {$/;"	s

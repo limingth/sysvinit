@@ -72,6 +72,25 @@ extern void write_wtmp(char *user, char *id, int pid, int type, char *line);
 /*
  *	Send usage message.
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 通过 fprintf() 函数，向标准出错 stderr 打印该条命令的用户使用帮助信息
+ */
 void usage(void)
 {
 	fprintf(stderr, "usage: %s [-n] [-w] [-d] [-f] [-h] [-i]%s\n",
@@ -146,6 +165,25 @@ int get_runlevel(void)
 /*
  *	Switch to another runlevel.
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 通过 execv 系统调用，执行 shutdown 命令来切换运行级别
+ */
 void do_shutdown(char *fl, char *tm)
 {
 	char *args[8];
@@ -172,6 +210,52 @@ void do_shutdown(char *fl, char *tm)
  *	Main program.
  *	Write a wtmp entry and reboot cq. halt.
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief halt 命令实现的主函数，负责写入 wtmp 日志文件和调用 shutdown 命令来关闭系统
+ *
+ * @details halt 命令详细用法
+
+   halt 用来停止系统。正常情况下等效于 shutdown 加上 -h 参数(当前系统运行级别是 0 时除外)。它将告诉内核去中止系统，并在系统正在关闭的过程中将日志记录到 /var/log/wtmp 文件里。
+
+	* 命令格式
+		/sbin/halt [-n] [-w] [-d] [-f] [-i] [-p] [-h]
+
+	* 主要选项
+	 -n  
+		reboot或者halt之前，不同步(sync)数据.
+	 -w  
+		仅仅往/var/log/wtmp里写一个记录，并不实际做reboot或者halt操作.
+	 -f  
+		强制halt或者reboot，不等其他程序退出或者服务停止就重新启动系统.这样会造成数据丢失，建议一般不要这样做.
+	 -i  
+		halt或reboot前，关闭所有网络接口.
+	 -h  
+		halt或poweroff前，使系统中所有的硬件处于等待状态.
+	 -p  
+		在系统halt同时，做poweroff操作.即停止系统同时关闭电源.
+
+ *
+ */
+
+
+
+
 int main(int argc, char **argv)
 {
 	int do_reboot = 0;

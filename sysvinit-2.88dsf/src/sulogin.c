@@ -236,6 +236,7 @@ void set(char **var, char *val)
 /*
  *	Get the root password entry.
  */
+// getrootpwent.cmt
 static
 struct passwd *getrootpwent(int try_manually)
 {
@@ -339,6 +340,7 @@ struct passwd *getrootpwent(int try_manually)
  *	Ask for the password. Note that there is no
  *	default timeout as we normally skip this during boot.
  */
+// getpasswd.cmt
 static
 char *getpasswd(char *crypted)
 {
@@ -393,6 +395,7 @@ char *getpasswd(char *crypted)
 /*
  *	Password was OK, execute a shell.
  */
+// sushell.cmt
 static
 void sushell(struct passwd *pwd)
 {
@@ -467,6 +470,7 @@ void sushell(struct passwd *pwd)
 	perror(STATICSH);
 }
 
+// usage.cmt
 static
 void usage(void)
 {

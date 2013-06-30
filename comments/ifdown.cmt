@@ -1,0 +1,5 @@
+/*
+ * @brief 在 halt 命令关机过程中，找到所有的网络设备，并且把它们关闭。
+ * 
+ * @details 主要依靠调用 ioctl(fd, SIOCSIFFLAGS, &ifr[i]) 系统调用
+ */

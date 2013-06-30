@@ -1,0 +1,22 @@
+/*
+ * @brief 根据全局变量 got_signals 中哪些标志位被设置了，获得信号类型，进行相应的处理。
+ *
+ * @details 函数执行流程分析：
+
+	程序执行逻辑很简单，就是依次判别 ISMEMBER(got_signals, SIGXXXX) 对于以下信号进行相应处理。
+
+	1. SIGPWR 信号 -> do_power_fail()
+
+	2. SIGINT 信号 -> 通知 ctrlaltdel 入口启动
+
+	3. SIGWINCH 信号 -> 通知 KBREQUEST 入口启动
+
+	4. SIGALRM 信号 -> 定时器到时，忽略
+
+	5. SIGCHLD 信号 -> 查看是哪个子进程结束，调用 write_utmp_wtmp() 写入日志
+
+	6. SIGHUP 信号 -> 是否在等待子进程，进行 runlevel 切换
+
+	7. SIGUSR1 信号 -> 这个信号代表要求关闭然后重新打开 /dev/initctl
+ *
+ */

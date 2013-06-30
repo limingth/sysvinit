@@ -1,0 +1,6 @@
+/*
+ * @brief 通过 /etc/initctl 管道向 init 进程发送控制命令
+ *
+ * @details 在执行 telinit 函数时，实际上是通过向INIT_FIFO（/dev/initctl）写入命令的方式，通知 init 执行相应的操作。Telinit()根据不同请求，构造如下结构体类型的变量并向INIT_FIFO（/dev/initctl）写入该请求来完成其使命
+ *
+ */

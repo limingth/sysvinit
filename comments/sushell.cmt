@@ -1,0 +1,16 @@
+/*
+ * @brief 当用户的密码验证通过后，启动一个shell （由环境变量SUSHELL指定）
+ *
+ * @details 函数执行流程分析：
+	
+	1. 调用 chdir 改变根目录
+
+	2. 调用 getenv 获取环境变量 SUSHELL 的值，并赋值给 sushell 指针
+
+	3. 设置一些环境变量 HOME，LOGNAME，USER 的值
+
+	4. 安装一些信号处理函数 SIGINT，SIGTSTP，SIGQUIT
+
+	5. 调用 execl 来执行 sushell 命令，如果失败，则依次执行 /bin/sh,/bin/sash
+ *
+ */

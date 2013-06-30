@@ -298,6 +298,7 @@ void quit_handler()
 /*
  *	Get the basename of a filename
  */
+// mybasename.cmt
 char *mybasename(char *s)
 {
 	char *p;
@@ -312,6 +313,7 @@ char *mybasename(char *s)
 /*
  *	Lookup a host with DNS.
  */
+// dns_lookup.cmt
 int dns_lookup(char *result, int size, int useip, int32_t *a)
 {
 	struct sockaddr_in	sin;
@@ -364,6 +366,7 @@ int dns_lookup(char *result, int size, int useip, int32_t *a)
 /*
  *	Show one line of information on screen
  */
+// list.cmt
 int list(struct utmp *p, time_t t, int what)
 {
 	time_t		secs, tmp;
@@ -530,6 +533,7 @@ int list(struct utmp *p, time_t t, int what)
 /*
  *	show usage
  */
+// usage.cmt
 void usage(char *s)
 {
 	fprintf(stderr, "Usage: %s [-num | -n num] [-f file] "
@@ -577,6 +581,7 @@ time_t parsetm(char *ts)
 	return tm;
 }
 
+// last-main.cmt
 int main(int argc, char **argv)
 {
   FILE *fp;		/* Filepointer of wtmp file */

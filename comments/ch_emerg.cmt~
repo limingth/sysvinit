@@ -1,0 +1,4 @@
+/*
+ * @brief 该全局变量是用于定义紧急shell Emergency shell 使用 /sbin/sulogin
+ */
+

@@ -298,6 +298,25 @@ void quit_handler()
 /*
  *	Get the basename of a filename
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 获得一个长文件名（包含路径）的文件名（不包含路径信息）
+ */
 char *mybasename(char *s)
 {
 	char *p;
@@ -311,6 +330,26 @@ char *mybasename(char *s)
 
 /*
  *	Lookup a host with DNS.
+ */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 查找一个主机的 DNS 记录，通过调用 getnameinfo() 完成。
+ *
  */
 int dns_lookup(char *result, int size, int useip, int32_t *a)
 {
@@ -363,6 +402,26 @@ int dns_lookup(char *result, int size, int useip, int32_t *a)
 
 /*
  *	Show one line of information on screen
+ */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 显示一行的登录信息，包括是否 login/logout ，登入/登出时间，是否正常退出等信息。
+ *
  */
 int list(struct utmp *p, time_t t, int what)
 {
@@ -530,6 +589,25 @@ int list(struct utmp *p, time_t t, int what)
 /*
  *	show usage
  */
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief 通过 fprintf() 函数，向标准出错 stderr 打印该条命令的用户使用帮助信息
+ */
 void usage(char *s)
 {
 	fprintf(stderr, "Usage: %s [-num | -n num] [-f file] "
@@ -576,6 +654,53 @@ time_t parsetm(char *ts)
 
 	return tm;
 }
+
+/**                                                                  
+ * @attention 本注释得到了"核高基"科技重大专项2012年课题             
+ *             “开源操作系统内核分析和安全性评估                     
+ *            （课题编号：2012ZX01039-004）”的资助。                 
+ *                                                                    
+ * @copyright 注释添加单位：清华大学——03任务                         
+ *            （Linux内核相关通用基础软件包分析）                     
+ *                                                                    
+ * @author 注释添加人员： 李明                                       
+ *             (电子邮件 <limingth@gmail.com>)                       
+ *                                                                    
+ * @date 注释添加日期：                                              
+ *                      2013-6-1                                      
+ *                                                                    
+ * @note 注释详细内容:                                                
+ *             (注释内容主要参考 sysvinit 项目详细分析文档)           
+ *
+ * @brief last 命令实现的主函数，打印出最近的用户登录记录
+ *
+ * @details last 命令详细用法
+
+    last 命令给出哪一个用户最后一次登录(或退出登录)，它回溯/var/log/wtmp文件(或者-f选项指定的文件)，显示自从这个文件建立以来，所有用户的登录情况。
+
+    lastb 显示所有失败登录企图，并记录在 /var/log/btmp.
+
+	* 命令格式
+		last  [-R] [-num] [ -n num ] [-adFiowx] [ -f file ] [ -t YYYYMMDDHHMMSS] [name...]  [tty...]
+
+	* 主要选项
+		 -num（-n num）
+			指定 last 要显示多少行。
+		 -R 
+			不显示主机名列。 
+		 -a 
+			在最后一列显示主机名（和下一个选项合用时很有用） 
+		 -d 
+			对于非本地的登录，Linux 不仅保存远程主机名而且保存IP地址。这个选项可以将IP地址转换为主机名。 
+		 -i 
+			这个选项类似于显示远程主机 IP 地址的 -d 选项，只不过它用数字和点符号显示IP地址。
+		 -o 
+			读取一个旧格式的 wtmp 文件（用linux-libc5应用程序写入的）。 
+		 -x 
+			显示系统关机记录和运行级别改变的日志。
+
+ *
+ */
 
 int main(int argc, char **argv)
 {
