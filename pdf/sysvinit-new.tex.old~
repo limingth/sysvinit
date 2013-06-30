@@ -2886,160 +2886,7 @@ $
 \end{verbatim}
 \chapter{Sysvinit 项目安全漏洞}
 
-\section{案例1-INIT\_FIFO管道文件安全漏洞}
-
-因为 init Daemon 进程，是通过 INIT\_FIFO (/dev/.initctl)
-管道来进行通讯，而这个管道的名字是编译时就指定好的，在整个系统运行过程中，这个管道名是固定不变的。因此只需要用户程序有权限来对这个管道进行写操作，就可以获得对
-init 进程的控制。
-
-我们来做一个实验，来模拟测试一下这个潜在的漏洞。
-
-\subsection{修改默认管道文件}
-
-修改源码文件 initreq.h +35行，将 INIT\_FIFO 定义为 /tmp/.initctl
-
-{\begin{shaded}\begin{verbatim}
-#define INIT_FIFO  "/tmp/.initctl"
-
-$ ls -l /tmp/.initctl 
-prw------- 1 root root 0 Jun 28 22:39 /tmp/.initctl
-$ 
-\end{verbatim}
-\subsection{修改管道文件权限}
-
-将管道文件的权限改为 777 ，允许任意用户进行读写
-
-{\begin{shaded}\begin{verbatim}
-$ chmod 777 /tmp/.initctl 
-chmod: changing permissions of `/tmp/.initctl': Operation not permitted
-$ sudo chmod 777 /tmp/.initctl 
-[sudo] password for akaedu: 
-$ ls -l /tmp/.initctl 
-prwxrwxrwx 1 root root 0 Jun 28 22:39 /tmp/.initctl
-$ 
-\end{verbatim}
-\subsection{管道传送结构体定义}
-
-参考 initreq.h 头文件中的定义，按照结构体 struct init\_request
-的格式，向管道中写入数据
-
-{\begin{shaded}\begin{verbatim}
- 69 /*
- 70  *      Because of legacy interfaces, "runlevel" and "sleeptime"
- 71  *      aren't in a seperate struct in the union.
- 72  *
- 73  *      The weird sizes are because init expects the whole
- 74  *      struct to be 384 bytes.
- 75  */
- 76 struct init_request {
- 77         int     magic;                  /* Magic number                 */
- 78         int     cmd;                    /* What kind of request         */
- 79         int     runlevel;               /* Runlevel to change to        */
- 80         int     sleeptime;              /* Time between TERM and KILL   */
- 81         union {
- 82                 struct init_request_bsd bsd;
- 83                 char                    data[368];
- 84         } i;
- 85 };
-
- 37 #define INIT_MAGIC 0x03091969
- 38 #define INIT_CMD_START          0
- 39 #define INIT_CMD_RUNLVL         1
- 40 #define INIT_CMD_POWERFAIL      2
- 41 #define INIT_CMD_POWERFAILNOW   3
- 42 #define INIT_CMD_POWEROK        4
- 43 #define INIT_CMD_BSD            5
- 44 #define INIT_CMD_SETENV         6
- 45 #define INIT_CMD_UNSETENV       7
-\end{verbatim}
-其中第1个int型（4字节）是 Magic Number，这是一个固定值 0x03091969
-。考虑到小尾端的存储方式，数据的前4个字节应该是16进制的 69 19 09 03
-倒过来存放的。
-
-第2个int型（4字节）是 cmd ，如果我们选择要更改 runlevel ，则对应的值是
-INIT\_CMD\_RUNLVL = 1，内存里面的顺序为 01 00 00 00
-
-第3个int型（4字节）是 runlevel , 如果我们向修改的运行级别是 3
-级，则对应的值是字符（char） `3'，内存里面的顺序为 33 00 00 00
-
-\subsection{制作数据文件}
-
-工具准备：安装 Ubuntu 上的16进制编辑器
-
-{\begin{shaded}\begin{verbatim}
-$ sudo apt-get install tweak 
-Reading package lists... Done
-Building dependency tree       
-Reading state information... Done
-The following NEW packages will be installed:
-  tweak
-0 upgraded, 1 newly installed, 0 to remove and 145 not upgraded.
-Need to get 45.3 kB of archives.
-After this operation, 184 kB of additional disk space will be used.
-Get:1 http://mirrors.ustc.edu.cn/ubuntu/ precise/universe tweak i386 3.01-7 [45.3 kB]
-Fetched 45.3 kB in 0s (63.1 kB/s)                       
-Selecting previously unselected package tweak.
-(Reading database ... 209818 files and directories currently installed.)
-Unpacking tweak (from .../archives/tweak_3.01-7_i386.deb) ...
-Processing triggers for man-db ...
-Processing triggers for doc-base ...
-Processing 1 added doc-base file...
-Registering documents with scrollkeeper...
-Processing triggers for menu ...
-Setting up tweak (3.01-7) ...
-Processing triggers for menu ...
-\end{verbatim}
-使用 dd 命令制作一个用于 INIT\_FIFO 传送的 request 数据包
-
-{\begin{shaded}\begin{verbatim}
-$ dd if=/dev/zero of=request.dat bs=1 count=384
-384+0 records in
-384+0 records out
-384 bytes (384 B) copied, 0.00159663 s, 241 kB/s
-$ 
-\end{verbatim}
-struct init\_request 的大小为384个字节，每次传送 sizeof(struct
-init\_request) 给 Daemon 表示要进行的操作。
-
-使用 tweak 命令，来用 16进制方式修改 request.dat 文件
-
-{\begin{shaded}\begin{verbatim}
-$ tweak request.dat 
-$ hexdump request.dat -C
-00000000  69 19 09 03 01 00 00 00  33 00 00 00 00 00 00 00  |i.......3.......|
-00000010  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
-*
-00000180
-$ 
-\end{verbatim}
-\subsection{测试通过 INIT\_FIFO 来传送 request 数据包}
-
-参考运行时调试图的第3个实验，用本地执行 sudo ./init -i 0
-的方式来启动一个模拟的 Daemon 进程。
-
-\begin{figure}[htbp]
-\centering
-\includegraphics{./pictures/hack-daemon-init.png}
-\caption{Daemon init 进程启动进入循环状态等待 request}
-\end{figure}
-
-此时，开启另外一个终端窗口，通过 cat request.dat \textgreater{}
-/dev/.initctl 传送 request 请求包
-
-{\begin{shaded}\begin{verbatim}
-$ cat request.dat > /tmp/.initctl 
-$ 
-\end{verbatim}
-观察 Daemon init 进程输出的调试信息，可以看到 init
-进程已经识别出有一个修改 runlevel 的请求。
-
-\begin{figure}[htbp]
-\centering
-\includegraphics{./pictures/hack-init-fifo.png}
-\caption{Daemon init 进程接到 init\_request 包}
-\end{figure}
-
-\section{案例2-umask掩码安全漏洞}
+\section{案例1-umask掩码安全漏洞}
 
 Linux内核的某些版本中，在umask设置为0000的情况下生成init进程。在这些版本的Linux，有些进程的初始化数据依赖于``init''的umask,并不自行设置。因为init进程生成系统重要而且敏感的文件，因而这种情况就可能形成漏洞问题。如果成功利用该漏洞，恶意用户就可以获取root权限，并破坏系统。
 
@@ -3078,7 +2925,7 @@ cd 进入）。
 
 \url{http://user.ccidnet.com/tech/hack/2001/07/23/58_2766.html}
 
-\section{案例3-利用脚本和符号链接攻击系统目录}
+\section{案例2-利用脚本和符号链接攻击系统目录}
 
 这个安全漏洞描述，是在 Debian 社区邮件列表中提出的。参考信息 BUGTRAQ ID:
 52198
@@ -3120,7 +2967,7 @@ root 权限，就可能会造成安全漏洞。
 
 \url{http://www.jiangmin.com/zixun/3/2012-05-18/537.html}
 
-\section{案例4-Android root 提权漏洞}
+\section{案例3-Android root 提权漏洞}
 
 这篇文章中所提到的安全漏洞，也是和 init
 进程有一定关系，但是并不在我们分析的 sysvinit
@@ -3157,9 +3004,22 @@ firmware="../../../data/local/tmp/hotplug"
 
 \chapter{Sysvinit 项目运行时调试图}
 
-\section{Linux 内核启动 init 进程}
+\section{Linux 内核启动 init 进程运行调试图}
+
+内核代码并不在 sysvinit 软件包项目分析工作之内，但是对于理解 init
+进程是如何启动的，至关重要。因此我们分析了 Linux
+内核的源代码，找到其中从内核启动函数 start\_kernel 开始，到 /sbin/bin
+进程被调用的执行路径和运行逻辑流程。
+
+最后我们通过一张运行时调试图，来表示其中用到的相关函数调用关系，以及和
+init 进程之间的交互。
 
 \subsection{start\_kernel}
+
+这个函数是内核从汇编程序跳转到C程序的入口。内核里面并没有 main
+函数，start\_kernel 就相当于内核的 main 函数，从这里开始，内核开始进入了 C
+语言级别的初始化操作。同时，创建了内核线程调用了 init()
+函数，最终完成了启动 init Daemon 进程的工作。
 
 {\begin{shaded}\begin{verbatim}
 545 asmlinkage void __init start_kernel(void)
@@ -3193,6 +3053,13 @@ firmware="../../../data/local/tmp/hotplug"
 629 }
 630 
 \end{verbatim}
+这个内核函数是在 init/main.c 中，其中 558 行的 parse\_options
+负责处理通过内核启动时的命令行参数传递的 init=xxxx 的信息。
+例如在嵌入式Linux系统中，通常 init=/linuxrc 脚本程序。
+
+其中 628行处，rest\_init() 函数，负责启动 kernel\_thread
+内核线程，后面我们会分析这个函数。
+
 \begin{figure}[htbp]
 \centering
 \includegraphics{./pictures/start_kernel.png}
@@ -3200,6 +3067,9 @@ firmware="../../../data/local/tmp/hotplug"
 \end{figure}
 
 \subsection{parse\_options}
+
+在这个函数中 451 行处，开始进行 init=xxxx 字符串的解析，并将 xxxx 传递给
+execute\_command 指针，后面就会用到这个指针。
 
 {\begin{shaded}\begin{verbatim}
 426 static void __init parse_options(char *line)
@@ -3227,10 +3097,12 @@ firmware="../../../data/local/tmp/hotplug"
 448                 }
 449                 if (next != NULL)
 450                         *next++ = 0;
-451                 if (!strncmp(line,"init=",5)) {
+451                 if (!strncmp(line, "init=", 5)) {
 452                         line += 5;
 453                         execute_command = line;
-454                         /* In case LILO is going to boot us with default com      
+454                         /* In case LILO is going to boot us with default com
+455                 ...
+456                 }
 \end{verbatim}
 \begin{figure}[htbp]
 \centering
@@ -3240,8 +3112,11 @@ firmware="../../../data/local/tmp/hotplug"
 
 \subsection{rest\_init}
 
+进入 rest\_init()
+函数后的最重要的工作，就是负责启动内核线程，由它来完成调用 init()
+内部函数的工作。
+
 {\begin{shaded}\begin{verbatim}
-532 
 533 static void rest_init(void)
 534 {
 535         kernel_thread(init, NULL, CLONE_FS | CLONE_FILES | CLONE_SIGNAL);
@@ -3252,6 +3127,9 @@ firmware="../../../data/local/tmp/hotplug"
 540 
 \end{verbatim}
 \subsection{init 函数}
+
+在这个 init() 函数中，通过 execve 系统函数，实现了加载 /sbin/init
+进程来运行的任务，最终完成启动 init 进程。
 
 {\begin{shaded}\begin{verbatim}
 805 static int init(void * unused)
@@ -3291,6 +3169,12 @@ firmware="../../../data/local/tmp/hotplug"
 839         panic("No init found.  Try passing init= option to kernel.");
 840 }
 \end{verbatim}
+从 833 行可以看出，内核启动 init
+程序，搜索该程序文件的顺序是，先看用户传入的命令行参数 init=xxxx
+里面的指定程序，然后再是 /sbin/init, /etc/init, /bin/init, /bin/sh
+这4个默认的程序，如果都找不到，则会内核报错 panic，No init found.
+内核启动失败。
+
 \begin{figure}[htbp]
 \centering
 \includegraphics{./pictures/init.png}
@@ -3475,5 +3359,158 @@ request 请求的循环中。
 \centering
 \includegraphics{./pictures/init-daemon-trans.png}
 \caption{Daemon 收到运行级别的 request 请求}
+\end{figure}
+
+\section{INIT\_FIFO管道文件调试图}
+
+因为 init Daemon 进程，是通过 INIT\_FIFO (/dev/.initctl)
+管道来进行通讯，而这个管道的名字是编译时就指定好的，在整个系统运行过程中，这个管道名是固定不变的。因此只需要用户程序有权限来对这个管道进行写操作，就可以获得对
+init 进程的控制。
+
+我们来做一个实验，来模拟测试一下这个工作机制。
+
+\subsection{修改默认管道文件}
+
+修改源码文件 initreq.h +35行，将 INIT\_FIFO 定义为 /tmp/.initctl
+
+{\begin{shaded}\begin{verbatim}
+#define INIT_FIFO  "/tmp/.initctl"
+
+$ ls -l /tmp/.initctl 
+prw------- 1 root root 0 Jun 28 22:39 /tmp/.initctl
+$ 
+\end{verbatim}
+\subsection{修改管道文件权限}
+
+将管道文件的权限改为 777 ，允许任意用户进行读写
+
+{\begin{shaded}\begin{verbatim}
+$ chmod 777 /tmp/.initctl 
+chmod: changing permissions of `/tmp/.initctl': Operation not permitted
+$ sudo chmod 777 /tmp/.initctl 
+[sudo] password for akaedu: 
+$ ls -l /tmp/.initctl 
+prwxrwxrwx 1 root root 0 Jun 28 22:39 /tmp/.initctl
+$ 
+\end{verbatim}
+\subsection{管道传送结构体定义}
+
+参考 initreq.h 头文件中的定义，按照结构体 struct init\_request
+的格式，向管道中写入数据
+
+{\begin{shaded}\begin{verbatim}
+ 69 /*
+ 70  *      Because of legacy interfaces, "runlevel" and "sleeptime"
+ 71  *      aren't in a seperate struct in the union.
+ 72  *
+ 73  *      The weird sizes are because init expects the whole
+ 74  *      struct to be 384 bytes.
+ 75  */
+ 76 struct init_request {
+ 77         int     magic;                  /* Magic number                 */
+ 78         int     cmd;                    /* What kind of request         */
+ 79         int     runlevel;               /* Runlevel to change to        */
+ 80         int     sleeptime;              /* Time between TERM and KILL   */
+ 81         union {
+ 82                 struct init_request_bsd bsd;
+ 83                 char                    data[368];
+ 84         } i;
+ 85 };
+
+ 37 #define INIT_MAGIC 0x03091969
+ 38 #define INIT_CMD_START          0
+ 39 #define INIT_CMD_RUNLVL         1
+ 40 #define INIT_CMD_POWERFAIL      2
+ 41 #define INIT_CMD_POWERFAILNOW   3
+ 42 #define INIT_CMD_POWEROK        4
+ 43 #define INIT_CMD_BSD            5
+ 44 #define INIT_CMD_SETENV         6
+ 45 #define INIT_CMD_UNSETENV       7
+\end{verbatim}
+其中第1个int型（4字节）是 Magic Number，这是一个固定值 0x03091969
+。考虑到小尾端的存储方式，数据的前4个字节应该是16进制的 69 19 09 03
+倒过来存放的。
+
+第2个int型（4字节）是 cmd ，如果我们选择要更改 runlevel ，则对应的值是
+INIT\_CMD\_RUNLVL = 1，内存里面的顺序为 01 00 00 00
+
+第3个int型（4字节）是 runlevel , 如果我们向修改的运行级别是 3
+级，则对应的值是字符（char） `3'，内存里面的顺序为 33 00 00 00
+
+\subsection{制作数据文件}
+
+工具准备：安装 Ubuntu 上的16进制编辑器
+
+{\begin{shaded}\begin{verbatim}
+$ sudo apt-get install tweak 
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following NEW packages will be installed:
+  tweak
+0 upgraded, 1 newly installed, 0 to remove and 145 not upgraded.
+Need to get 45.3 kB of archives.
+After this operation, 184 kB of additional disk space will be used.
+Get:1 http://mirrors.ustc.edu.cn/ubuntu/ precise/universe tweak i386 3.01-7 [45.3 kB]
+Fetched 45.3 kB in 0s (63.1 kB/s)                       
+Selecting previously unselected package tweak.
+(Reading database ... 209818 files and directories currently installed.)
+Unpacking tweak (from .../archives/tweak_3.01-7_i386.deb) ...
+Processing triggers for man-db ...
+Processing triggers for doc-base ...
+Processing 1 added doc-base file...
+Registering documents with scrollkeeper...
+Processing triggers for menu ...
+Setting up tweak (3.01-7) ...
+Processing triggers for menu ...
+\end{verbatim}
+使用 dd 命令制作一个用于 INIT\_FIFO 传送的 request 数据包
+
+{\begin{shaded}\begin{verbatim}
+$ dd if=/dev/zero of=request.dat bs=1 count=384
+384+0 records in
+384+0 records out
+384 bytes (384 B) copied, 0.00159663 s, 241 kB/s
+$ 
+\end{verbatim}
+struct init\_request 的大小为384个字节，每次传送 sizeof(struct
+init\_request) 给 Daemon 表示要进行的操作。
+
+使用 tweak 命令，来用 16进制方式修改 request.dat 文件
+
+{\begin{shaded}\begin{verbatim}
+$ tweak request.dat 
+$ hexdump request.dat -C
+00000000  69 19 09 03 01 00 00 00  33 00 00 00 00 00 00 00  |i.......3.......|
+00000010  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+*
+00000180
+$ 
+\end{verbatim}
+\subsection{测试通过 INIT\_FIFO 来传送 request 数据包}
+
+参考运行时调试图的第2个实验，用本地执行 sudo ./init -i 0
+的方式来启动一个模拟的 Daemon 进程。
+
+\begin{figure}[htbp]
+\centering
+\includegraphics{./pictures/hack-daemon-init.png}
+\caption{Daemon init 进程启动进入循环状态等待 request}
+\end{figure}
+
+此时，开启另外一个终端窗口，通过 cat request.dat \textgreater{}
+/dev/.initctl 传送 request 请求包
+
+{\begin{shaded}\begin{verbatim}
+$ cat request.dat > /tmp/.initctl 
+$ 
+\end{verbatim}
+观察 Daemon init 进程输出的调试信息，可以看到 init
+进程已经识别出有一个修改 runlevel 的请求。
+
+\begin{figure}[htbp]
+\centering
+\includegraphics{./pictures/hack-init-fifo.png}
+\caption{Daemon init 进程接到 init\_request 包}
 \end{figure}
 

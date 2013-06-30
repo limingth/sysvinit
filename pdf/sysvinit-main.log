@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.2-0.9995.2 (TeX Live 2009/Debian) (format=xelatex 2013.6.16)  29 JUN 2013 20:13
+This is XeTeX, Version 3.1415926-2.2-0.9995.2 (TeX Live 2009/Debian) (format=xelatex 2013.6.16)  30 JUN 2013 11:57
 entering extended mode
  %&-line parsing enabled.
 **sysvinit-main.tex
@@ -464,18 +464,23 @@ Overfull \hbox (4.80707pt too wide) detected at line 108
  []
 
 [4] [5]
+Overfull \hbox (3.00348pt too wide) detected at line 192
+ []\EU1/CourierNew(0)/m/n/12 100
+ []
+
+
 Overfull \hbox (3.00348pt too wide) detected at line 193
- []\EU1/CourierNew(0)/m/n/12 101
+ []\EU1/CourierNew(0)/m/n/12 100
  []
 
 
 Overfull \hbox (3.00348pt too wide) detected at line 194
- []\EU1/CourierNew(0)/m/n/12 101
+ []\EU1/CourierNew(0)/m/n/12 102
  []
 
 
 Overfull \hbox (3.00348pt too wide) detected at line 195
- []\EU1/CourierNew(0)/m/n/12 101
+ []\EU1/CourierNew(0)/m/n/12 102
  []
 
 
@@ -495,7 +500,7 @@ Overfull \hbox (3.00348pt too wide) detected at line 198
 
 
 Overfull \hbox (3.00348pt too wide) detected at line 199
- []\EU1/CourierNew(0)/m/n/12 103
+ []\EU1/CourierNew(0)/m/n/12 105
  []
 
 )
@@ -840,78 +845,82 @@ Overfull \hbox (959.81976pt too wide) in paragraph at lines 2753--2753
 
 ]
 Chapter 4.
-[85] [86]
-Overfull \hbox (57.89993pt too wide) in paragraph at lines 2991--2991
-[]\EU1/lmtt/m/n/12 Get:1 http://mirrors.ustc.edu.cn/ubuntu/ precise/universe tw
-eak i386 3.01-7 [45.3 kB][] 
- []
-
-[87]
-File: ./pictures/hack-daemon-init.png Graphic file (type QTm)
- <use  "./pictures/hack-daemon-init.png" > [88]
-File: ./pictures/hack-init-fifo.png Graphic file (type QTm)
-
-<use  "./pictures/hack-init-fifo.png" > [89]
+[85]
 LaTeX Font Info:    Font shape `OT1/CourierNew(0)/m/n' undefined
 (Font)              using `OT1/cmr/m/n' instead
-(Font)              for symbol `textdollar' on input line 3095.
- [90] [91]
-Overfull \hbox (127.9516pt too wide) in paragraph at lines 3139--3139
+(Font)              for symbol `textdollar' on input line 2942.
+ [86]
+Overfull \hbox (127.9516pt too wide) in paragraph at lines 2986--2986
 []\EU1/lmtt/m/n/12 ACTION=addDEVPATH=/../data/local/tmpSUBSYSTEM=firmwareFIRMWA
 RE=../../../data/local/tmp/hotplug[] 
  []
 
 
-Overfull \hbox (77.8324pt too wide) in paragraph at lines 3148--3151
+Overfull \hbox (77.8324pt too wide) in paragraph at lines 2995--2998
 []\rm/m/n/12 最 后 在 内 核 \EU1/CourierNew(0)/m/n/12 load[]firmware \rm/m
 /n/12 函 数\EU1/CourierNew(0)/m/n/12 , \rm/m/n/12 把 \EU1/CourierNew(0)/m/n/
 12 hotplug \rm/m/n/12 中 的 数 据 写 到\EU1/CourierNew(0)/m/n/12 /proc/sy
 s/kernel/hotplug
  []
 
-[92]
+[87] [88]
 Chapter 5.
-[93
+[89
 
 ]
 File: ./pictures/start_kernel.png Graphic file (type QTm)
- <use  "./pictures/start_kernel.png" > [94]
+ <use  "./pictures/start_kernel.png" > [90] [91]
 File: ./pictures/parse_options.png Graphic file (type QTm)
 
-<use  "./pictures/parse_options.png" > [95] [96]
+<use  "./pictures/parse_options.png" >
+Underfull \vbox (badness 4132) has occurred while \output is active []
+
+ [92]
+[93] [94]
 File: ./pictures/init.png Graphic file (type QTm)
- <use  "./pictures/init.png" >
-[97] [98]
+ <use  "./pictures/init.png" > [95]
 File: ./figures/kernel2init.png Graphic file (type QTm)
- <use  "./figures/kernel2init.png" > [99] [100]
-Overfull \hbox (68.21191pt too wide) in paragraph at lines 3387--3387
+
+<use  "./figures/kernel2init.png" > [96] [97]
+Overfull \hbox (68.21191pt too wide) in paragraph at lines 3271--3271
 [] \EU1/lmtt/m/n/12 104 #define SETSIG(sa, sig, fun, flags)     INITDBG(L_VB, "
 setsig %s : %s\t", #sig, #fun)[] 
  []
 
-[101]
-Overfull \hbox (86.75194pt too wide) in paragraph at lines 3409--3409
+[98]
+Overfull \hbox (86.75194pt too wide) in paragraph at lines 3293--3293
 []\EU1/lmtt/m/n/12 2278         initlog(L_VB, "request: %d, runlevel: %c\n", re
 quest.cmd, request.r     unlevel);[] 
  []
 
 File: ./pictures/init-daemon-begin.png Graphic file (type QTm)
-<use  "./pictures/init-daemon-begin.png" > [102]
+<use  "./pictures/init-daemon-begin.png" > [99]
 File: ./pictures/switch-to-runlevels.png Graphic file (type QTm)
 
 <use  "./pictures/switch-to-runlevels.png" >
 File: ./pictures/init-daemon-trans.png Graphic file (type QTm)
 
-<use  "./pictures/init-daemon-trans.png" >) [103] [104] (./sysvinit-main.aux)
+<use  "./pictures/init-daemon-trans.png" > [100] [101] [102] [103]
+Overfull \hbox (57.89993pt too wide) in paragraph at lines 3466--3466
+[]\EU1/lmtt/m/n/12 Get:1 http://mirrors.ustc.edu.cn/ubuntu/ precise/universe tw
+eak i386 3.01-7 [45.3 kB][] 
+ []
+
+[104]
+File: ./pictures/hack-daemon-init.png Graphic file (type QTm)
+ <use  "./pictures/hack-daemon-init.png" >
+File: ./pictures/hack-init-fifo.png Graphic file (type QTm)
+
+<use  "./pictures/hack-init-fifo.png" >) [105] [106] (./sysvinit-main.aux)
 LaTeX Font Info:    Some font shapes were not available, defaults substituted.
  ) 
 Here is how much of TeX's memory you used:
  6358 strings out of 495713
  108793 string characters out of 1188883
- 223209 words of memory out of 3000000
+ 223229 words of memory out of 3000000
  9354 multiletter control sequences out of 15000+50000
  7529 words of font info for 56 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  38i,6n,44p,471b,424s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on sysvinit-main.pdf (104 pages).
+Output written on sysvinit-main.pdf (106 pages).

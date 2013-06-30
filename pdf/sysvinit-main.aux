@@ -197,46 +197,46 @@
 \@writefile{toc}{\contentsline {chapter}{\numberline {4}Sysvinit 项目安全漏洞}{85}{chapter.4}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}案例1-INIT\_FIFO管道文件安全漏洞}{85}{section.4.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}修改默认管道文件}{85}{subsection.4.1.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}修改管道文件权限}{85}{subsection.4.1.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}管道传送结构体定义}{86}{subsection.4.1.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.4}制作数据文件}{87}{subsection.4.1.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.5}测试通过 INIT\_FIFO 来传送 request 数据包}{88}{subsection.4.1.5}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Daemon init 进程启动进入循环状态等待 request}}{88}{figure.4.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Daemon init 进程接到 init\_request 包}}{89}{figure.4.2}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}案例2-umask掩码安全漏洞}{89}{section.4.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}umask用法简介}{90}{subsection.4.2.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}umask的作用权限掩码}{90}{subsection.4.2.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.3}参考资料}{90}{subsection.4.2.3}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}案例3-利用脚本和符号链接攻击系统目录}{90}{section.4.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.1}举例}{91}{subsection.4.3.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.2}参考资料}{91}{subsection.4.3.2}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.4}案例4-Android root 提权漏洞}{91}{section.4.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.1}举例}{92}{subsection.4.4.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.2}参考资料}{92}{subsection.4.4.2}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Sysvinit 项目运行时调试图}{93}{chapter.5}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}案例1-umask掩码安全漏洞}{85}{section.4.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}umask用法简介}{85}{subsection.4.1.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}umask的作用权限掩码}{85}{subsection.4.1.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}参考资料}{86}{subsection.4.1.3}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}案例2-利用脚本和符号链接攻击系统目录}{86}{section.4.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}举例}{86}{subsection.4.2.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}参考资料}{87}{subsection.4.2.2}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}案例3-Android root 提权漏洞}{87}{section.4.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.1}举例}{87}{subsection.4.3.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.2}参考资料}{88}{subsection.4.3.2}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Sysvinit 项目运行时调试图}{89}{chapter.5}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}Linux 内核启动 init 进程}{93}{section.5.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.1}start\_kernel}{93}{subsection.5.1.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces 内核start\_kernel函数}}{94}{figure.5.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.2}parse\_options}{94}{subsection.5.1.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.3}rest\_init}{95}{subsection.5.1.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.4}init 函数}{95}{subsection.5.1.4}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces 内核parse\_options函数}}{96}{figure.5.2}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces 内核init函数}}{98}{figure.5.3}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.2}init 进程和 telinit 之间的运行调试图}{99}{section.5.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.1}修改 INIT\_FIFO 改变两者联系的管道}{99}{subsection.5.2.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.2}修改 Makefile ，加上 -DDEBUG 选项}{99}{subsection.5.2.2}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces Linux 内核启动 init 进程}}{100}{figure.5.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.3}修改 reboot 操作为打印语句，以防系统重启}{101}{subsection.5.2.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.4}修改源码中信号处理函数，以便直接中断 init 执行}{101}{subsection.5.2.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.5}修改源码中关闭标准输出的部分，可以显示出调试信息}{101}{subsection.5.2.5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.6}在 Daemon 程序中插入打印当前获得 request 的信息}{102}{subsection.5.2.6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.7}重新编译运行 sudo ./init -i}{102}{subsection.5.2.7}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.5}{\ignorespaces init 进入 Daemon 循环中}}{103}{figure.5.5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.8}启动 telinit 1 要求切换运行级别为单用户}{103}{subsection.5.2.8}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.9}查看 init 接收请求和处理方法}{103}{subsection.5.2.9}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.6}{\ignorespaces init 更改运行级别的 request 请求}}{104}{figure.5.6}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.7}{\ignorespaces Daemon 收到运行级别的 request 请求}}{104}{figure.5.7}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}Linux 内核启动 init 进程运行调试图}{89}{section.5.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.1}start\_kernel}{89}{subsection.5.1.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.2}parse\_options}{90}{subsection.5.1.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces 内核start\_kernel函数}}{91}{figure.5.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.3}rest\_init}{92}{subsection.5.1.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces 内核parse\_options函数}}{93}{figure.5.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.4}init 函数}{94}{subsection.5.1.4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces 内核init函数}}{95}{figure.5.3}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}init 进程和 telinit 之间的运行调试图}{96}{section.5.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.1}修改 INIT\_FIFO 改变两者联系的管道}{96}{subsection.5.2.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.2}修改 Makefile ，加上 -DDEBUG 选项}{96}{subsection.5.2.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces Linux 内核启动 init 进程}}{97}{figure.5.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.3}修改 reboot 操作为打印语句，以防系统重启}{98}{subsection.5.2.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.4}修改源码中信号处理函数，以便直接中断 init 执行}{98}{subsection.5.2.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.5}修改源码中关闭标准输出的部分，可以显示出调试信息}{98}{subsection.5.2.5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.6}在 Daemon 程序中插入打印当前获得 request 的信息}{99}{subsection.5.2.6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.7}重新编译运行 sudo ./init -i}{99}{subsection.5.2.7}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.5}{\ignorespaces init 进入 Daemon 循环中}}{100}{figure.5.5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.8}启动 telinit 1 要求切换运行级别为单用户}{100}{subsection.5.2.8}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.9}查看 init 接收请求和处理方法}{100}{subsection.5.2.9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.6}{\ignorespaces init 更改运行级别的 request 请求}}{101}{figure.5.6}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.7}{\ignorespaces Daemon 收到运行级别的 request 请求}}{101}{figure.5.7}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}INIT\_FIFO管道文件调试图}{102}{section.5.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.1}修改默认管道文件}{102}{subsection.5.3.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.2}修改管道文件权限}{102}{subsection.5.3.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.3}管道传送结构体定义}{102}{subsection.5.3.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.4}制作数据文件}{103}{subsection.5.3.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.5}测试通过 INIT\_FIFO 来传送 request 数据包}{105}{subsection.5.3.5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.8}{\ignorespaces Daemon init 进程启动进入循环状态等待 request}}{105}{figure.5.8}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.9}{\ignorespaces Daemon init 进程接到 init\_request 包}}{106}{figure.5.9}}

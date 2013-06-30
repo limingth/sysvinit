@@ -1,6 +1,252 @@
 Sysvinit 项目测试案例分析
 =========================
 
+
+测试 sysvinit 项目编译安装
+-------------------------
+
+### wget下载源码包
+	$ wget http://download.savannah.gnu.org/releases/sysvinit/sysvinit-latest.tar.bz2
+	
+可以看到当前目录下有一个 sysvinit-latest.tar.bz2 的文件
+
+![wget下载源码包](./pictures/1-1-wget.png)
+
+### tar解压源码包
+	$ tar jxvf sysvinit-latest.tar.bz2 
+
+可以看到当前目录下生成了一个 sysvinit-2.88dsf 的目录
+
+![tar解压源码包](./pictures/1-2-tar.png)
+
+### 修改 Makefile
+
+	增添11行的 CC=gcc，注释掉 13，14行有关 CFLAGS 的定义，否则编译会出很多的警告错误。
+
+		$ vi Makefile 
+
+		10 
+		11 CC=gcc
+		12 CPPFLAGS =
+		13 #CFLAGS ?= -ansi -O2 -fomit-frame-pointer
+		14 #override CFLAGS += -W -Wall -D_GNU_SOURCE -DDEBUG
+		15 override CFLAGS += -D_GNU_SOURCE -DDEBUG
+		16 STATIC  =
+		17 
+		...
+
+	在80行处添加83行处的赋值，增加链接时 -lcrypt 选项
+
+		80 SULOGINLIBS     += -lcrypt
+		81 # Additional libs for GNU libc.
+		82 ifneq ($(wildcard /usr/lib*/libcrypt.a),)
+		83   SULOGINLIBS   += -lcrypt
+		84 endif
+		85 
+		86 all:            $(BIN) $(SBIN) $(USRBIN)
+		87 
+		88 #%: %.o
+		89 #       $(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LDLIBS)
+		90 #%.o: %.c
+		91 #       $(CC) $(CFLAGS) $(CPPFLAGS) -c $^ -o $@
+
+### 编译项目源码
+
+	$ cd sysvinit-2.88dsf/
+	$ make
+
+编译无警告和错误信息。
+
+![编译项目源码](./pictures/1-4-make.png)
+
+### 查看生成的可执行文件
+
+	$ ls -l | grep "x "
+
+在 src 目录下生成了十几个可执行文件，包括 init, halt, shutdown, killall5, runlevel, mesg 等。
+
+![查看生成的可执行文件](./pictures/1-5-executables.png)
+
+
+测试 init 0 进入关机模式
+-------------------------
+
+### 运行 runlevel 命令查看当前级别
+
+	$ runlevel
+	N 2
+
+N 表示之前的运行级别未知，2 是当前运行级别
+
+![init 2 命令运行显示](./pictures/init-2.png)
+
+### 执行切换运行级别到同样的级别
+
+	$ sudo init 2
+	$ 
+
+如果切换的是相同的运行级别，则不做任何工作。
+
+### 切换到 0 级别，表示要关闭系统
+
+	$ sudo init 0
+
+![init 0 命令运行启动显示](./pictures/init-0-begin.png)
+
+![init 0 命令运行结束显示](./pictures/init-0-finish.png)
+
+运行结束时，显示 * will now halt 
+
+
+测试 init 1 进入单用户模式
+-------------------------
+
+### 切换到 1 级别，表示要进入单用户模式
+	$ sudo init 0
+
+![init 1 命令运行启动显示](./pictures/init-1-begin.png)
+	
+运行结束时，显示要求输入 root 密码来进行维护
+	
+	Give root password for maintenance
+	(or type Control-D to continues): 
+
+![init 1 命令运行结束显示](./pictures/init-1-finish.png)
+
+此时输入密码，可以进入到单用户模式
+	
+	root@ubuntu:~# 
+
+	root@ubuntu:~# pwd
+	/root
+
+此时查看用户所在的主目录，已经变成是 /root 目录
+	
+![init 1 命令运行登录显示](./pictures/init-1-login.png)
+
+此时输入 whoami 命令，显示当前登录用户
+
+	root@ubuntu:~# whoami
+	root
+
+查看当前用户，可以看到是 root 用户
+
+![init 1 命令运行登录显示](./pictures/init-1-whoami.png)
+
+
+测试 init N 的其他模式
+-------------------------
+
+### 切换到 6 级别，表示要进入 reboot 模式
+
+	$ sudo init 6
+
+可以看到最后打印输出的提示信息，显示 * Will now restart 
+
+![init 6 命令运行启动显示](./pictures/init-6-begin.png)
+
+![init 6 命令运行结束显示](./pictures/init-6-finish.png)
+
+
+### 切换到 S 级别，表示要进入单用户模式
+	
+	$ sudo init S
+
+可以看到最后打印输出的提示信息，要求输入 root 密码，登录后显示提示符： ～#
+
+![init S 命令运行启动显示](./pictures/init-S.png)
+
+
+### 切换到 5 级别，表示要进入其他模式
+
+	$ sudo init 5
+
+可以发现运行到最后，其他模式暂时不支持，因此无法输入。
+
+![init 5 命令运行启动显示](./pictures/init-5.png)
+
+
+测试 shutdown 命令
+-------------------------
+
+
+### 测试 shutdown -k now 参数
+	
+	$ sudo shutdown -k now
+
+可以看到最后只是打印信息，并没有真正执行关机命令。
+
+![shutdown -k now 命令运行启动显示](./pictures/shutdown-k.png)
+
+### 测试 shutdown -h now 参数
+
+	$ sudo shutdown -h now
+
+可以看到立即关机命令，最后提示 * Will now halt 
+
+![shutdown -h now 命令运行启动显示](./pictures/shutdown-h-begin.png)
+
+![shutdown -h now 命令运行结束显示](./pictures/shutdown-h-finish.png)
+
+### 测试 shutdown -n now 参数
+-n 不调用init程序关机，而是由shutdown自己进行(一般关机程序是由shutdown调用init来实现关机动作)，使用此参数将加快关机速度，但是不建议用户使用此种关机方式。
+
+	$ sudo shutdown -n now
+
+可以看到立即关机命令，最后并没有关机，而是进入到系统维护模式下（root单用户模式）。
+
+![shutdown -n now 命令运行启动显示](./pictures/shutdown-n-begin.png)
+
+![shutdown -n now 命令运行中间显示](./pictures/shutdown-n-mid.png)
+
+![shutdown -n now 命令运行结束显示](./pictures/shutdown-n-finish.png)
+
+### 测试 shutdown -r now 参数
+
+	$ sudo shutdown -r now
+
+可以看到 -r 参数表示 reboot ，系统重新启动。
+
+![shutdown -r now 命令运行启动显示](./pictures/shutdown-r.png)
+
+![shutdown -r now 命令运行结束显示](./pictures/reboot-finish.png)
+
+
+测试 poweroff 命令
+-------------------------
+
+### 测试 poweroff 命令，不带参数
+
+	$ sudo poweroff
+
+可以看到 poweroff 关机命令执行，最后系统关闭。
+
+![poweroff 命令运行启动显示](./pictures/poweroff-begin.png)
+
+
+### 测试 poweroff -p 命令
+
+	$ sudo poweroff -p
+
+可以看到 poweroff -p 关机命令执行，最后显示 Power down 
+
+![poweroff -p 命令运行显示](./pictures/poweroff-p.png)
+
+
+测试 reboot 命令
+-------------------------
+
+### 测试 reboot 命令，不带参数
+
+	$ sudo reboot
+
+可以看到 reboot 命令执行，最后显示 * Will now restart 系统完成重启。
+
+![reboot 命令运行启动显示](./pictures/reboot-begin.png)
+
+![reboot 命令运行结束显示](./pictures/reboot-finish.png)
+
+
 测试 wall 命令
 -------------------------
 
@@ -118,7 +364,6 @@ write 也支持给其他终端发消息，做法是打开新的 Terminal 窗口�
 	akaedu    3383  0.0  0.1   4388   840 pts/2    S+   16:23   0:00 grep --color=auto bash
 	$ 
 
-
 ### pidof 命令加 -s 参数
 	$ pidof -s bash
 	3023
@@ -179,8 +424,6 @@ write 也支持给其他终端发消息，做法是打开新的 Terminal 窗口�
 ### 不打印输出任何信息
 	$ src/mountpoint -q /
 	$ 
-
-
 
 测试 runlevel 命令
 -------------------------
@@ -285,200 +528,104 @@ write 也支持给其他终端发消息，做法是打开新的 Terminal 窗口�
 可以看到，如果进程名称中有路径，则只能匹配一个。
 
 
-测试 bootlogd 命令
+
+测试 last 命令
 -------------------------
 
-### 修改配置文件，启动时允许进行 bootlogd 命令
+### 直接运行 last 命令
+	 $ last | head
+	akaedu   pts/4        :0.0             Sat Jun 29 18:13   still logged in   
+	reboot   system boot  3.2.0-29-generic Sat Jun 29 16:43 - 16:43  (00:00)    
+	reboot   system boot  3.2.0-29-generic Sat Jun 29 16:36 - 16:36  (00:00)    
+	reboot   system boot  3.2.0-29-generic Sat Jun 29 16:33 - 16:33  (00:00)    
+	reboot   system boot  3.2.0-29-generic Sat Jun 29 16:32 - 16:32  (00:00)    
+	reboot   system boot  3.2.0-29-generic Sat Jun 29 16:31 - 16:31  (00:00)    
+	reboot   system boot  3.2.0-29-generic Sat Jun 29 16:25 - 16:25  (00:00)    
+	reboot   system boot  3.2.0-29-generic Sat Jun 29 16:17 - 16:17  (00:00)    
+	reboot   system boot  3.2.0-29-generic Sat Jun 29 16:05 - 16:05  (00:00)    
+	akaedu   pts/3        :0.0             Sat Jun 29 13:46 - crash  (02:18)  
+	...  
+	akaedu   pts/2        :0.0             Sun Jun  9 19:05 - 14:03 (1+18:57)   
+	akaedu   pts/1        :0.0             Sun Jun  9 17:54 - 11:49 (1+17:55)   
 
-	$ sudo vi /etc/default/bootlogd 
-	  1 # Run bootlogd at startup ?
-	  2 BOOTLOGD_ENABLE=yes
+	wtmp begins Tue Jun  4 07:38:37 2013
 
-	$ cat /etc/default/bootlogd 
-	# Run bootlogd at startup ?
-	BOOTLOGD_ENABLE=yes
+### 查看最后10条记录
+	$ last -10
+	akaedu   pts/4        :0.0             Sat Jun 29 18:13   still logged in   
+	reboot   system boot  3.2.0-29-generic Sat Jun 29 16:43 - 16:43  (00:00)    
+	reboot   system boot  3.2.0-29-generic Sat Jun 29 16:36 - 16:36  (00:00)    
+	reboot   system boot  3.2.0-29-generic Sat Jun 29 16:33 - 16:33  (00:00)    
+	reboot   system boot  3.2.0-29-generic Sat Jun 29 16:32 - 16:32  (00:00)    
+	reboot   system boot  3.2.0-29-generic Sat Jun 29 16:31 - 16:31  (00:00)    
+	reboot   system boot  3.2.0-29-generic Sat Jun 29 16:25 - 16:25  (00:00)    
+	reboot   system boot  3.2.0-29-generic Sat Jun 29 16:17 - 16:17  (00:00)    
+	reboot   system boot  3.2.0-29-generic Sat Jun 29 16:05 - 16:05  (00:00)    
+	akaedu   pts/3        :0.0             Sat Jun 29 13:46 - crash  (02:18)    
+
+	wtmp begins Tue Jun  4 07:38:37 2013
 	$ 
 
+### 查看最后5条记录在 tty2 终端的活动记录
 
+	$ last tty2 -5
+	akaedu   tty2                          Fri Jun 28 17:56 - crash  (01:48)    
+	akaedu   tty2                          Fri Jun 28 17:56 - 17:56  (00:00)    
+	akaedu   tty2                          Fri Jun 28 17:53 - down   (00:02)    
+	akaedu   tty2                          Fri Jun 28 17:53 - 17:53  (00:00)    
+	akaedu   tty2                          Fri Jun 28 15:56 - 17:48  (01:52)    
 
+	wtmp begins Tue Jun  4 07:38:37 2013
+	$ 
 
+测试 fstab-decode 命令
+-------------------------
 
+### 查看 /etc/fstab 文件内容
 
+	$ cat /etc/fstab
+	# /etc/fstab: static file system information.
+	#
+	# Use 'blkid' to print the universally unique identifier for a
+	# device; this may be used with UUID= as a more robust way to name devices
+	# that works even if disks are added and removed. See fstab(5).
+	#
+	# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+	proc            /proc           proc    nodev,noexec,nosuid 0       0
+	# / was on /dev/sda1 during installation
+	UUID=2f2c4281-25b4-445b-b2c0-ef9cdf01ce13 /               ext4    errors=remount-ro 0       1
+	# swap was on /dev/sda5 during installation
+	UUID=a931fe75-bda1-45ed-b3d6-357c9e84a983 none            swap    sw              0       0
+	/dev/fd0        /media/floppy0  auto    rw,user,noauto,exec,utf8 0       0
+	$ 
 
+### 使用 awk 命令解析找出 ext4 文件系统
+	$ awk  '$3 == "ext4" { print $0 }'  /etc/fstab 
+	UUID=2f2c4281-25b4-445b-b2c0-ef9cdf01ce13 /               ext4    errors=remount-ro 0       1
+	$ 
 
-init命令的大致工作流程如下：
+	$ awk  '$3 == "ext4" { print $2 }'  /etc/fstab 
+	/
 
-首先，由于init本身具有两面性(既是init，又是telinit)，因此init通过检查自己的进程号来判断自己是 init 还是 telinit ；真正的 init 的进程号(pid)永远都是 1。此外，用户还可通过参数-i，或者—init明确指定强制执行init（源码中有相关处理，但是man page没有给出说明）。
+### 使用 umount 命令卸载 /etc/fstab 中的 ext4 文件系统
+	$ umount $(awk  '$3 == "ext4" { print $2 }'  /etc/fstab)
+	umount: only root can unmount UUID=2f2c4281-25b4-445b-b2c0-ef9cdf01ce13 from /
 
-如果init发现要执行的是telinit，它会调用telinit()函数:
-	if (!isinit) exit(telinit(p, argc, argv));
-telinit()函数的原型如下：
+	$ sudo umount $(awk  '$3 == "ext4" { print $2 }'  /etc/fstab)
+	[sudo] password for akaedu: 
+	umount: /: device is busy.
+		(In some cases useful info about processes that use
+		 the device is found by lsof(8) or fuser(1))
+	$ 
 
-int telinit(char *progname, int argc, char **argv);
-
-实际调用telinit()函数时，是将用户的输入参数列表完全传递给telinit()函数的。在执行telinit时，实际上是通过向INIT_FIFO（/dev/initctl）写入命令的方式，通知init执行相应的操作。Telinit()根据不同请求，构造如下结构体类型的变量并向INIT_FIFO（/dev/initctl）写入该请求来完成其使命：
-
-struct init_request {
-	int	magic;			/* Magic number                 */
-	int	cmd;			/* What kind of request         */
-	int	runlevel;		/* Runlevel to change to        */
-	int	sleeptime;		/* Time between TERM and KILL   */
-	union {
-		struct init_request_bsd	bsd;
-		char			data[368];
-	} i;
-};
-
-如果执行的是真正的init，则又分为两种情形：
-
-对init的重新执行（re-exec）
-标准init的执行（首次执行）
-
-在从判断是否telinit()之后的第一步就是检查是否是对init的重新执行（re-exec）（通过读取STATE_PIPE，看是否收到一个Signature = "12567362"的字符串来确定）。如果是re-exec，则继续从STATE_PIPE读取完整的state信息（这些信息被保存在CHILD类型的链表family上），然后调用init_main()来重新执行init(注意，这里没有对/etc/inittab进行解析，这也就是re-exec的特点)。下面在对标准init的执行过程的描述中会谈到如何发起对init的重新执行。
-
-如果不是对init的重新执行（re-exec），则是标准init的执行（首次执行）。
-首先，会通过检查命令参数，设置dfl_level，emerg_shell变量，如果参数有-a,auto的话，还会设置环境变量AUTOBOOT=YES。
-
-如果sysvinit编译时使能了SELINUX，即定义了WITH_SELINUX，则首先检查SELINUX_INIT是否被设置。如果SELINUX_INIT未被设置，则装载/proc文件系统（实际上这是为了确保/proc文件系统已经被装载上）。之后用is_selinux_enabled()判断是否系统真的使能了SELINUX。如果是的话，则卸载掉/proc文件系统，然后再调用selinux_init_load_policy()加载策略，并在成功时调用execv()再执行init；否则若SELINUX处于强制模式，则输出警告消息“Unable to load SELinux Policy…”并退出。此处似乎有一个问题，参加下面的链接：
-
-http://us.generation-nt.com/answer/bug-580272-sysvinit-2-88-selinux-policy-help-198006521.html
-
-在进行前面的一系列检测之后，最终开始调用init_main()进入标准的init主函数。下面对该函数做初步分析。
-
-首先，会通过调用reboot(RB_DISABLE_CAD)禁止标准的CTRL-ALT-DEL组合键的响应，从而当按下这个组合键时，会发送SIGINT给init进程，让init来进一步决定采取何种动作（负责该组合键会导致系统直接重启）。
-
-接着，安装一些默认的信号处理函数，包括：
-
-signal_handler(),处理SIGALRM，SIGHUP，SIGINT，SIGPWR，SIGWINCH，SIGUSR1
-chld_handler()，处理SIGCHLD
-stop_handler()，处理SIGSTOP，SIGTSTP
-cont_handler()，处理SIGCONT
-segv_handler()，处理SIGSEGV
-
-再之后，考虑首次运行init的情形（reload=0），init_main()会初始化终端，并对终端进行一些默认的设置（在console_stty()函数中通过tcsetattr()实现），设置有一些快捷键，例如：
-ctrl+d 退出登陆，等效于logout命令
-ctrl+c 杀死应用程序
-ctrl+s 暂停应用程序运行，可用ctrl+q恢复运行
-ctrl+z 挂起应用程序，此时ps显示进程状态变为T
-
-紧接着，init_main()设置PATH环境变量，并初始化/var/run/utmp。如果emerg_shell被设置（参数中有-b或者emergency），表示需要启动Emergency shell，则通过调用spawn()初始化Emergency shell子进程，并等待该子进程退出。
-
-当从Emergency shell退出（或者不需要Emergency shell的话），init_main()会调用read_inittab()来读入/etc/inittab文件。该函数主要将/etc/inittab文件解析的结果存入CHILD类型的链表family上，供之后的执行使用。
-
-紧接着，调用start_if_needed()，启动需要在相应运行级别中运行的程序和服务。而该函数主要又是通过调用startup()函数，继而调用spawn()来启动程序或者服务的运行的。
-
-在此之后，init_main()进入其主循环，该循环大致如下：
-while(1)
-{
-    /* See if we need to make the boot transitions. */
-     boot_transitions();
-     /* Check if there are processes to be waited on. */
-     for(ch = family; ch; ch = ch->next)
-	    if ((ch->flags & RUNNING) && ch->action != BOOT) break;
-     if (ch != NULL && got_signals == 0) check_init_fifo();
-     /* Check the 'failing' flags */
-     fail_check();
-     /* Process any signals. */
-     process_signals();
-     /* See what we need to start up (again) */
-     start_if_needed();
-}
-
-该主循环的大致功能是，先判断是否有需要切换运行级别，然后等待需要被等待退出的进程退出；并检测是否有任何失败情形并发出警告；之后处理接收到的信号（检查got_signals）；然后再看有没有需要被启动的程序或者服务。
-
-下面是对上述循环中的一些需要注意的特殊点的描述。
-
-	1. 对于首次运行,上述代码中会调用get_init_default()，解析/etc/inittab文件查找是否有 initdefault 记录。 initdefault 记录决定系统初始运行级别。如果没有这条记录，就调用ask_runlevel()，让用户在系统控制台输入想要进入的运行级别。此后，init会解析/etc/inittab 文件中的各个条目并执行相应操作。
-
-	2. 在正常运行期间，也会对/etc/inittab 文件重新扫描，当发现runlevel为‘U’时，便会调用re_exec()；而该函数实际上会创建STATE_PIPE，并向STATE_PIPE写入Signature = "12567362"，接着fork()出一个子进程，通过子进程向STATE_PIPE写入父进程（当前init进程）的状态信息；接着，父进程调用execle()重新执行init程序，并且传递参数“--init”,也就是强制init重新执行。而这个重新执行的init进程，就会进入前面的re-exec一段代码（见前面的分析），从而无需做初始化就能调用init_main()。
-
-	3. 运行级别 S 或 s 把系统带入单用户模式，此模式不需要 /etc/initttab 文件。单用户模式中， /sbin/sulogin 会在 /dev/console 这个设备上打开。
-
-	4. 当第一次进入多用户模式时，init 会执行boot 和 bootwait 记录以便在用户可以登录之前挂载文件系统。然后再执行相应指定的各进程。
-
-	5. 当调用spawn()启动新进程时， init 会检查是否存在 /etc/initscript 文件。如果存在该文件，则使用该脚本来启动该进程。
-
-	6) 如果系统中存在文件 /var/run/utmp 和 /var/log/wtmp，那么当每个子进程终止时，init 会将终止信息和原因记录进这两个文件中。
-
-	7) 当 init 启动了所有指定的子进程后，它会不断地监测系统进程情况，例如：某个子进程被终止、电源失效、或由 telinit 发出的改变运行级别的信号。当它接收到以上的这些信号时，会自动重新扫描 /etc/inittab 文件，并执行相应操作。因此，新的记录可以随时加入到/etc/inittab文件中。在更新了各种系统文件后，如果希望及时更新，就可以使用telinit Q 或 q 命令来唤醒 init 让它即刻重新检测/etc/inittab 文件。
-
-	8) 当 init 得到更新运行级别的请求， init会向所有没有在新运行级别中定义的进程发送一个警告信号 SIGTERM 。在等待 5 秒钟之后，它会发出的信号 SIGKILL（强制中断所有进程的运行）。init 假设所有的这些进程（包括它们的后代）都仍然在 init 最初创建它们的同一进程组里。如果有进程改变了自己的进程组，那么它就收不到这些信号。这样的进程，就需要分别进行手工终止。
-
-
-
-	<mydbug> begin to call init_main
-	<mydebug> init_main()
-	<mydebug> console init ok
-	<mydebug> reload = 0 
-	<mydebug> 0 
-	<mydebug> 1 
-	<mydebug> 2 
-	<mydebug> reload = 0 
-	<mydebug> reload = 0 
-	<mydbug> log buf = version 2.88 booting
-	<mydbug> begin to read_inittab()
-	<mydebug> buf = id:1:initdefault:
-
-	<mydebug> id = id
-	<mydebug> rlevel = 1
-	<mydebug> action = initdefault
-	<mydebug> process = 
-	<mydebug> ch->id = id
-	<mydebug> ch->process = 
-	<mydebug> buf = 
-
-	<mydebug> buf = rc::bootwait:/bin/date
-
-	<mydebug> id = rc
-	<mydebug> rlevel = 
-	<mydebug> action = bootwait
-	<mydebug> process = /bin/date
-	<mydebug> ch->id = rc
-	<mydebug> ch->process = /bin/date
-	<mydebug> buf = 
-
-	<mydebug> buf = 1:1:respawn:/etc/getty 9600 tty1
-
-	<mydebug> id = 1
-	<mydebug> rlevel = 1
-	<mydebug> action = respawn
-	<mydebug> process = /etc/getty 9600 tty1
-	<mydebug> ch->id = 1
-	<mydebug> ch->process = /etc/getty 9600 tty1
-	<mydebug> buf = 
-
-	<mydebug> buf = 2:1:respawn:/etc/getty 9600 tty2
-
-	<mydebug> id = 2
-	<mydebug> rlevel = 1
-	<mydebug> action = respawn
-	<mydebug> process = /etc/getty 9600 tty2
-	<mydebug> ch->id = 2
-	<mydebug> ch->process = /etc/getty 9600 tty2
-	<mydebug> buf = 
-
-	<mydebug> buf = 3:1:respawn:/etc/getty 9600 tty3
-
-	<mydebug> id = 3
-	<mydebug> rlevel = 1
-	<mydebug> action = respawn
-	<mydebug> process = /etc/getty 9600 tty3
-	<mydebug> ch->id = 3
-	<mydebug> ch->process = /etc/getty 9600 tty3
-	<mydebug> buf = 
-
-	<mydebug> buf = 4:1:respawn:/etc/getty 9600 tty4
-
-	<mydebug> id = 4
-	<mydebug> rlevel = 1
-	<mydebug> action = respawn
-	<mydebug> process = /etc/getty 9600 tty4
-	<mydebug> ch->id = 4
-	<mydebug> ch->process = /etc/getty 9600 tty4
-	<mydebug> buf = ~~:S:wait:/sbin/sulogin
-
-
-
+### 使用 fstab-decode 命令
+	$ fstab-decode umount $(awk  '$3 == "ext4" { print $2 }'  /etc/fstab)
+	umount: only root can unmount UUID=2f2c4281-25b4-445b-b2c0-ef9cdf01ce13 from /
+	$ sudo fstab-decode umount $(awk  '$3 == "ext4" { print $2 }'  /etc/fstab)
+	umount: /: device is busy.
+		(In some cases useful info about processes that use
+		 the device is found by lsof(8) or fuser(1))
+	$ sudo fstab-decode umount $(awk  '$3 == "ext4" { print $2 }'  /etc/fstab)
 
 
 
